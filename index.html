@@ -1,1 +1,355 @@
-Hello guys, It's Me Hery
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hery Nugroho - Personal Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Light Slate 50 */
+            color: #334155; /* Slate 700 */
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .section-heading {
+            color: #1e293b; /* Slate 900 */
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50%;
+            height: 4px;
+            background-color: #60a5fa; /* Blue 400 */
+            border-radius: 9999px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* rounded-3xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            /* Added for subtle hover effect */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Enhanced shadow on hover */
+        }
+        .btn-primary {
+            background-color: #3b82f6; /* Blue 500 */
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Added transform for hover */
+        }
+        .btn-primary:hover {
+            background-color: #2563eb; /* Blue 600 */
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+        .profile-pic {
+            border-radius: 50%; /* rounded-full */
+            object-fit: cover;
+            border: 6px solid #bfdbfe; /* Blue 200 */
+            /* Added for subtle animation on load */
+            animation: fadeInScale 1s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animated-gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradient-animation 4s ease infinite;
+        }
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0; /* Slate 200 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8; /* Slate 400 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; /* Slate 500 */
+        }
+
+        /* Fade-in on scroll animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform; /* Optimize for animation */
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Blob animation */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite cubic-bezier(0.6, 0.01, 0.3, 0.9);
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body class="antialiased leading-relaxed text-gray-700">
+
+    <section class="relative min-h-screen flex items-center justify-center py-16 px-4 overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div class="absolute top-0 left-0 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-12 z-10">
+            <div class="flex-shrink-0">
+                <img src="https://media.licdn.com/dms/image/v2/D5603AQFvwpuHp8TbPg/profile-displayphoto-shrink_200_200/B56ZcUqmfhHEAc-/0/1748398401942?e=1753920000&v=beta&t=pG7dEgAfhHP9yrEzEk64PQWVE8MqMYLuMf-mJ7_3_SM" alt="Hery Nugroho" class="profile-pic w-60 h-60 md:w-72 md:h-72">
+            </div>
+
+            <div class="text-center md:text-left max-w-2xl">
+                <p class="text-lg md:text-xl text-gray-600 mb-2">Halo, saya</p>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 animated-gradient-text">Hery Nugroho</h1>
+                <p class="text-2xl md:text-3xl font-medium text-gray-800 mb-6">
+                    <span class="block">Pengembang Web & Desainer UI/UX</span>
+                    <span class="block text-xl md:text-2xl text-gray-600 mt-2">Menciptakan pengalaman digital yang intuitif dan menarik.</span>
+                </p>
+                <a href="#about" class="btn-primary inline-flex items-center group">
+                    Pelajari Lebih Lanjut
+                    <svg class="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-16 px-4 bg-gray-50 fade-in-section">
+        <div class="container mx-auto">
+            <h2 class="section-heading text-4xl font-bold mb-8 text-center">Tentang Saya</h2>
+            <div class="card p-8 md:p-12 max-w-4xl mx-auto">
+                <p class="text-lg leading-relaxed mb-6">
+                    Saya Hery Nugroho, seorang profesional yang bersemangat dalam dunia pengembangan web dan desain UI/UX. Dengan pengalaman lebih dari 5 tahun, saya berdedikasi untuk menciptakan solusi digital yang tidak hanya fungsional tetapi juga memanjakan mata dan mudah digunakan. Saya percaya bahwa teknologi terbaik adalah yang mampu meningkatkan kualitas hidup dan memberikan pengalaman yang mulus bagi penggunanya.
+                </p>
+                <p class="text-lg leading-relaxed">
+                    Pendekatan saya selalu berpusat pada pengguna, memastikan setiap detail desain dan baris kode berkontribusi pada tujuan akhir: kepuasan pengguna. Saya terus belajar dan beradaptasi dengan teknologi terbaru untuk menghadirkan inovasi dalam setiap proyek.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-16 px-4 bg-white fade-in-section">
+        <div class="container mx-auto">
+            <h2 class="section-heading text-4xl font-bold mb-8 text-center">Keahlian Saya</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="card p-6 flex items-center space-x-4">
+                    <div class="text-blue-500 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">Pengembangan Web</h3>
+                        <p class="text-gray-600">HTML, CSS, JavaScript, React.js, Node.js, Express.js, Tailwind CSS.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex items-center space-x-4">
+                    <div class="text-indigo-500 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">Desain UI/UX</h3>
+                        <p class="text-gray-600">Figma, Adobe XD, Wireframing, Prototyping, User Research.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex items-center space-x-4">
+                    <div class="text-green-500 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">Manajemen Proyek</h3>
+                        <p class="text-gray-600">Agile, Scrum, Jira, Trello, Komunikasi Tim.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex items-center space-x-4">
+                    <div class="text-purple-500 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">Basis Data</h3>
+                        <p class="text-gray-600">MongoDB, PostgreSQL, MySQL.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex items-center space-x-4">
+                    <div class="text-orange-500 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">Version Control</h3>
+                        <p class="text-gray-600">Git, GitHub, GitLab.</p>
+                    </div>
+                </div>
+                <div class="card p-6 flex items-center space-x-4">
+                    <div class="text-red-500 text-4xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">Soft Skills</h3>
+                        <p class="text-gray-600">Problem Solving, Adaptability, Teamwork, Communication.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-16 px-4 bg-gray-50 fade-in-section">
+        <div class="container mx-auto">
+            <h2 class="section-heading text-4xl font-bold mb-8 text-center">Proyek Pilihan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="card overflow-hidden">
+                    <img src="https://placehold.co/600x400/e2e8f0/475569?text=Proyek+A" alt="Proyek A" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Platform E-commerce Interaktif</h3>
+                        <p class="text-gray-600 mb-4">
+                            Mengembangkan platform e-commerce responsif dengan fitur keranjang belanja dinamis, sistem pembayaran terintegrasi, dan dasbor admin.
+                        </p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">Lihat Proyek &rarr;</a>
+                    </div>
+                </div>
+                <div class="card overflow-hidden">
+                    <img src="https://placehold.co/600x400/e2e8f0/475569?text=Proyek+B" alt="Proyek B" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-2">Aplikasi Manajemen Tugas Kolaboratif</h3>
+                        <p class="text-gray-600 mb-4">
+                            Membangun aplikasi web untuk manajemen tugas tim, dilengkapi dengan fitur real-time update, notifikasi, dan pelacakan progres.
+                        </p>
+                        <a href="#" class="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200">Lihat Proyek &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <a href="#" class="btn-primary inline-flex items-center group">
+                    Lihat Semua Proyek
+                    <svg class="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-16 px-4 bg-white fade-in-section">
+        <div class="container mx-auto">
+            <h2 class="section-heading text-4xl font-bold mb-8 text-center">Hubungi Saya</h2>
+            <div class="card p-8 md:p-12 max-w-3xl mx-auto text-center">
+                <p class="text-lg leading-relaxed mb-6">
+                    Tertarik untuk berkolaborasi atau hanya ingin menyapa? Jangan ragu untuk menghubungi saya melalui email atau media sosial.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mb-8">
+                    <a href="mailto:herynugie@gmail.com" class="btn-primary flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span>Email Saya</span>
+                    </a>
+                    <div class="flex space-x-4">
+                        <a href="https://linkedin.com/in/herynugroho" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-blue-600 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="https://github.com/herynugroho" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-900 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.087-.731.084-.716.084-.716 1.205.086 1.838 1.238 1.838 1.238 1.07 1.835 2.809 1.305 3.49.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1-.322 3.296 1.23.945-.262 1.94-.392 2.934-.392 1 0 1.988.13 2.934.392 2.295-1.552 3.295-1.23 3.295-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        </div>
+                </div>
+                <p class="text-sm text-gray-500">
+                    Terima kasih telah berkunjung!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 px-4 bg-gray-800 text-white text-center">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Hery Nugroho. Hak Cipta Dilindungi.</p>
+            <p class="text-sm text-gray-400 mt-2">Dibuat dengan ❤️ dan Tailwind CSS.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple animation for blobs (optional, for the modern feel)
+        // This is a basic example; for more complex animations, consider a library
+        const blobs = document.querySelectorAll('.animate-blob');
+        blobs.forEach(blob => {
+            blob.style.animationDuration = `${Math.random() * 5 + 8}s`; // 8-13 seconds
+            blob.style.animationDelay = `${Math.random() * 2}s`; // 0-2 seconds
+        });
+
+        // Fade-in on scroll functionality
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+        const observerOptions = {
+            root: null, // relative to the viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section must be visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        fadeInSections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
