@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposal PINISI - PrimaHome</title>
+    <link rel="icon" type="image/png" href="https://cdn.pixabay.com/photo/2014/03/24/13/45/sailing-ship-294269_1280.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,13 +38,23 @@
             height: 100%;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+            transition: opacity 0.7s ease-in-out, visibility 0.7s ease-in-out;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 2rem;
-            overflow-y: auto; /* Allow scrolling on small screens if content overflows */
+            overflow: hidden; /* Prevent internal scrollbars */
+        }
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .slide.active {
             opacity: 1;
@@ -72,6 +83,15 @@
             width: 36px; 
             height: 36px;
         }
+        /* Animasi berkedip untuk tombol next */
+        #next-button {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
         .restart-button {
             cursor: pointer;
             background-color: var(--accent-green);
@@ -85,11 +105,31 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 20px rgba(146, 208, 80, 0.3);
         }
-        .pinisi-background {
-            background-image: url('https://images.unsplash.com/photo-1596733431278-5a71959771d8?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+        
+        /* --- PERBAIKAN: Latar Belakang Elegan untuk Semua Slide --- */
+        .slide-background-image {
+            position: absolute;
+            background-image: url('https://cdn.pixabay.com/photo/2014/03/24/13/45/sailing-ship-294269_1280.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 1;
+            transition: all 0.7s ease-in-out;
+            bottom: -5%;
+            left: -10%;
+            background-position: bottom left;
+            /* Ukuran baru yang konsisten dan lebih besar */
+            width: 80%; 
+            height: 80%; 
+            max-width: 700px; 
+            opacity: 0.08;
         }
+
+        /* Opasitas khusus untuk slide filosofi agar lebih menonjol */
+        #slide4 .slide-background-image {
+            opacity: 0.2;
+        }
+
     </style>
 </head>
 <body>
@@ -98,20 +138,24 @@
 
         <!-- SLIDE 1: JUDUL -->
         <section id="slide1" class="slide" style="background-color: var(--bg-medium);">
-            <div class="text-center">
-                <h1 class="text-5xl md:text-7xl font-black text-white uppercase tracking-wider">PINISI</h1>
-                <p class="text-xl md:text-2xl mt-2" style="color: var(--accent-green);">Navigasi Bisnis Digital PrimaHome</p>
-                <p class="mt-8 text-lg md:text-xl max-w-2xl" style="color: var(--text-light);">Proposal Pembangunan Ulang Sistem Informasi Internal Terintegrasi</p>
-            </div>
-            <div class="absolute bottom-12 text-center" style="color: var(--text-light); opacity: 0.7;">
-                <p>Disajikan oleh: Hery Nugroho</p>
-                <p>PrimaHome | 8 Juli 2025</p>
+            <div class="slide-background-image"></div>
+            <div class="slide-content">
+                <div class="text-center">
+                    <h1 class="text-5xl md:text-7xl font-black text-white uppercase tracking-wider">PINISI</h1>
+                    <p class="text-xl md:text-2xl mt-2" style="color: var(--accent-green);">Navigasi Bisnis Digital PrimaHome</p>
+                    <p class="mt-8 text-lg md:text-xl max-w-2xl" style="color: var(--text-light);">Proposal Pembangunan Ulang Sistem Informasi Internal Terintegrasi</p>
+                </div>
+                <div class="absolute bottom-12 text-center" style="color: var(--text-light); opacity: 0.7;">
+                    <p>Hery Nugroho</p>
+                    <p>PrimaHome | 8 Juli 2025</p>
+                </div>
             </div>
         </section>
 
         <!-- SLIDE 2: LATAR BELAKANG & MASALAH SAAT INI -->
         <section id="slide2" class="slide">
-             <div class="max-w-4xl w-full flex flex-col items-center">
+            <div class="slide-background-image"></div>
+             <div class="slide-content max-w-4xl w-full">
                 <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-10">Mengapa Perubahan Diperlukan?</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                     <div class="rounded-lg shadow-lg p-6" style="background-color: var(--bg-medium);">
@@ -136,10 +180,13 @@
 
         <!-- SLIDE 3: VISI & SOLUSI YANG DIUSULKAN -->
         <section id="slide3" class="slide" style="background-color: var(--bg-medium);">
-            <div class="max-w-5xl mx-auto text-center w-full">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Memperkenalkan PINISI: Jantung Digital Perusahaan</h2>
-                <p class="text-xl italic mb-12" style="color: var(--text-light); opacity: 0.8;">"Membangun satu platform terintegrasi yang menjadi pusat dari semua informasi dan proses kerja."</p>
-                <div class="grid md:grid-cols-2 gap-8 text-left">
+            <div class="slide-background-image"></div>
+            <div class="slide-content max-w-5xl w-full">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Memperkenalkan PINISI: Jantung Digital Perusahaan</h2>
+                    <p class="text-xl italic mb-12" style="color: var(--text-light); opacity: 0.8;">"Membangun satu platform terintegrasi yang menjadi pusat dari semua informasi dan proses kerja."</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 text-left w-full">
                     <div class="p-8 rounded-lg" style="background-color: var(--bg-dark);">
                         <h3 class="text-2xl font-bold text-white mb-4">Apa itu PINISI?</h3>
                         <p>Sebuah "Superapp" internal yang dibangun khusus untuk kebutuhan unik PrimaHome.</p>
@@ -157,9 +204,9 @@
         </section>
 
         <!-- SLIDE 4: FILOSOFI DI BALIK NAMA 'PINISI' -->
-        <section id="slide4" class="slide pinisi-background">
-            <div class="absolute inset-0 bg-black/70"></div>
-            <div class="relative max-w-4xl mx-auto text-center z-10">
+        <section id="slide4" class="slide" style="background-color: var(--bg-dark);">
+            <div class="slide-background-image"></div>
+            <div class="slide-content max-w-4xl w-full text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Lebih dari Sekadar Nama, Ini Filosofi Kita</h2>
                 <p class="text-lg md:text-xl leading-relaxed" style="color: var(--text-light);">
                     Secara teknis, PINISI adalah singkatan dari <strong style="color: var(--accent-yellow);">PrimaHome Information Network & Integrated System</strong>.
@@ -172,7 +219,8 @@
 
         <!-- SLIDE 5: RUANG LINGKUP & FITUR INTI (MVP) -->
         <section id="slide5" class="slide">
-            <div class="max-w-5xl w-full flex flex-col items-center">
+            <div class="slide-background-image"></div>
+            <div class="slide-content max-w-5xl w-full">
                 <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-4">Memulai dengan Fondasi yang Kuat</h2>
                 <p class="text-center mb-10" style="color: var(--text-light); opacity: 0.8;">Fase pertama (MVP) akan fokus pada fitur paling fundamental.</p>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 w-full text-center">
@@ -187,51 +235,16 @@
 
         <!-- SLIDE 6: RENCANA & TAHAPAN PROYEK (ROADMAP) -->
         <section id="slide6" class="slide" style="background-color: var(--bg-medium);">
-            <div class="w-full max-w-6xl mx-auto px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 md:mb-16">Peta Jalan Menuju Peluncuran PINISI</h2>
-                <!-- Responsive Timeline Container -->
+            <div class="slide-background-image"></div>
+            <div class="slide-content w-full max-w-6xl px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 md:mb-16">Roadmap Peluncuran PINISI</h2>
                 <div class="relative">
-                    <!-- Garis Timeline: Vertikal di mobile, Horizontal di desktop -->
                     <div class="absolute top-0 left-4 w-1 h-full md:left-0 md:top-1/2 md:w-full md:h-1 md:-translate-y-1/2" style="background-color: var(--bg-dark);"></div>
-                    
-                    <!-- Items Container: flex-col di mobile, flex-row di desktop -->
-                    <div class="relative flex flex-col md:flex-row justify-between gap-12 md:gap-0">
-                        
-                        <!-- Fase 1 -->
-                        <div class="flex items-center md:flex-col w-full md:w-1/4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">1</span></div>
-                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
-                                <h3 class="font-bold text-white">Perencanaan</h3>
-                                <p class="text-sm" style="color: var(--accent-yellow);">Juli 2025</p>
-                            </div>
-                        </div>
-
-                        <!-- Fase 2 -->
-                        <div class="flex items-center md:flex-col w-full md:w-1/4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">2</span></div>
-                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
-                                <h3 class="font-bold text-white">Soft Launch</h3>
-                                <p class="text-sm" style="color: var(--accent-yellow);">Agu - Sep 2025</p>
-                            </div>
-                        </div>
-
-                        <!-- Fase 3 -->
-                        <div class="flex items-center md:flex-col w-full md:w-1/4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">3</span></div>
-                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
-                                <h3 class="font-bold text-white">Pengembangan Lanjutan</h3>
-                                <p class="text-sm" style="color: var(--accent-yellow);">Okt - Nov 2025</p>
-                            </div>
-                        </div>
-
-                        <!-- Fase 4 -->
-                        <div class="flex items-center md:flex-col w-full md:w-1/4">
-                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">4</span></div>
-                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
-                                <h3 class="font-bold text-white">Peluncuran Penuh</h3>
-                                <p class="text-sm" style="color: var(--accent-yellow);">Des 2025</p>
-                            </div>
-                        </div>
+                    <div class="relative flex flex-col md:flex-row justify-between gap-8 md:gap-4">
+                        <div class="flex items-start md:flex-col w-full md:w-1/4"><div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">1</span></div><div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center"><h3 class="font-bold text-white">Perencanaan & Desain</h3><p class="text-sm" style="color: var(--accent-yellow);">Juli 2025</p><p class="text-xs mt-2 opacity-70">Analisis kebutuhan, desain arsitektur, dan perancangan antarmuka (UI/UX).</p></div></div>
+                        <div class="flex items-start md:flex-col w-full md:w-1/4"><div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">2</span></div><div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center"><h3 class="font-bold text-white">Pembangunan Fondasi</h3><p class="text-sm" style="color: var(--accent-yellow);">Agu - Okt 2025</p><p class="text-xs mt-2 opacity-70">Pengembangan fitur inti: Manajemen Pengguna, HRIS, Absensi, dan Pelayanan Admin.</p></div></div>
+                        <div class="flex items-start md:flex-col w-full md:w-1/4"><div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">3</span></div><div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center"><h3 class="font-bold text-white">Soft Launch & Iterasi</h3><p class="text-sm" style="color: var(--accent-yellow);">Nov - Des 2025</p><p class="text-xs mt-2 opacity-70">Rilis terbatas untuk tim inti, pengumpulan masukan, dan pengembangan fitur sekunder.</p></div></div>
+                        <div class="flex items-start md:flex-col w-full md:w-1/4"><div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">4</span></div><div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center"><h3 class="font-bold text-white">Peluncuran Penuh</h3><p class="text-sm" style="color: var(--accent-yellow);">Jan - Feb 2026</p><p class="text-xs mt-2 opacity-70">Rilis ke seluruh perusahaan, stabilisasi sistem, dan pelatihan pengguna.</p></div></div>
                     </div>
                 </div>
                 <p class="text-center mt-12 md:mt-20" style="color: var(--text-light); opacity: 0.6;">Timeline adalah estimasi dan dapat disesuaikan.</p>
@@ -240,7 +253,8 @@
 
         <!-- SLIDE 7: KEBUTUHAN & DUKUNGAN -->
         <section id="slide7" class="slide">
-            <div class="max-w-4xl w-full flex flex-col items-center">
+            <div class="slide-background-image"></div>
+            <div class="slide-content max-w-4xl w-full">
                 <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-10">Kunci Keberhasilan Proyek Ini</h2>
                 <div class="flex flex-col gap-6 w-full">
                     <div class="p-6 flex items-center gap-4 rounded-lg" style="background-color: var(--bg-medium);">
@@ -258,11 +272,14 @@
 
         <!-- SLIDE 8: PENUTUP & DISKUSI -->
         <section id="slide8" class="slide" style="background-color: var(--bg-medium);">
-            <div class="text-center">
-                <h2 class="text-5xl md:text-6xl font-black text-white">Terima Kasih</h2>
-                <p class="text-lg md:text-xl italic mt-6 max-w-2xl" style="color: var(--accent-green);">"Mari bersama kita bangun PINISI, karya agung digital untuk membawa PrimaHome berlayar lebih cepat dan lebih jauh."</p>
-                <div class="mt-16 text-2xl"><p>Diskusi & Tanya Jawab</p></div>
-                <button class="restart-button mt-8">Mulai Lagi</button>
+            <div class="slide-background-image"></div>
+            <div class="slide-content">
+                <div class="text-center">
+                    <h2 class="text-5xl md:text-6xl font-black text-white">Terima Kasih</h2>
+                    <p class="text-lg md:text-xl italic mt-6 max-w-2xl" style="color: var(--accent-green);">"Mari bersama kita bangun PINISI, karya agung digital untuk membawa PrimaHome berlayar lebih cepat dan lebih jauh."</p>
+                    <div class="mt-16 text-2xl"><p>Diskusi & Tanya Jawab</p></div>
+                    <button class="restart-button mt-8">Mulai Lagi</button>
+                </div>
             </div>
         </section>
 
@@ -290,30 +307,44 @@
             const nextButton = document.getElementById('next-button');
             const restartButton = document.querySelector('.restart-button');
             let currentSlideIndex = 0;
+            let isScrolling = false; // Flag untuk mencegah scroll berlebihan
 
             function showSlide(index) {
-                // Batasi index agar tidak keluar dari rentang slide
                 if (index < 0 || index >= slides.length) {
                     return;
                 }
-
                 currentSlideIndex = index;
                 slides.forEach((slide, i) => {
                     slide.classList.toggle('active', i === index);
                 });
-
-                // Atur visibilitas tombol navigasi
                 prevButton.style.display = (index === 0) ? 'none' : 'block';
                 nextButton.style.display = (index === slides.length - 1) ? 'none' : 'block';
             }
 
-            // Event listener untuk tombol
+            // Navigasi dengan klik tombol
             prevButton.addEventListener('click', () => showSlide(currentSlideIndex - 1));
             nextButton.addEventListener('click', () => showSlide(currentSlideIndex + 1));
             
             if(restartButton) {
                 restartButton.addEventListener('click', () => showSlide(0));
             }
+
+            // Navigasi dengan scroll mouse
+            window.addEventListener('wheel', (event) => {
+                if (isScrolling) return; // Jika sedang scroll, abaikan
+                isScrolling = true;
+
+                if (event.deltaY > 0) { // Scroll ke bawah
+                    showSlide(currentSlideIndex + 1);
+                } else { // Scroll ke atas
+                    showSlide(currentSlideIndex - 1);
+                }
+
+                // Beri jeda sebelum bisa scroll lagi
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 1000); // Jeda 1 detik
+            });
 
             // Tampilkan slide pertama saat halaman dimuat
             showSlide(0);
