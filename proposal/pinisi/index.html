@@ -43,6 +43,7 @@
             justify-content: center;
             align-items: center;
             padding: 2rem;
+            overflow-y: auto; /* Allow scrolling on small screens if content overflows */
         }
         .slide.active {
             opacity: 1;
@@ -52,9 +53,9 @@
         .navigation-controls {
             position: absolute;
             bottom: 30px;
-            right: 30px; /* DIUBAH: Posisi di kanan bawah */
+            right: 30px; 
             display: flex;
-            gap: 0.75rem; /* Jarak antar tombol diperkecil */
+            gap: 0.75rem; 
             z-index: 10;
         }
         /* Styling untuk tombol navigasi */
@@ -68,7 +69,7 @@
             color: white;
         }
         .nav-button svg {
-            width: 36px; /* DIUBAH: Ukuran diperkecil lagi */
+            width: 36px; 
             height: 36px;
         }
         .restart-button {
@@ -103,7 +104,7 @@
                 <p class="mt-8 text-lg md:text-xl max-w-2xl" style="color: var(--text-light);">Proposal Pembangunan Ulang Sistem Informasi Internal Terintegrasi</p>
             </div>
             <div class="absolute bottom-12 text-center" style="color: var(--text-light); opacity: 0.7;">
-                <p>oleh: Hery Nugroho</p>
+                <p>Disajikan oleh: Hery Nugroho</p>
                 <p>PrimaHome | 8 Juli 2025</p>
             </div>
         </section>
@@ -161,7 +162,7 @@
             <div class="relative max-w-4xl mx-auto text-center z-10">
                 <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Lebih dari Sekadar Nama, Ini Filosofi Kita</h2>
                 <p class="text-lg md:text-xl leading-relaxed" style="color: var(--text-light);">
-                    PINISI - <strong style="color: var(--accent-yellow);">PrimaHome Information Network & Integrated System</strong>.
+                    Secara teknis, PINISI adalah singkatan dari <strong style="color: var(--accent-yellow);">PrimaHome Information Network & Integrated System</strong>.
                 </p>
                 <p class="mt-4 text-lg md:text-xl leading-relaxed" style="color: var(--text-light);">
                     Namun, namanya juga terinspirasi dari mahakarya maritim Makassar. Sama seperti Kapal Pinisi yang kokoh dan andal, sistem ini akan menjadi 'kapal' digital kita. Manajemen adalah Nahkoda, Karyawan adalah Awak Kapal, dan PINISI adalah Kapal yang membawa kita semua berlayar lebih cepat menuju kesuksesan.
@@ -186,18 +187,54 @@
 
         <!-- SLIDE 6: RENCANA & TAHAPAN PROYEK (ROADMAP) -->
         <section id="slide6" class="slide" style="background-color: var(--bg-medium);">
-            <div class="w-full max-w-6xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-20">Peta Jalan Menuju Peluncuran PINISI</h2>
+            <div class="w-full max-w-6xl mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-12 md:mb-16">Peta Jalan Menuju Peluncuran PINISI</h2>
+                <!-- Responsive Timeline Container -->
                 <div class="relative">
-                    <div class="absolute left-0 top-1/2 w-full h-1 -translate-y-1/2" style="background-color: var(--bg-dark);"></div>
-                    <div class="relative flex justify-between">
-                        <div class="flex flex-col items-center w-1/4"><div class="w-8 h-8 rounded-full border-4 border-white flex items-center justify-center" style="background-color: var(--accent-green);"><span class="text-white font-bold">1</span></div><div class="mt-4 text-center"><h3 class="font-bold text-white">Perencanaan</h3><p class="text-sm" style="color: var(--accent-yellow);">Juli 2025</p></div></div>
-                        <div class="flex flex-col items-center w-1/4"><div class="w-8 h-8 rounded-full border-4 border-white flex items-center justify-center" style="background-color: var(--accent-green);"><span class="text-white font-bold">2</span></div><div class="mt-4 text-center"><h3 class="font-bold text-white">Soft Launch</h3><p class="text-sm" style="color: var(--accent-yellow);">Agu - Sep 2025</p></div></div>
-                        <div class="flex flex-col items-center w-1/4"><div class="w-8 h-8 rounded-full border-4 border-white flex items-center justify-center" style="background-color: var(--accent-green);"><span class="text-white font-bold">3</span></div><div class="mt-4 text-center"><h3 class="font-bold text-white">Pengembangan Lanjutan</h3><p class="text-sm" style="color: var(--accent-yellow);">Okt - Nov 2025</p></div></div>
-                        <div class="flex flex-col items-center w-1/4"><div class="w-8 h-8 rounded-full border-4 border-white flex items-center justify-center" style="background-color: var(--accent-green);"><span class="text-white font-bold">4</span></div><div class="mt-4 text-center"><h3 class="font-bold text-white">Peluncuran Penuh</h3><p class="text-sm" style="color: var(--accent-yellow);">Des 2025</p></div></div>
+                    <!-- Garis Timeline: Vertikal di mobile, Horizontal di desktop -->
+                    <div class="absolute top-0 left-4 w-1 h-full md:left-0 md:top-1/2 md:w-full md:h-1 md:-translate-y-1/2" style="background-color: var(--bg-dark);"></div>
+                    
+                    <!-- Items Container: flex-col di mobile, flex-row di desktop -->
+                    <div class="relative flex flex-col md:flex-row justify-between gap-12 md:gap-0">
+                        
+                        <!-- Fase 1 -->
+                        <div class="flex items-center md:flex-col w-full md:w-1/4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">1</span></div>
+                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
+                                <h3 class="font-bold text-white">Perencanaan</h3>
+                                <p class="text-sm" style="color: var(--accent-yellow);">Juli 2025</p>
+                            </div>
+                        </div>
+
+                        <!-- Fase 2 -->
+                        <div class="flex items-center md:flex-col w-full md:w-1/4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">2</span></div>
+                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
+                                <h3 class="font-bold text-white">Soft Launch</h3>
+                                <p class="text-sm" style="color: var(--accent-yellow);">Agu - Sep 2025</p>
+                            </div>
+                        </div>
+
+                        <!-- Fase 3 -->
+                        <div class="flex items-center md:flex-col w-full md:w-1/4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">3</span></div>
+                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
+                                <h3 class="font-bold text-white">Pengembangan Lanjutan</h3>
+                                <p class="text-sm" style="color: var(--accent-yellow);">Okt - Nov 2025</p>
+                            </div>
+                        </div>
+
+                        <!-- Fase 4 -->
+                        <div class="flex items-center md:flex-col w-full md:w-1/4">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center z-10" style="background-color: var(--accent-green);"><span class="text-white font-bold">4</span></div>
+                            <div class="md:mt-4 ml-6 md:ml-0 text-left md:text-center">
+                                <h3 class="font-bold text-white">Peluncuran Penuh</h3>
+                                <p class="text-sm" style="color: var(--accent-yellow);">Des 2025</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                 <p class="text-center mt-20" style="color: var(--text-light); opacity: 0.6;">Timeline adalah estimasi dan dapat disesuaikan.</p>
+                <p class="text-center mt-12 md:mt-20" style="color: var(--text-light); opacity: 0.6;">Timeline adalah estimasi dan dapat disesuaikan.</p>
             </div>
         </section>
 
@@ -213,7 +250,7 @@
                         <span class="text-4xl">✅</span><div><h3 class="font-bold text-white text-xl">Dukungan Lintas Departemen</h3><p style="color: var(--text-light); opacity: 0.8;">Kerjasama aktif saat pengumpulan kebutuhan & uji coba.</p></div>
                     </div>
                     <div class="p-6 flex items-center gap-4 rounded-lg" style="background-color: var(--bg-medium);">
-                        <span class="text-4xl">✅</span><div><h3 class="font-bold text-white text-xl">Alokasi Waktu & Prioritas</h3><p style="color: var(--text-light); opacity: 0.8;">Pengakuan bahwa ini menjadi fokus perusahaan.</p></div>
+                        <span class="text-4xl">✅</span><div><h3 class="font-bold text-white text-xl">Alokasi Waktu & Prioritas</h3><p style="color: var(--text-light); opacity: 0.8;">Pengakuan bahwa ini adalah fokus utama perusahaan.</p></div>
                     </div>
                 </div>
             </div>
