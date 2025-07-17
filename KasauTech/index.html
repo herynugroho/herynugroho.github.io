@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KasauTech - Kontrol Penuh Bisnis Bengkel Anda</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Konfigurasi Kustom Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Menambahkan sedikit transisi untuk pengalaman yang lebih halus */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-900">
+                Kasau<span class="text-blue-600">Tech</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#fitur" class="text-gray-600 hover:text-blue-600 transition duration-300">Fitur</a>
+                <a href="#harga" class="text-gray-600 hover:text-blue-600 transition duration-300">Harga</a>
+                <a href="#faq" class="text-gray-600 hover:text-blue-600 transition duration-300">FAQ</a>
+                <a href="#" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition duration-300 shadow">
+                    Daftar Uji Coba Gratis
+                </a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#fitur" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Fitur</a>
+            <a href="#harga" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">Harga</a>
+            <a href="#faq" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">FAQ</a>
+            <a href="#" class="block py-2 px-6 text-sm text-blue-600 font-semibold hover:bg-gray-100">Daftar Uji Coba Gratis</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
+                    Kontrol Penuh Bisnis Bengkel, <br class="hidden md:block"> dalam <span class="text-blue-600">Satu Genggaman</span>
+                </h1>
+                <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                    KasauTech adalah platform andalan untuk mengelola Administrasi, Stok, dan Akuntansi Usaha bengkel Anda. Lebih efisien, lebih terkontrol.
+                </p>
+                <div class="mt-10">
+                    <a href="#" class="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 shadow-lg">
+                        Mulai Uji Coba Gratis 14 Hari
+                    </a>
+                    <p class="mt-4 text-sm text-gray-500">Tanpa perlu kartu kredit.</p>
+                </div>
+                <div class="mt-16">
+                    <img src="https://placehold.co/1200x600/e2e8f0/4a5568?text=Tampilan+Dashboard+KasauTech" 
+                         alt="Tampilan Dashboard Aplikasi KasauTech" 
+                         class="rounded-xl shadow-2xl mx-auto border-4 border-gray-200">
+                </div>
+            </div>
+        </section>
+
+        <!-- Fitur Section -->
+        <section id="fitur" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Platform Lengkap untuk Usaha Anda</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Dari kontrol stok hingga akuntansi, semua dirancang untuk kemudahan dan pertumbuhan bisnis Anda.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Fitur 1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="bg-blue-100 text-blue-600 rounded-full h-12 w-12 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Kontrol Stok Presisi</h3>
+                        <p class="text-gray-600">Lacak setiap sparepart yang masuk dan keluar. Dapatkan notifikasi saat stok menipis agar tidak pernah kehabisan barang.</p>
+                    </div>
+                    <!-- Fitur 2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="bg-blue-100 text-blue-600 rounded-full h-12 w-12 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 14h.01M12 17h.01M15 17h.01M9 10h.01M12 10h.01M15 10h.01M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Administrasi & Kasir Cepat</h3>
+                        <p class="text-gray-600">Percepat antrian dengan sistem kasir yang intuitif. Scan barcode, pilih jasa servis, dan cetak struk dalam hitungan detik.</p>
+                    </div>
+                    <!-- Fitur 3 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div class="bg-blue-100 text-blue-600 rounded-full h-12 w-12 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Akuntansi & Laporan Usaha</h3>
+                        <p class="text-gray-600">Pantau kesehatan bisnis Anda dengan laporan penjualan, pengeluaran, dan laba-rugi yang dibuat secara otomatis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Harga Section -->
+        <section id="harga" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Harga yang Sesuai untuk Setiap Skala Usaha</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Mulai dari yang kecil, dan kembangkan bisnis Anda bersama kami tanpa batas.</p>
+                </div>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                    <!-- Paket SOLO -->
+                    <div class="w-full md:w-1/3 p-8 border-2 border-gray-200 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-900">SOLO</h3>
+                        <p class="text-gray-500 mt-2">Ideal untuk bengkel tunggal.</p>
+                        <p class="text-4xl font-extrabold text-gray-900 mt-6">Rp 99rb<span class="text-xl font-medium text-gray-500">/bulan</span></p>
+                        <ul class="mt-8 space-y-4 text-gray-600">
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1 Cabang</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>3 Pengguna</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Fitur Kasir & Stok</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Laporan Dasar</li>
+                        </ul>
+                        <a href="#" class="mt-8 block w-full text-center bg-gray-100 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition duration-300">Pilih Paket</a>
+                    </div>
+
+                    <!-- Paket GROWTH -->
+                    <div class="w-full md:w-1/3 p-8 border-2 border-blue-600 rounded-xl shadow-2xl relative">
+                        <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full absolute -top-4">Paling Populer</span>
+                        <h3 class="text-2xl font-bold text-blue-600">GROWTH</h3>
+                        <p class="text-gray-500 mt-2">Untuk bisnis yang sedang berkembang.</p>
+                        <p class="text-4xl font-extrabold text-gray-900 mt-6">Rp 249rb<span class="text-xl font-medium text-gray-500">/bulan</span></p>
+                        <ul class="mt-8 space-y-4 text-gray-600">
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Hingga 3 Cabang</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>10 Pengguna per cabang</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Monitoring Antar Cabang</li>
+                            <li class="flex items-center"><svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Laporan Lanjutan</li>
+                        </ul>
+                        <a href="#" class="mt-8 block w-full text-center bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">Pilih Paket</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Pertanyaan yang Sering Diajukan</h2>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="bg-white rounded-lg shadow-md">
+                        <details class="p-6 cursor-pointer">
+                            <summary class="font-semibold text-lg flex justify-between items-center">
+                                Apakah data bengkel saya aman?
+                                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <p class="mt-4 text-gray-600">
+                                Tentu saja. Keamanan data adalah prioritas utama kami. Kami menggunakan enkripsi standar industri dan arsitektur multi-tenant yang memastikan data bengkel Anda terisolasi dan hanya bisa diakses oleh Anda.
+                            </p>
+                        </details>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-md">
+                        <details class="p-6 cursor-pointer">
+                            <summary class="font-semibold text-lg flex justify-between items-center">
+                                Apakah sulit untuk memulai?
+                                <svg class="w-5 h-5 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </summary>
+                            <p class="mt-4 text-gray-600">
+                                Sama sekali tidak. KasauTech dirancang agar mudah digunakan bahkan oleh orang yang tidak terlalu akrab dengan teknologi. Anda bisa mendaftar, mengatur data awal, dan mulai bertransaksi dalam waktu kurang dari 15 menit.
+                            </p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="py-20 bg-blue-600">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Siap Mengambil Kontrol Penuh Usaha Anda?</h2>
+                <p class="mt-4 text-lg text-blue-100 max-w-2xl mx-auto">
+                    Bergabunglah dengan ratusan bengkel lain yang telah beralih ke cara kerja yang lebih cerdas dan efisien.
+                </p>
+                <div class="mt-8">
+                    <a href="#" class="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition duration-300 shadow-lg">
+                        Daftar Gratis Sekarang
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-bold">
+                        Kasau<span class="text-blue-500">Tech</span>
+                    </a>
+                    <p class="mt-2 text-gray-400">Kontrol Administrasi Stok & Akuntansi Usaha.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h2 class="mb-4 text-sm font-semibold text-gray-200 uppercase">Produk</h2>
+                        <ul class="text-gray-400 space-y-2">
+                            <li><a href="#fitur" class="hover:underline">Fitur</a></li>
+                            <li><a href="#harga" class="hover:underline">Harga</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-4 text-sm font-semibold text-gray-200 uppercase">Perusahaan</h2>
+                        <ul class="text-gray-400 space-y-2">
+                            <li><a href="#" class="hover:underline">Tentang Kami</a></li>
+                            <li><a href="#" class="hover:underline">Kontak</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-4 text-sm font-semibold text-gray-200 uppercase">Legal</h2>
+                        <ul class="text-gray-400 space-y-2">
+                            <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+                            <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-8 border-gray-700">
+            <div class="text-center text-gray-500">
+                &copy; <span id="year"></span> KasauTech. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script untuk Mobile Menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Script untuk tahun di footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Script untuk FAQ accordion
+        document.querySelectorAll('details').forEach((detail) => {
+            detail.addEventListener('toggle', (event) => {
+                if (detail.open) {
+                    detail.querySelector('svg').style.transform = 'rotate(180deg)';
+                } else {
+                    detail.querySelector('svg').style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
