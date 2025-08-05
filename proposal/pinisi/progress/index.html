@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Progres Detail - Proyek PINISI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style untuk tab aktif dan non-aktif */
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            border-color: #2563eb;
+            color: #1d4ed8;
+            background-color: #eff6ff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- === MULAI KODE UNTUK DICOPY === -->
+    <div class="max-w-5xl mx-auto my-12">
+        <!-- Header Utama -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800">Laporan Progres Detail</h1>
+            <h2 class="text-3xl font-semibold text-blue-700 mt-1">Proyek PINISI</h2>
+            <p class="text-lg text-gray-500 mt-2">Periode: 28 Juli - 5 Agustus 2025</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl">
+            <!-- Navigasi Tab -->
+            <div class="border-b border-gray-200">
+                <nav class="flex -mb-px p-4 space-x-4" id="tab-nav">
+                    <button data-tab="1" class="tab-button active text-gray-600 hover:text-blue-600 whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm">Ringkasan</button>
+                    <button data-tab="2" class="tab-button text-gray-600 hover:text-blue-600 whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm">Fondasi Teknis</button>
+                    <button data-tab="3" class="tab-button text-gray-600 hover:text-blue-600 whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm">Sistem Keamanan</button>
+                    <button data-tab="4" class="tab-button text-gray-600 hover:text-blue-600 whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm">Modul Fungsional</button>
+                    <button data-tab="5" class="tab-button text-gray-600 hover:text-blue-600 whitespace-nowrap py-3 px-4 border-b-2 font-medium text-sm">Rencana Selanjutnya</button>
+                </nav>
+            </div>
+
+            <!-- Konten Tab -->
+            <div class="p-8" id="tab-content-container">
+                <!-- Halaman 1: Ringkasan & Visi -->
+                <div id="tab-1" class="tab-content active">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Visi Proyek & Ringkasan Eksekutif</h3>
+                    <p class="text-gray-600 mb-6">
+                        Tujuan utama Proyek PINISI adalah membangun sebuah sistem informasi terintegrasi yang dirancang khusus untuk mengakomodir seluruh alur kerja bisnis Prima Group sebagai penyedia layanan internet (ISP). Selama sepekan terakhir, fokus utama adalah membangun fondasi teknis yang kuat dan menyelesaikan seluruh modul data master yang akan menjadi tulang punggung dari fitur-fitur inti di masa depan.
+                    </p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                        <h4 class="text-lg font-semibold text-blue-800">Stack Teknologi yang Digunakan:</h4>
+                        <ul class="list-disc list-inside mt-2 text-blue-700 space-y-1">
+                            <li><strong>Backend:</strong> Laravel 12 (PHP Framework)</li>
+                            <li><strong>Frontend:</strong> Vue.js 3 (JavaScript Framework)</li>
+                            <li><strong>Template UI:</strong> Vuexy Premium Admin Template</li>
+                            <li><strong>Lingkungan Development:</strong> Docker (via Laravel Sail)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Halaman 2: Fondasi Teknis -->
+                <div id="tab-2" class="tab-content">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Fondasi Teknis & Infrastruktur</h3>
+                    <p class="text-gray-600 mb-6">
+                        Fondasi teknis yang modern dan profesional telah berhasil disiapkan untuk memastikan proyek ini stabil, aman, dan mudah dikembangkan di masa depan.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Lingkungan Docker (Sail):</strong> Seluruh lingkungan development (PHP, MySQL, dll.) berjalan di dalam container Docker yang terisolasi. Ini menghilangkan masalah "di laptop saya jalan" dan menjamin konsistensi dari development hingga produksi.</li>
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Struktur Proyek SPA:</strong> Aplikasi dibangun dengan arsitektur Single Page Application (SPA), di mana backend Laravel menyediakan API dan frontend Vue.js menangani semua tampilan. Ini memberikan pengalaman pengguna yang cepat dan responsif.</li>
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Konfigurasi Inti Laravel 12:</strong> File konfigurasi utama (`.env`, `bootstrap/app.php`, `config/app.php`) telah disesuaikan, termasuk pengaturan zona waktu ke `Asia/Makassar` untuk memastikan semua data waktu akurat.</li>
+                    </ul>
+                </div>
+
+                <!-- Halaman 3: Sistem Keamanan -->
+                <div id="tab-3" class="tab-content">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Sistem Keamanan & Autentikasi</h3>
+                    <p class="text-gray-600 mb-6">
+                        Sistem keamanan terpusat telah diimplementasikan untuk memastikan data perusahaan aman dan hanya bisa diakses oleh pengguna yang berwenang.
+                    </p>
+                     <ul class="space-y-4">
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Autentikasi JWT:</strong> Sistem Login & Logout menggunakan standar industri JSON Web Token (JWT). Sesi login disimpan dengan aman di Cookies, memungkinkan sesi yang persisten dan aman.</li>
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Role-Based Access Control (RBAC):</strong> Fondasi untuk manajemen peran pengguna telah diimplementasikan menggunakan `spatie/laravel-permission`. Role awal seperti `Super Admin` dan `Admin` telah dibuat.</li>
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Proteksi Rute (Navigation Guard):</strong> Semua halaman penting di frontend sudah diproteksi. Pengguna yang belum login akan otomatis diarahkan ke halaman login, dan pengguna yang sudah login tidak bisa kembali ke halaman login.</li>
+                        <li class="p-4 bg-gray-50 rounded-md border"><strong>Refresh Token Otomatis:</strong> Sistem secara otomatis akan memperbarui sesi login yang kedaluwarsa di latar belakang, memberikan pengalaman pengguna yang mulus tanpa perlu login berulang kali.</li>
+                    </ul>
+                </div>
+
+                <!-- Halaman 4: Modul Fungsional -->
+                <div id="tab-4" class="tab-content">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Modul Fungsional yang Telah Selesai</h3>
+                    <p class="text-gray-600 mb-6">
+                        Seluruh modul data master, yang merupakan "jantung" dari data pendukung operasional, telah berhasil dibangun dengan fungsionalitas CRUD (Create, Read, Update, Delete) penuh.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-center">
+                        <div class="p-4 bg-green-100 text-green-800 rounded-lg font-medium">Paket Layanan</div>
+                        <div class="p-4 bg-green-100 text-green-800 rounded-lg font-medium">NAS</div>
+                        <div class="p-4 bg-green-100 text-green-800 rounded-lg font-medium">Cabang</div>
+                        <div class="p-4 bg-green-100 text-green-800 rounded-lg font-medium">Marketing</div>
+                        <div class="p-4 bg-green-100 text-green-800 rounded-lg font-medium">OLT</div>
+                        <div class="p-4 bg-green-100 text-green-800 rounded-lg font-medium">Teknisi</div>
+                    </div>
+                </div>
+
+                <!-- Halaman 5: Rencana Selanjutnya -->
+                <div id="tab-5" class="tab-content">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Rencana & Visi Jangka Panjang</h3>
+                    <p class="text-gray-600 mb-6">
+                        Dengan selesainya seluruh fondasi dan modul data master, kita siap untuk masuk ke fase pembangunan fitur-fitur inti yang akan memberikan dampak bisnis terbesar.
+                    </p>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 mb-2">Pekan Depan</span>
+                            <h4 class="text-lg font-semibold text-gray-800">Fase 1B: Manajemen Pelanggan</h4>
+                            <p class="text-gray-600">Memulai pembangunan fitur inti **Manajemen Pelanggan** dengan form multi-langkah (Data Member, Teknis, Billing), memanfaatkan semua data master yang telah kita siapkan.</p>
+                        </div>
+                        <div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 mb-2">Selanjutnya</span>
+                            <h4 class="text-lg font-semibold text-gray-800">Fase 2: Modul Billing & Keuangan</h4>
+                            <p class="text-gray-600">Mengembangkan fitur untuk generate invoice otomatis, pelacakan pembayaran, dan manajemen kolektor lapangan.</p>
+                        </div>
+                         <div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 mb-2">Visi Jangka Panjang</span>
+                            <h4 class="text-lg font-semibold text-gray-800">Fase 3: Otomatisasi Jaringan</h4>
+                            <p class="text-gray-600">Mengintegrasikan PINISI dengan perangkat jaringan (MikroTik/NAS) untuk melakukan isolir dan aktivasi pelanggan secara otomatis berdasarkan status pembayaran.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const nav = document.getElementById('tab-nav');
+        const contentContainer = document.getElementById('tab-content-container');
+        const tabs = nav.querySelectorAll('.tab-button');
+        const contents = contentContainer.querySelectorAll('.tab-content');
+
+        nav.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-button')) {
+                const tabId = e.target.getAttribute('data-tab');
+
+                tabs.forEach(tab => tab.classList.remove('active'));
+                e.target.classList.add('active');
+
+                contents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `tab-${tabId}`) {
+                        content.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- === AKHIR KODE UNTUK DICOPY === -->
+
+</body>
+</html>
