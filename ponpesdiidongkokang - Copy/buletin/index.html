@@ -6,8 +6,8 @@
     <title>Buletin Digital Yayasan Pendidikan Al-Burhaan</title>
     
     <!-- Chosen Palette: Hijau Toska (#5A9D87), Kuning Cerah (#FFC107), Putih Bersih (#F8F8F8), Teks Gelap (#333333) -->
-    <!-- Application Structure Plan: Aplikasi ini dirancang sebagai "Buletin Digital" dengan struktur linear, di mana setiap bagian utama profil Yayasan (Sampul, Sambutan, Visi/Misi, Tentang DII Bantaeng, Unit Pendidikan, Pendidikan Bahasa, Fasilitas, Kegiatan & Pembinaan, Testimoni, Pendaftaran/Kontak) disajikan sebagai "halaman" terpisah. Pengguna dapat menavigasi secara berurutan menggunakan tombol "Berikutnya" dan "Sebelumnya" yang memicu transisi slide, meniru pengalaman membalik halaman buku fisik. Struktur ini dipilih untuk memandu pengguna melalui narasi Yayasan secara terstruktur dan fokus pada satu informasi per tampilan, cocok untuk gambaran profil yang ringkas. -->
-    <!-- Visualization & Content Choices: Informasi: Sampul -> Tujuan: Branding & Daya Tarik Awal -> Metode: Hero Section -> Interaksi: None. | Informasi: Sambutan Ketua -> Tujuan: Personal & Pengantar -> Metode: Teks & Foto -> Interaksi: None. | Informasi: Visi & Misi -> Tujuan: Inti Yayasan -> Metode: Dua Blok Teks dengan Ikon -> Interaksi: None. | Informasi: Tentang DII Bantaeng -> Tujuan: Memberikan latar belakang lembaga -> Metode: Teks Informatif & Gambar -> Interaksi: None. | Informasi: Unit Pendidikan -> Tujuan: Gambaran Umum Penawaran -> Metode: Daftar Singkat dengan Ikon -> Interaksi: None (fokus pada ringkasan). | Informasi: Pendidikan Bahasa -> Tujuan: Menjelaskan program baru dan keunggulan -> Metode: Bagian teks informatif dengan daftar poin -> Interaksi: None -> Justifikasi: Memberikan detail yang cukup tanpa terlalu banyak interaksi untuk informasi baru. | Informasi: Fasilitas -> Tujuan: Menarik secara Visual -> Metode: Grid Gambar Kecil -> Interaksi: None. | Informasi: Kegiatan & Pembinaan Santri -> Tujuan: Menampilkan ragam aktivitas -> Metode: Dua Kolom Daftar Poin -> Interaksi: None -> Justifikasi: Menyajikan informasi padat dalam format mudah dibaca. | Informasi: Testimoni Alumni -> Tujuan: Bukti Sosial -> Metode: Kartu Testimoni Statis -> Interaksi: None. | Informasi: Pendaftaran & Kontak -> Tujuan: Informasi Aksi -> Metode: Daftar Langkah & Detail Kontak -> Interaksi: None. Tidak ada data kuantitatif yang memerlukan Chart.js atau Plotly.js dalam laporan sumber ini, sehingga tidak digunakan. -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang sebagai "Buletin Digital" dengan struktur linear, di mana setiap bagian utama profil Yayasan (Sampul, Sambutan, Visi/Misi, Unit Pendidikan, Fasilitas, Kegiatan & Pembinaan, Testimoni, Pendaftaran/Kontak) disajikan sebagai "halaman" terpisah. Pengguna dapat menavigasi secara berurutan menggunakan tombol "Berikutnya" dan "Sebelumnya" yang memicu transisi slide, meniru pengalaman membalik halaman buku fisik. Struktur ini dipilih untuk memandu pengguna melalui narasi Yayasan secara terstruktur dan fokus pada satu informasi per tampilan, cocok untuk gambaran profil yang ringkas. -->
+    <!-- Visualization & Content Choices: Informasi: Sampul -> Tujuan: Branding & Daya Tarik Awal -> Metode: Hero Section -> Interaksi: None. | Informasi: Sambutan Ketua -> Tujuan: Personal & Pengantar -> Metode: Teks & Foto -> Interaksi: None. | Informasi: Visi & Misi -> Tujuan: Inti Yayasan -> Metode: Dua Blok Teks dengan Ikon -> Interaksi: None. | Informasi: Unit Pendidikan -> Tujuan: Gambaran Umum Penawaran -> Metode: Daftar Singkat dengan Ikon -> Interaksi: None (fokus pada ringkasan). | Informasi: Fasilitas -> Tujuan: Menarik secara Visual -> Metode: Grid Gambar Kecil -> Interaksi: None. | Informasi: Kegiatan & Pembinaan Santri -> Tujuan: Menampilkan ragam aktivitas -> Metode: Dua Kolom Daftar Poin -> Interaksi: None -> Justifikasi: Menyajikan informasi padat dalam format mudah dibaca. | Informasi: Testimoni Alumni -> Tujuan: Bukti Sosial -> Metode: Kartu Testimoni Statis -> Interaksi: None. | Informasi: Pendaftaran & Kontak -> Tujuan: Informasi Aksi -> Metode: Daftar Langkah & Detail Kontak -> Interaksi: None. Tidak ada data kuantitatif yang memerlukan Chart.js atau Plotly.js dalam laporan sumber ini, sehingga tidak digunakan. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -114,15 +114,15 @@
             </div>
         </section>
 
-        <!-- Slide 2: Kata Pengantar -->
+        <!-- Slide 2: Kata Pengantar / Sambutan Ketua Yayasan -->
         <section id="slide2" class="slide bg-kuning-cerah text-gray-800">
             <div class="relative p-6 slide-content bg-white">
-                <h2 class="text-3xl font-bold text-hijau-toska mb-4">Kata Pengantar</h2>
+                <h2 class="text-3xl font-bold text-hijau-toska mb-4">Sambutan Ketua Yayasan</h2>
                 <div class="flex flex-col md:flex-row items-center md:items-start">
-                    <img src="https://placehold.co/100x100/FFC107/333333?text=Direktur" alt="Foto Direktur Yayasan" class="w-24 h-24 rounded-full mr-0 md:mr-6 mb-4 md:mb-0 object-cover shadow-md">
-                    <p class="text-gray-700 italic text-center md:text-left">"Segala puji bagi Allah SWT Rabb semesta alam. Sholawat dan salam semoga selalu tercurah kepada Nabi Muhammad SAW. Semoga kita semua tetap dalam lindungan dan kasih sayangnya. DII Boarding School “language education” merupakan realisasi dari semakin meningkatnya tuntutan kebutuhan kemampuan berbahasa asing di beberapa daerah di Indonesia. Kami bekerja sama dengan Yayasan Al Burhaan dan dinaungi Pondok Pesantren Darul Ilmi Al Islamy yang sudah berdiri sejak tahun 2009."</p>
+                    <img src="https://placehold.co/100x100/FFC107/333333?text=Ketua" alt="Foto Ketua Yayasan" class="w-24 h-24 rounded-full mr-0 md:mr-6 mb-4 md:mb-0 object-cover shadow-md">
+                    <p class="text-gray-700 italic text-center md:text-left">"Assalamu'alaikum Warahmatullahi Wabarakatuh. Dengan penuh rasa syukur, kami persembahkan buku profil ini sebagai cerminan komitmen kami dalam mencetak generasi penerus bangsa yang beriman, berilmu, dan berakhlak mulia. Kami mengundang Anda untuk menjadi bagian dari keluarga besar kami dalam mewujudkan cita-cita luhur ini. Wassalamu'alaikum Warahmatullahi Wabarakatuh."</p>
                 </div>
-                <p class="text-right font-bold mt-4 text-gray-800">– DIREKTUR YAYASAN AL BURHAAN</p>
+                <p class="text-right font-bold mt-4 text-gray-800">– [Nama Ketua Yayasan]</p>
             </div>
         </section>
 
@@ -135,34 +135,27 @@
                         <h3 class="text-2xl font-bold text-kuning-cerah mb-2 flex items-center">
                             <span class="mr-2">✨</span> Visi
                         </h3>
-                        <p class="text-gray-700">Menciptakan pribadi unggul berakhlak islam, jujur, berkarakter, dan pandai dalam menginterpresentasikan keilmuan dengan berbagai bahasa.</p>
+                        <p class="text-gray-700">Menjadi lembaga pendidikan Islam terdepan yang berlandaskan Al-Qur'an dan As-Sunnah, mencetak generasi yang berakhlak mulia, berilmu amaliah, dan berdaya saing global.</p>
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold text-kuning-cerah mb-2 flex items-center">
                             <span class="mr-2">🎯</span> Misi
                         </h3>
                         <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Menciptakan lingkungan belajar kondusif, kekeluargaan dan kebersamaan baik antar murid dan orang tua.</li>
+                            <li>Menyelenggarakan pendidikan formal terintegrasi.</li>
+                            <li>Membina karakter Islami & hafalan Al-Qur'an.</li>
+                            <li>Mengembangkan kurikulum relevan.</li>
+                            <li>Menciptakan lingkungan kondusif.</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 4: Tentang DII Bantaeng -->
+        <!-- Slide 4: Unit Pendidikan -->
         <section id="slide4" class="slide bg-kuning-cerah text-gray-800">
             <div class="relative p-6 slide-content bg-white">
-                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Mari Mengenal DII Bantaeng</h2>
-                <p class="text-gray-700 mb-4">Pondok pesantren darul ilmi Al islamy Bantaeng adalah lembaga pendidikan islami yang sudah berdiri sejak tahun 2007. Keberadaan pesantren darul ilmi Al islamy ini memberikan dampak positif kepada masyarakat sekitar sehingga saat ini terdapat 40 guru guru yang mengabdikan diri sebagai tenaga pengajar yang terstruktur dalam 4 satuan pendidikan, antara lain: madrasah ibtidaiyah, madrasah tsanawiyah, SMP dan sekolah menengah ke atas kejuruan keperawatan.</p>
-                <p class="text-gray-700">Dengan fasilitas gedung sekolah, lapangan serba guna, masjid, perpustakaan, laboratorium, dan sarana lainnya, kami berharap sarana yang tersedia bisa menjadi penunjang murid belajar di lingkungan yang amat kondusif. Adapun pusat lembaga pendidikan kami terletak di kec. Eremerasa, Desa lonrong, Kab. Bantaeng.</p>
-                <img src="https://placehold.co/500x300/5A9D87/FFFFFF?text=Gedung+Pesantren+DII" alt="Gedung Pesantren DII Bantaeng" class="mt-6 rounded-lg shadow-md w-full h-auto">
-            </div>
-        </section>
-
-        <!-- Slide 5: Unit Pendidikan Formal -->
-        <section id="slide5" class="slide bg-hijau-toska text-white">
-            <div class="relative p-6 slide-content bg-white text-gray-800">
-                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Unit Pendidikan Formal</h2>
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Unit Pendidikan Kami</h2>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="flex items-center space-x-4">
                         <img src="https://placehold.co/60x60/5A9D87/FFFFFF?text=MI" alt="Logo MI" class="rounded-full">
@@ -196,63 +189,8 @@
             </div>
         </section>
 
-        <!-- Slide 6: Pendidikan Bahasa (DII Language Education) -->
-        <section id="slide6" class="slide bg-kuning-cerah text-gray-800">
-            <div class="relative p-6 slide-content bg-white">
-                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">DII Boarding School: Language Education</h2>
-                <p class="text-gray-700 mb-4">Bahasa merupakan sarana komunikasi antar individu atau kelompok yang amat penting, alat yang ekspresif untuk mengungkapkan perasaan, yang mampu bersifat direktif dan representasional dalam menyampaikan informasi. Untuk bisa melakukan pergerakan ekonomi dunia, seorang yang ingin sukses harus mampu membangun jejaring sosial kepada masyarakat manca negara dengan kemampuan berbahasa asing yang mumpuni.</p>
-                <p class="text-gray-700 mb-4">DII language education hadir untuk membantu para murid yang memiliki cita-cita tinggi dan berkeinginan besar pandai dalam berbahasa asing, tapi tidak lepas dari kebiasaan dan pendidikan akhlak dan lingkungan islami.</p>
-                
-                <h3 class="text-2xl font-bold text-hijau-toska mb-4 text-center">Mengapa DII Boarding School Language Education?</h3>
-                <ul class="list-disc list-inside text-gray-700 grid md:grid-cols-2 gap-2">
-                    <li>Lingkungan yang nyaman</li>
-                    <li>Diapit 4 wisata terkenal</li>
-                    <li>Pengajar lulusan dari luar negeri</li>
-                    <li>Murid terseleksi (tidak asal menerima)</li>
-                    <li>Bisa bersekolah sekaligus boarding dengan legalitas yang jelas</li>
-                    <li>Terdapat mart dan mini cafe dalam lingkungan pesantren</li>
-                </ul>
-
-                <h3 class="text-2xl font-bold text-hijau-toska mt-6 mb-4 text-center">Muatan Pembelajaran</h3>
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div>
-                        <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Agama:</h4>
-                        <ul class="list-disc list-inside text-gray-700">
-                            <li>Syiratul Islam (akhlak dan adab)</li>
-                            <li>Tajwid (baca Al-Qur’an)</li>
-                            <li>Sirah Nabawiyah</li>
-                            <li>Fikih Ilmi Hal</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Bahasa Turki:</h4>
-                        <ul class="list-disc list-inside text-gray-700">
-                            <li>Merhaba Türkçe DII</li>
-                            <li>Türkçe Sözlüğü DII</li>
-                            <li>Konuşma Bahasa Turk</li>
-                            <li>Türkçe Sınavı</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Bahasa Arab:</h4>
-                        <ul class="list-disc list-inside text-gray-700">
-                            <li>Kitab Awamil</li>
-                            <li>Kitab Bina dan Maksud</li>
-                            <li>Muhadasah Bahasa Arab</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Bahasa Inggris:</h4>
-                        <ul class="list-disc list-inside text-gray-700">
-                            <li>Muatan buatan DII</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 7: Fasilitas Unggulan -->
-        <section id="slide7" class="slide bg-hijau-toska text-white">
+        <!-- Slide 5: Fasilitas Unggulan -->
+        <section id="slide5" class="slide bg-hijau-toska text-white">
             <div class="relative p-6 slide-content bg-white text-gray-800">
                 <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Fasilitas Unggulan</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -284,8 +222,8 @@
             </div>
         </section>
 
-        <!-- Slide 8: Kegiatan & Pembinaan Santri -->
-        <section id="slide8" class="slide bg-kuning-cerah text-gray-800">
+        <!-- Slide 6: Kegiatan & Pembinaan Santri -->
+        <section id="slide6" class="slide bg-kuning-cerah text-gray-800">
             <div class="relative p-6 slide-content bg-white">
                 <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Kegiatan & Pembinaan Santri</h2>
                 <div class="grid md:grid-cols-2 gap-8">
@@ -319,8 +257,8 @@
             </div>
         </section>
 
-        <!-- Slide 9: Testimoni Alumni -->
-        <section id="slide9" class="slide bg-hijau-toska text-white">
+        <!-- Slide 7: Testimoni Alumni -->
+        <section id="slide7" class="slide bg-hijau-toska text-white">
             <div class="relative p-6 slide-content bg-white text-gray-800">
                 <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Kata Mereka: Testimoni Alumni</h2>
                 <div class="space-y-6">
@@ -336,33 +274,36 @@
             </div>
         </section>
 
-        <!-- Slide 10: Pendaftaran & Kontak -->
-        <section id="slide10" class="slide bg-kuning-cerah text-gray-800">
+        <!-- Slide 8: Pendaftaran & Kontak -->
+        <section id="slide8" class="slide bg-kuning-cerah text-gray-800">
             <div class="relative p-6 slide-content bg-white">
                 <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Pendaftaran Santri Baru</h2>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
                         <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Alur Pendaftaran</h3>
                         <ol class="list-decimal list-inside text-gray-700 space-y-2">
-                            <li>Lulus sekolah / pindah sekolah setelah mendapatkan surat pindah</li>
-                            <li>Pendaftaran web / via WA call center.</li>
-                            <li>Konsultasi</li>
-                            <li>Ujian kelayakan boarding pertama (tes tertulis)</li>
-                            <li>Ujian kelayakan boarding kedua (karantina 3 hari) (pembayaran tes kedua 30k untuk 3 hari)</li>
-                            <li>Pengumuman kelulusan</li>
-                            <li>Pemenuhan berkas dan persiapan masuk pesantren</li>
+                            <li>Isi formulir pendaftaran (online/langsung).</li>
+                            <li>Lengkapi berkas administrasi.</li>
+                            <li>Ikuti tes seleksi.</li>
+                            <li>Pengumuman hasil seleksi.</li>
+                            <li>Daftar ulang.</li>
                         </ol>
-                        <h4 class="text-xl font-bold text-hijau-toska mt-6 mb-2">Persyaratan:</h4>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>KTP</li>
-                            <li>Ijazah / SKHU</li>
-                            <li>Rapor</li>
-                        </ul>
+                        <h4 class="text-xl font-bold text-hijau-toska mt-6 mb-2">Jadwal Penting TA 2025/2026</h4>
+                        <p class="text-gray-700"><strong>Gelombang I:</strong> 1 Maret - 30 April 2025</p>
+                        <p class="text-gray-700"><strong>Gelombang II:</strong> 1 Mei - 30 Juni 2025</p>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Kontak</h3>
-                        <p class="text-gray-700"><strong>Instagram:</strong> <a href="https://www.instagram.com/ponpesdiidongkokang" target="_blank" class="hover:underline">@ponpesdiidongkokang</a></p>
-                        <p class="text-gray-700 mt-2"><strong>WhatsApp:</strong> <a href="https://wa.me/62882020347171" target="_blank" class="hover:underline">0882020347171</a></p>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Hubungi Kami</h3>
+                        <p class="text-gray-700"><strong>Alamat:</strong> Pesantren Darul 'Ilmi Al-Islamy Dongkokang, Jl. Pendidikan No. 1, Desa Dongkokang, Bantaeng, Sulawesi Selatan</p>
+                        <p class="text-gray-700 mt-2"><strong>Telepon:</strong> [Nomor Telepon Kantor]</p>
+                        <p class="text-gray-700"><strong>WhatsApp:</strong> [Nomor WhatsApp Pendaftaran]</p>
+                        <p class="text-gray-700"><strong>Email:</strong> [Alamat Email Resmi]</p>
+                        <p class="text-gray-700"><strong>Website:</strong> [Alamat Website Resmi]</p>
+                        <div class="flex space-x-4 mt-4">
+                            <a href="#" class="text-hijau-toska hover:text-kuning-cerah">Instagram</a>
+                            <a href="#" class="text-hijau-toska hover:text-kuning-cerah">Facebook</a>
+                            <a href="#" class="text-hijau-toska hover:text-kuning-cerah">YouTube</a>
+                        </div>
                     </div>
                 </div>
             </div>

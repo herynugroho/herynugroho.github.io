@@ -6,8 +6,8 @@
     <title>Profil Yayasan Pendidikan Al-Burhaan</title>
     
     <!-- Chosen Palette: Hijau Toska (#5A9D87), Kuning Cerah (#FFC107), Putih Bersih (#F8F8F8), Teks Gelap (#333333) -->
-    <!-- Application Structure Plan: Aplikasi ini dirancang sebagai "Pusat Informasi Interaktif" satu halaman. Struktur ini menggunakan navigasi sticky di bagian atas untuk akses cepat ke berbagai bagian seperti 'Beranda', 'Tentang Kami', 'Tentang DII Bantaeng', 'Unit Pendidikan', 'Pendidikan Bahasa', 'Fasilitas', 'Kegiatan', 'Testimoni', dan 'Pendaftaran'. Pendekatan ini dipilih untuk menggantikan format slide yang linear, memberikan kebebasan kepada pengguna untuk langsung menuju informasi yang paling relevan bagi mereka. Penggunaan tab interaktif untuk unit pendidikan dan kartu untuk fasilitas bertujuan untuk menyajikan informasi secara ringkas dan menarik, meningkatkan keterlibatan pengguna dan kemudahan dalam memahami penawaran yayasan. Segmen kegiatan, testimoni, dan pendidikan bahasa ditambahkan untuk memberikan gambaran holistik tentang kehidupan santri dan bukti sosial. Desain telah dioptimalkan agar responsif dan ramah seluler, dengan menu navigasi yang dapat dilipat menjadi ikon burger. -->
-    <!-- Visualization & Content Choices: Informasi: Unit Pendidikan -> Tujuan: Memudahkan perbandingan -> Metode: Tab Interaktif -> Interaksi: Klik untuk menampilkan detail -> Justifikasi: Menghindari daftar panjang dan menjaga fokus pengguna. | Informasi: Fasilitas -> Tujuan: Menampilkan secara visual -> Metode: Grid Kartu Interaktif -> Interaksi: Hover untuk efek visual -> Justifikasi: Lebih menarik daripada daftar teks biasa. | Informasi: Kegiatan & Pembinaan Santri -> Tujuan: Menampilkan ragam aktivitas -> Metode: Dua Kolom Daftar Poin -> Interaksi: None -> Justifikasi: Menyajikan informasi padat dalam format mudah dibaca. | Informasi: Testimoni Alumni -> Tujuan: Memberikan bukti sosial & perspektif nyata -> Metode: Kartu Testimoni dengan carousel sederhana (scroll) -> Interaksi: Scroll horizontal -> Justifikasi: Menampilkan beberapa testimoni secara ringkas dan mudah dijelajahi tanpa memakan banyak ruang vertikal. | Informasi: Pendidikan Bahasa -> Tujuan: Menjelaskan program baru dan keunggulan -> Metode: Bagian teks informatif dengan daftar poin -> Interaksi: None -> Justifikasi: Memberikan detail yang cukup tanpa terlalu banyak interaksi untuk informasi baru. | Informasi: Pendaftaran -> Tujuan: Menjelaskan alur -> Metode: Diagram Langkah-demi-Langkah -> Interaksi: Statis -> Justifikasi: Proses sekuensial paling baik disajikan secara berurutan untuk kejelasan. Tidak ada data kuantitatif dalam laporan sumber, sehingga penggunaan grafik (Chart.js) tidak relevan dan tidak digunakan. -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang sebagai "Pusat Informasi Interaktif" satu halaman. Struktur ini menggunakan navigasi sticky di bagian atas untuk akses cepat ke berbagai bagian seperti 'Tentang Kami', 'Unit Pendidikan', 'Fasilitas', 'Kegiatan', 'Testimoni', dan 'Pendaftaran'. Pendekatan ini dipilih untuk menggantikan format slide yang linear, memberikan kebebasan kepada pengguna untuk langsung menuju informasi yang paling relevan bagi mereka. Penggunaan tab interaktif untuk unit pendidikan dan kartu untuk fasilitas bertujuan untuk menyajikan informasi secara ringkas dan menarik, meningkatkan keterlibatan pengguna dan kemudahan dalam memahami penawaran yayasan. Segmen kegiatan dan testimoni ditambahkan untuk memberikan gambaran holistik tentang kehidupan santri dan bukti sosial. Desain telah dioptimalkan agar responsif dan ramah seluler, dengan menu navigasi yang dapat dilipat menjadi ikon burger. -->
+    <!-- Visualization & Content Choices: Informasi: Unit Pendidikan -> Tujuan: Memudahkan perbandingan -> Metode: Tab Interaktif -> Interaksi: Klik untuk menampilkan detail -> Justifikasi: Menghindari daftar panjang dan menjaga fokus pengguna. | Informasi: Fasilitas -> Tujuan: Menampilkan secara visual -> Metode: Grid Kartu Interaktif -> Interaksi: Hover untuk efek visual -> Justifikasi: Lebih menarik daripada daftar teks biasa. | Informasi: Kegiatan & Pembinaan Santri -> Tujuan: Menampilkan ragam aktivitas -> Metode: Dua Kolom Daftar Poin -> Interaksi: None -> Justifikasi: Menyajikan informasi padat dalam format mudah dibaca. | Informasi: Testimoni Alumni -> Tujuan: Memberikan bukti sosial & perspektif nyata -> Metode: Kartu Testimoni dengan carousel sederhana (scroll) -> Interaksi: Scroll horizontal -> Justifikasi: Menampilkan beberapa testimoni secara ringkas dan mudah dijelajahi tanpa memakan banyak ruang vertikal. | Informasi: Pendaftaran -> Tujuan: Menjelaskan alur -> Metode: Diagram Langkah-demi-Langkah -> Interaksi: Statis -> Justifikasi: Proses sekuensial paling baik disajikan secara berurutan untuk kejelasan. Tidak ada data kuantitatif dalam laporan sumber, sehingga penggunaan grafik (Chart.js) tidak relevan dan tidak digunakan. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -44,10 +44,6 @@
         .scroll-snap-start {
             scroll-snap-align: start;
         }
-        /* Custom aspect ratio for facility images to ensure consistent height */
-        .aspect-w-4 {
-            aspect-ratio: 4 / 3;
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -62,9 +58,7 @@
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="#beranda" class="text-gray-600 hover:text-hijau-toska">Beranda</a>
                 <a href="#tentang" class="text-gray-600 hover:text-hijau-toska">Tentang Kami</a>
-                <a href="#dii-bantaeng" class="text-gray-600 hover:text-hijau-toska">Tentang DII Bantaeng</a>
                 <a href="#pendidikan" class="text-gray-600 hover:text-hijau-toska">Unit Pendidikan</a>
-                <a href="#pendidikan-bahasa" class="text-gray-600 hover:text-hijau-toska">Pendidikan Bahasa</a>
                 <a href="#fasilitas" class="text-gray-600 hover:text-hijau-toska">Fasilitas</a>
                 <a href="#kegiatan" class="text-gray-600 hover:text-hijau-toska">Kegiatan</a>
                 <a href="#testimoni" class="text-gray-600 hover:text-hijau-toska">Testimoni</a>
@@ -79,9 +73,7 @@
         <div id="mobile-menu" class="hidden md:hidden absolute w-full bg-white shadow-lg py-2">
             <a href="#beranda" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Beranda</a>
             <a href="#tentang" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Tentang Kami</a>
-            <a href="#dii-bantaeng" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Tentang DII Bantaeng</a>
             <a href="#pendidikan" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Unit Pendidikan</a>
-            <a href="#pendidikan-bahasa" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Pendidikan Bahasa</a>
             <a href="#fasilitas" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Fasilitas</a>
             <a href="#kegiatan" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Kegiatan</a>
             <a href="#testimoni" class="block py-2 px-4 text-sm text-gray-600 hover:bg-gray-200">Testimoni</a>
@@ -109,48 +101,34 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">Tentang Al-Burhaan</h2>
                     <p class="text-gray-600 mt-2 text-sm md:text-base">Mengenal lebih dekat visi, misi, dan komitmen kami dalam dunia pendidikan Islam.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-start"> <!-- Changed items-center to items-start -->
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div class="space-y-6 md:space-y-8">
                         <div>
-                            <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-2">Visi</h3>
-                            <p class="text-gray-700 text-sm md:text-base">Menciptakan pribadi unggul berakhlak islam, jujur, berkarakter, dan pandai dalam menginterpresentasikan keilmuan dengan berbagai bahasa.</p>
+                            <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-2">Visi Kami</h3>
+                            <p class="text-gray-700 text-sm md:text-base">Menjadi lembaga pendidikan Islam terdepan yang berlandaskan Al-Qur'an dan As-Sunnah, mencetak generasi yang berakhlak mulia, berilmu amaliah, dan berdaya saing global.</p>
                         </div>
                         <div>
-                            <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-2">Misi</h3>
+                            <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-2">Misi Kami</h3>
                             <ul class="list-disc list-inside text-gray-700 space-y-2 text-sm md:text-base">
-                                <li>Menciptakan lingkungan belajar kondusif, kekeluargaan dan kebersamaan baik antar murid dan orang tua.</li>
+                                <li>Menyelenggarakan pendidikan formal yang terintegrasi dengan pendidikan agama.</li>
+                                <li>Membina karakter Islami dan hafalan Al-Qur'an secara berkesinambungan.</li>
+                                <li>Mengembangkan kurikulum yang relevan dengan kebutuhan zaman.</li>
+                                <li>Menciptakan lingkungan pesantren yang aman, nyaman, dan kondusif.</li>
                             </ul>
                         </div>
                     </div>
                     <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                        <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-4">Kata Pengantar</h3>
-                        <div class="flex flex-col md:flex-row items-center md:items-start mb-4"> <!-- Added flex-col md:flex-row -->
-                            <img src="https://placehold.co/100x100/FFC107/333333?text=Direktur" alt="Foto Direktur Yayasan" class="w-20 h-20 md:w-24 md:h-24 rounded-full mr-0 md:mr-6 mb-4 md:mb-0 object-cover shadow-md flex-shrink-0">
-                            <p class="text-gray-700 italic text-sm md:text-base text-center md:text-left">"Segala puji bagi Allah SWT Rabb semesta alam. Sholawat dan salam semoga selalu tercurah kepada Nabi Muhammad SAW. Semoga kita semua tetap dalam lindungan dan kasih sayangnya."</p>
-                        </div>
-                        <p class="text-right font-bold mt-4 text-gray-800 text-sm md:text-base">– DIREKTUR YAYASAN AL BURHAAN</p>
+                        <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-4">Sambutan Ketua Yayasan</h3>
+                        <img src="https://placehold.co/100x100/FFC107/333333?text=Ketua" alt="Foto Ketua Yayasan" class="w-20 h-20 md:w-24 md:h-24 rounded-full float-left mr-4 md:mr-6 mb-2 object-cover">
+                        <p class="text-gray-700 italic text-sm md:text-base">"Dengan penuh rasa syukur, kami persembahkan buku profil ini sebagai cerminan komitmen kami dalam mencetak generasi penerus bangsa yang beriman, berilmu, dan berakhlak mulia. Kami mengundang Anda untuk menjadi bagian dari keluarga besar kami."</p>
+                        <p class="text-right font-bold mt-4 text-gray-800 text-sm md:text-base">– [Nama Ketua Yayasan]</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seksi Tentang DII Bantaeng -->
-        <section id="dii-bantaeng" class="py-16 md:py-20 bg-gray-100 px-4">
-            <div class="container mx-auto px-2 md:px-6">
-                <div class="text-center mb-10 md:mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">Mari Mengenal DII Bantaeng</h2>
-                    <p class="text-gray-600 mt-2 text-sm md:text-base">Lembaga pendidikan Islam yang berkomitmen mencetak generasi berprestasi.</p>
-                </div>
-                <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-3xl mx-auto"> <!-- Added max-w-3xl mx-auto -->
-                    <p class="text-gray-700 mb-4 text-sm md:text-base">Pondok pesantren darul ilmi Al islamy Bantaeng adalah lembaga pendidikan islami yang sudah berdiri sejak tahun 2007. Keberadaan pesantren darul ilmi Al islamy ini memberikan dampak positif kepada masyarakat sekitar sehingga saat ini terdapat 40 guru guru yang mengabdikan diri sebagai tenaga pengajar yang terstruktur dalam 4 satuan pendidikan, antara lain: madrasah ibtidaiyah, madrasah tsanawiyah, SMP dan sekolah menengah ke atas kejuruan keperawatan.</p>
-                    <p class="text-gray-700 text-sm md:text-base">Dengan fasilitas gedung sekolah, lapangan serba guna, masjid, perpustakaan, laboratorium, dan sarana lainnya, kami berharap sarana yang tersedia bisa menjadi penunjang murid belajar di lingkungan yang amat kondusif. Adapun pusat lembaga pendidikan kami terletak di kec. Eremerasa, Desa lonrong, Kab. Bantaeng.</p>
-                    <img src="https://placehold.co/800x450/5A9D87/FFFFFF?text=Gedung+Pesantren+DII" alt="Gedung Pesantren DII Bantaeng" class="mt-6 rounded-lg shadow-md w-full h-auto">
                 </div>
             </div>
         </section>
 
         <!-- Seksi Unit Pendidikan -->
-        <section id="pendidikan" class="py-16 md:py-20 px-4">
+        <section id="pendidikan" class="py-16 md:py-20 bg-gray-100 px-4">
             <div class="container mx-auto px-2 md:px-6">
                 <div class="text-center mb-10 md:mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">Unit Pendidikan</h2>
@@ -164,10 +142,10 @@
                     <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold" data-tab="smk">SMK Keperawatan</button>
                 </div>
 
-                <div id="tab-content" class="bg-white p-6 md:p-8 rounded-lg shadow-lg transition-all duration-500 max-w-4xl mx-auto"> <!-- Added max-w-4xl mx-auto -->
+                <div id="tab-content" class="bg-white p-6 md:p-8 rounded-lg shadow-lg transition-all duration-500">
                     <!-- Konten MI -->
                     <div class="tab-pane active" id="mi">
-                        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start"> <!-- Changed items-center to items-start -->
+                        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
                              <div>
                                 <h3 class="text-2xl md:text-3xl font-bold text-hijau-toska">MI Darul 'Ilmi Al-Islamy</h3>
                                 <p class="text-kuning-cerah font-semibold text-base md:text-lg mb-3 md:mb-4">Fondasi Awal Generasi Qur'ani</p>
@@ -178,12 +156,12 @@
                                     <li class="flex items-center"><span class="text-kuning-cerah mr-2">✔</span> Pengembangan Motorik & Kreativitas</li>
                                 </ul>
                             </div>
-                            <img src="https://placehold.co/500x300/FFC107/333333?text=Siswa+MI+Ceria" alt="Siswa MI" class="rounded-lg shadow-md w-full h-auto object-cover"> <!-- Added object-cover -->
+                            <img src="https://placehold.co/500x300/FFC107/333333?text=Siswa+MI+Ceria" alt="Siswa MI" class="rounded-lg shadow-md w-full h-auto">
                         </div>
                     </div>
                     <!-- Konten MTs -->
                     <div class="tab-pane hidden" id="mts">
-                        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start"> <!-- Changed items-center to items-start -->
+                        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
                              <div>
                                 <h3 class="text-2xl md:text-3xl font-bold text-hijau-toska">MTs Darul 'Ilmi Al-Islamy</h3>
                                 <p class="text-kuning-cerah font-semibold text-base md:text-lg mb-3 md:mb-4">Membentuk Pribadi Berilmu dan Berakhlak</p>
@@ -194,12 +172,12 @@
                                     <li class="flex items-center"><span class="text-kuning-cerah mr-2">✔</span> Ekstrakurikuler Kepramukaan & Keagamaan</li>
                                 </ul>
                             </div>
-                            <img src="https://placehold.co/500x300/5A9D87/FFFFFF?text=Siswa+MTs+Belajar" alt="Siswa MTs" class="rounded-lg shadow-md w-full h-auto object-cover"> <!-- Added object-cover -->
+                            <img src="https://placehold.co/500x300/5A9D87/FFFFFF?text=Siswa+MTs+Belajar" alt="Siswa MTs" class="rounded-lg shadow-md w-full h-auto">
                         </div>
                     </div>
                     <!-- Konten SMP -->
                     <div class="tab-pane hidden" id="smp">
-                         <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start"> <!-- Changed items-center to items-start -->
+                         <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
                              <div>
                                 <h3 class="text-2xl md:text-3xl font-bold text-hijau-toska">SMP Darul 'Ilmi Al-Islamy</h3>
                                 <p class="text-kuning-cerah font-semibold text-base md:text-lg mb-3 md:mb-4">Mencetak Generasi Unggul Penuh Potensi</p>
@@ -210,12 +188,12 @@
                                     <li class="flex items-center"><span class="text-kuning-cerah mr-2">✔</span> Pengembangan Bakat & Minat (IT, Seni, Olahraga)</li>
                                 </ul>
                             </div>
-                            <img src="https://placehold.co/500x300/FFC107/333333?text=Siswa+SMP+Berprestasi" alt="Siswa SMP" class="rounded-lg shadow-md w-full h-auto object-cover"> <!-- Added object-cover -->
+                            <img src="https://placehold.co/500x300/FFC107/333333?text=Siswa+SMP+Berprestasi" alt="Siswa SMP" class="rounded-lg shadow-md w-full h-auto">
                         </div>
                     </div>
                     <!-- Konten SMK -->
                     <div class="tab-pane hidden" id="smk">
-                        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-start"> <!-- Changed items-center to items-start -->
+                        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
                              <div>
                                 <h3 class="text-2xl md:text-3xl font-bold text-hijau-toska">SMK Keperawatan Darul 'Ilmi</h3>
                                 <p class="text-kuning-cerah font-semibold text-base md:text-lg mb-3 md:mb-4">Profesional, Islami, dan Siap Berkontribusi</p>
@@ -226,87 +204,7 @@
                                     <li class="flex items-center"><span class="text-kuning-cerah mr-2">✔</span> Sertifikasi Kompetensi Profesi</li>
                                 </ul>
                             </div>
-                            <img src="https://placehold.co/500x300/5A9D87/FFFFFF?text=Siswa+SMK+Praktik" alt="Siswa SMK" class="rounded-lg shadow-md w-full h-auto object-cover"> <!-- Added object-cover -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seksi Pendidikan Bahasa (DII Language Education) -->
-        <section id="pendidikan-bahasa" class="py-16 md:py-20 bg-gray-100 px-4">
-            <div class="container mx-auto px-2 md:px-6">
-                <div class="text-center mb-10 md:mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">DII Boarding School: Language Education</h2>
-                    <p class="text-gray-600 mt-2 text-sm md:text-base">Membuka gerbang komunikasi global dengan kemampuan bahasa asing yang mumpuni.</p>
-                </div>
-                <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg mb-10 max-w-4xl mx-auto"> <!-- Added max-w-4xl mx-auto -->
-                    <p class="text-gray-700 mb-4 text-sm md:text-base">DII Boarding School “language education” merupakan realisasi dari semakin meningkatnya tuntutan kebutuhan kemampuan berbahasa asing di beberapa daerah di Indonesia. Kami bekerja sama dengan Yayasan Al Burhaan dan dinaungi Pondok Pesantren Darul Ilmi Al Islamy yang sudah berdiri sejak tahun 2009. Program language education dibentuk 5 Agustus 2025.</p>
-                    <p class="text-gray-700 text-sm md:text-base">Sejalan dengan program bahasa ini dalam rangka mewujudkan generasi yang berkepribadian unggul berakhlak islami, jujur, berkarakter, berpendirian dan berprestasi, kami memberikan pelayanan bimbingan bahasa asing berupa: bahasa Arab, bahasa Inggris, dan bahasa Turki bagi para pelajar Indonesia di lingkungan Pesantren Darul Ilmi Al Islamy. Selain pendidikan bahasa yang diperoleh, kami pun menyediakan akomodasi asrama, makan, dan juga membekali pelajar dengan ilmu agama Islam sebagai penyeimbang antara ilmu dunia dan ilmu akhirat.</p>
-                </div>
-
-                <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-4xl mx-auto"> <!-- Added max-w-4xl mx-auto -->
-                    <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-4 text-center">Mengapa DII Boarding School Language Education?</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="flex items-start space-x-3">
-                            <span class="text-kuning-cerah text-2xl flex-shrink-0">✔</span> <!-- Added flex-shrink-0 -->
-                            <p class="text-gray-700 text-sm md:text-base">Lingkungan yang nyaman</p>
-                        </div>
-                        <div class="flex items-start space-x-3">
-                            <span class="text-kuning-cerah text-2xl flex-shrink-0">✔</span>
-                            <p class="text-gray-700 text-sm md:text-base">Diapit 4 wisata terkenal</p>
-                        </div>
-                        <div class="flex items-start space-x-3">
-                            <span class="text-kuning-cerah text-2xl flex-shrink-0">✔</span>
-                            <p class="text-gray-700 text-sm md:text-base">Pengajar lulusan dari luar negeri</p>
-                        </div>
-                        <div class="flex items-start space-x-3">
-                            <span class="text-kuning-cerah text-2xl flex-shrink-0">✔</span>
-                            <p class="text-gray-700 text-sm md:text-base">Murid terseleksi (tidak asal menerima)</p>
-                        </div>
-                        <div class="flex items-start space-x-3">
-                            <span class="text-kuning-cerah text-2xl flex-shrink-0">✔</span>
-                            <p class="text-gray-700 text-sm md:text-base">Bisa bersekolah sekaligus boarding dengan legalitas yang jelas</p>
-                        </div>
-                        <div class="flex items-start space-x-3">
-                            <span class="text-kuning-cerah text-2xl flex-shrink-0">✔</span>
-                            <p class="text-gray-700 text-sm md:text-base">Terdapat mart dan mini cafe dalam lingkungan pesantren</p>
-                        </div>
-                    </div>
-
-                    <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mt-8 mb-4 text-center">Muatan Pembelajaran</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Agama:</h4>
-                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm md:text-base">
-                                <li>Syiratul Islam (akhlak dan adab)</li>
-                                <li>Tajwid (baca Al-Qur’an)</li>
-                                <li>Sirah Nabawiyah</li>
-                                <li>Fikih Ilmi Hal</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Bahasa Turki:</h4>
-                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm md:text-base">
-                                <li>Merhaba Türkçe DII</li>
-                                <li>Türkçe Sözlüğü DII</li>
-                                <li>Konuşma Bahasa Turk</li>
-                                <li>Türkçe Sınavı</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Bahasa Arab:</h4>
-                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm md:text-base">
-                                <li>Kitab Awamil</li>
-                                <li>Kitab Bina dan Maksud</li>
-                                <li>Muhadasah Bahasa Arab</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-lg text-kuning-cerah mb-2">Kajian Bahasa Inggris:</h4>
-                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm md:text-base">
-                                <li>Muatan buatan DII</li>
-                            </ul>
+                            <img src="https://placehold.co/500x300/5A9D87/FFFFFF?text=Siswa+SMK+Praktik" alt="Siswa SMK" class="rounded-lg shadow-md w-full h-auto">
                         </div>
                     </div>
                 </div>
@@ -320,7 +218,7 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">Fasilitas Unggulan</h2>
                     <p class="text-gray-600 mt-2 text-sm md:text-base">Lingkungan belajar yang lengkap dan modern untuk mendukung potensi santri.</p>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto"> <!-- Added max-w-5xl mx-auto -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     <div class="group relative overflow-hidden rounded-lg shadow-lg aspect-w-4 aspect-h-3">
                         <img src="https://placehold.co/400x300/5A9D87/FFFFFF?text=Masjid" alt="Masjid" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
@@ -380,7 +278,7 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">Kegiatan & Pembinaan Santri</h2>
                     <p class="text-gray-600 mt-2 text-sm md:text-base">Mengembangkan potensi diri melalui berbagai kegiatan ekstrakurikuler dan pembinaan pondok pesantren.</p>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8 md:gap-10 bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-4xl mx-auto"> <!-- Added max-w-4xl mx-auto -->
+                <div class="grid md:grid-cols-2 gap-8 md:gap-10 bg-white p-6 md:p-8 rounded-lg shadow-lg">
                     <div>
                         <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-4">Kegiatan Ekstrakurikuler</h3>
                         <ul class="list-disc list-inside text-gray-700 space-y-2 text-sm md:text-base">
@@ -418,11 +316,11 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-hijau-toska">Kata Mereka: Testimoni Alumni</h2>
                     <p class="text-gray-600 mt-2 text-sm md:text-base">Dengar langsung pengalaman berharga dari para alumni kami.</p>
                 </div>
-                <div class="flex overflow-x-auto pb-4 space-x-4 md:space-x-6 scroll-snap-x max-w-5xl mx-auto"> <!-- Added max-w-5xl mx-auto -->
+                <div class="flex overflow-x-auto pb-4 space-x-4 md:space-x-6 scroll-snap-x">
                     <!-- Testimoni 1 -->
                     <div class="flex-none w-full md:w-1/2 lg:w-1/3 bg-white p-6 rounded-lg shadow-lg scroll-snap-start">
                         <div class="flex items-center mb-4">
-                            <img src="https://placehold.co/80x80/FFC107/333333?text=Alumni1" alt="Foto Alumni 1" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover flex-shrink-0"> <!-- Added flex-shrink-0 -->
+                            <img src="https://placehold.co/80x80/FFC107/333333?text=Alumni1" alt="Foto Alumni 1" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover">
                             <div>
                                 <h4 class="font-bold text-base md:text-lg text-hijau-toska">Ahmad Fikri</h4>
                                 <p class="text-gray-600 text-xs md:text-sm">Alumni SMK Keperawatan, Angkatan 2020</p>
@@ -433,7 +331,7 @@
                     <!-- Testimoni 2 -->
                     <div class="flex-none w-full md:w-1/2 lg:w-1/3 bg-white p-6 rounded-lg shadow-lg scroll-snap-start">
                         <div class="flex items-center mb-4">
-                            <img src="https://placehold.co/80x80/5A9D87/FFFFFF?text=Alumni2" alt="Foto Alumni 2" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover flex-shrink-0">
+                            <img src="https://placehold.co/80x80/5A9D87/FFFFFF?text=Alumni2" alt="Foto Alumni 2" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover">
                             <div>
                                 <h4 class="font-bold text-base md:text-lg text-hijau-toska">Siti Aisyah</h4>
                                 <p class="text-gray-600 text-xs md:text-sm">Alumni MTs Darul 'Ilmi Al-Islamy, Angkatan 2018</p>
@@ -444,7 +342,7 @@
                     <!-- Testimoni 3 -->
                     <div class="flex-none w-full md:w-1/2 lg:w-1/3 bg-white p-6 rounded-lg shadow-lg scroll-snap-start">
                         <div class="flex items-center mb-4">
-                            <img src="https://placehold.co/80x80/FFC107/333333?text=Alumni3" alt="Foto Alumni 3" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover flex-shrink-0">
+                            <img src="https://placehold.co/80x80/FFC107/333333?text=Alumni3" alt="Foto Alumni 3" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover">
                             <div>
                                 <h4 class="font-bold text-base md:text-lg text-hijau-toska">Budi Santoso</h4>
                                 <p class="text-gray-600 text-xs md:text-sm">Alumni SMP Darul 'Ilmi Al-Islamy, Angkatan 2017</p>
@@ -455,7 +353,7 @@
                     <!-- Testimoni 4 (Contoh tambahan) -->
                     <div class="flex-none w-full md:w-1/2 lg:w-1/3 bg-white p-6 rounded-lg shadow-lg scroll-snap-start">
                         <div class="flex items-center mb-4">
-                            <img src="https://placehold.co/80x80/5A9D87/FFFFFF?text=Alumni4" alt="Foto Alumni 4" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover flex-shrink-0">
+                            <img src="https://placehold.co/80x80/5A9D87/FFFFFF?text=Alumni4" alt="Foto Alumni 4" class="w-14 h-14 md:w-16 md:h-16 rounded-full mr-4 object-cover">
                             <div>
                                 <h4 class="font-bold text-base md:text-lg text-hijau-toska">Fatima Zahra</h4>
                                 <p class="text-gray-600 text-xs md:text-sm">Alumni MI Darul 'Ilmi Al-Islamy, Angkatan 2015</p>
@@ -477,48 +375,41 @@
                 <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-lg shadow-lg">
                     <h3 class="text-xl md:text-2xl font-bold text-hijau-toska mb-6">Alur Pendaftaran</h3>
                     <div class="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0 md:space-x-4">
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1"> <!-- Added w-full md:w-auto flex-1 -->
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">1</div>
-                            <p class="font-semibold text-sm md:text-base">Lulus sekolah / pindah sekolah setelah mendapatkan surat pindah</p>
+                        <div class="flex items-center flex-col text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2">1</div>
+                            <p class="font-semibold text-sm md:text-base">Isi Formulir</p>
+                            <p class="text-xs md:text-sm text-gray-600">Online atau datang langsung.</p>
                         </div>
-                        <div class="hidden md:flex items-center flex-shrink-0"><div class="w-16 h-1 bg-gray-300"></div></div> <!-- Added flex-shrink-0 -->
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">2</div>
-                            <p class="font-semibold text-sm md:text-base">Pendaftaran web / via WA call center</p>
+                        <div class="hidden md:flex items-center"><div class="w-16 h-1 bg-gray-300"></div></div>
+                        <div class="flex items-center flex-col text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2">2</div>
+                            <p class="font-semibold text-sm md:text-base">Lengkapi Berkas</p>
+                            <p class="text-xs md:text-sm text-gray-600">Sesuai persyaratan.</p>
                         </div>
-                        <div class="hidden md:flex items-center flex-shrink-0"><div class="w-16 h-1 bg-gray-300"></div></div>
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">3</div>
-                            <p class="font-semibold text-sm md:text-base">Konsultasi</p>
+                        <div class="hidden md:flex items-center"><div class="w-16 h-1 bg-gray-300"></div></div>
+                        <div class="flex items-center flex-col text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2">3</div>
+                            <p class="font-semibold text-sm md:text-base">Tes Seleksi</p>
+                            <p class="text-xs md:text-sm text-gray-600">Akademik & Wawancara.</p>
                         </div>
-                        <div class="hidden md:flex items-center flex-shrink-0"><div class="w-16 h-1 bg-gray-300"></div></div>
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">4</div>
-                            <p class="font-semibold text-sm md:text-base">Ujian kelayakan boarding pertama (tes tertulis)</p>
+                        <div class="hidden md:flex items-center"><div class="w-16 h-1 bg-gray-300"></div></div>
+                        <div class="flex items-center flex-col text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2">4</div>
+                            <p class="font-semibold text-sm md:text-base">Pengumuman</p>
+                            <p class="text-xs md:text-sm text-gray-600">Hasil akan diumumkan.</p>
                         </div>
-                         <div class="hidden md:flex items-center flex-shrink-0"><div class="w-16 h-1 bg-gray-300"></div></div>
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">5</div>
-                            <p class="font-semibold text-sm md:text-base">Ujian kelayakan boarding kedua (karantina 3 hari) (pembayaran tes kedua 30k untuk 3 hari)</p>
-                        </div>
-                        <div class="hidden md:flex items-center flex-shrink-0"><div class="w-16 h-1 bg-gray-300"></div></div>
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">6</div>
-                            <p class="font-semibold text-sm md:text-base">Pengumuman kelulusan</p>
-                        </div>
-                        <div class="hidden md:flex items-center flex-shrink-0"><div class="w-16 h-1 bg-gray-300"></div></div>
-                        <div class="flex items-center flex-col text-center w-full md:w-auto flex-1">
-                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2 flex-shrink-0">7</div>
-                            <p class="font-semibold text-sm md:text-base">Pemenuhan berkas dan persiapan masuk pesantren</p>
+                         <div class="hidden md:flex items-center"><div class="w-16 h-1 bg-gray-300"></div></div>
+                        <div class="flex items-center flex-col text-center">
+                            <div class="w-14 h-14 md:w-16 md:h-16 bg-kuning-cerah rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-gray-800 mb-2">5</div>
+                            <p class="font-semibold text-sm md:text-base">Daftar Ulang</p>
+                            <p class="text-xs md:text-sm text-gray-600">Konfirmasi pendaftaran.</p>
                         </div>
                     </div>
                     <div class="mt-8 md:mt-10 text-center">
-                        <h4 class="text-lg md:text-xl font-bold text-hijau-toska mb-4">Persyaratan:</h4>
-                        <ul class="list-disc list-inside text-gray-700 space-y-2 text-sm md:text-base inline-block text-left">
-                            <li>KTP</li>
-                            <li>Ijazah / SKHU</li>
-                            <li>Rapor</li>
-                        </ul>
+                        <h4 class="text-lg md:text-xl font-bold text-hijau-toska mb-4">Jadwal Penting TA 2025/2026</h4>
+                        <p class="text-gray-700 text-sm md:text-base"><strong>Gelombang I:</strong> 1 Maret - 30 April 2025</p>
+                        <p class="text-gray-700 text-sm md:text-base"><strong>Gelombang II:</strong> 1 Mei - 30 Juni 2025</p>
+                        <a href="#kontak" class="mt-6 inline-block bg-hijau-toska text-white hover:bg-green-800 px-6 py-2 md:px-8 md:py-3 rounded-full font-bold text-base md:text-lg transition-colors">Hubungi Kami untuk Info Detail</a>
                     </div>
                 </div>
             </div>
@@ -535,14 +426,15 @@
                     <p class="text-gray-300 mt-2">Jl. Pendidikan No. 1, Desa Dongkokang, Kec. [Nama Kecamatan], Kab. Bantaeng, Sulawesi Selatan</p>
                 </div>
                 <div>
-                    <h4 class="text-lg md:text-xl font-bold mb-4">Kontak</h4>
-                    <p class="text-gray-300">Instagram: <a href="https://www.instagram.com/ponpesdiidongkokang" target="_blank" class="hover:text-kuning-cerah">@ponpesdiidongkokang</a></p>
-                    <p class="text-gray-300">WhatsApp: <a href="https://wa.me/62882020347171" target="_blank" class="hover:text-kuning-cerah">0882020347171</a></p>
+                    <h4 class="text-lg md:text-xl font-bold mb-4">Kontak Pendaftaran</h4>
+                    <p class="text-gray-300">Telepon: [Nomor Telepon Kantor]</p>
+                    <p class="text-gray-300">WhatsApp: [Nomor WhatsApp Pendaftaran]</p>
+                    <p class="text-gray-300">Email: [Alamat Email Resmi]</p>
                 </div>
                 <div>
                     <h4 class="text-lg md:text-xl font-bold mb-4">Ikuti Kami</h4>
                     <div class="flex space-x-4">
-                        <a href="https://www.instagram.com/ponpesdiidongkokang" target="_blank" class="text-gray-300 hover:text-kuning-cerah">Instagram</a>
+                        <a href="#" class="text-gray-300 hover:text-kuning-cerah">Instagram</a>
                         <a href="#" class="text-gray-300 hover:text-kuning-cerah">Facebook</a>
                         <a href="#" class="text-gray-300 hover:text-kuning-cerah">YouTube</a>
                     </div>
@@ -559,7 +451,7 @@
             // Skrip untuk menu mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenuButton && mobileMenu) {
+            if (mobileMenuButton && mobileMenu) { // Tambahkan pengecekan null
                 mobileMenuButton.addEventListener('click', () => {
                     mobileMenu.classList.toggle('hidden');
                 });
@@ -569,13 +461,14 @@
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabPanes = document.querySelectorAll('.tab-pane');
 
-            if (tabButtons.length > 0 && tabPanes.length > 0) {
+            if (tabButtons.length > 0 && tabPanes.length > 0) { // Tambahkan pengecekan jika elemen ditemukan
                 tabButtons.forEach(button => {
                     button.addEventListener('click', () => {
                         const tabId = button.dataset.tab;
                         const targetPane = document.getElementById(tabId);
 
-                        if (targetPane) {
+                        if (targetPane) { // Pastikan targetPane tidak null
+                            // Nonaktifkan semua tombol dan panel
                             tabButtons.forEach(btn => {
                                 btn.classList.remove('tab-active');
                                 btn.classList.add('tab-inactive');
@@ -584,6 +477,7 @@
                                 pane.classList.add('hidden');
                             });
 
+                            // Aktifkan tombol dan panel yang diklik
                             button.classList.add('tab-active');
                             button.classList.remove('tab-inactive');
                             targetPane.classList.remove('hidden');
