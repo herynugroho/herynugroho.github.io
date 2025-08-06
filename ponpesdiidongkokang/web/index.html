@@ -136,10 +136,10 @@
                 </div>
                 
                 <div class="flex justify-center mb-6 md:mb-8 flex-wrap gap-2">
-                    <button class="tab-button tab-active px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold">MI</button>
-                    <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold">MTs</button>
-                    <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold">SMP</button>
-                    <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold">SMK Keperawatan</button>
+                    <button class="tab-button tab-active px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold" data-tab="mi">MI</button>
+                    <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold" data-tab="mts">MTs</button>
+                    <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold" data-tab="smp">SMP</button>
+                    <button class="tab-button tab-inactive px-4 py-2 text-sm md:px-6 md:py-2 rounded-full font-semibold" data-tab="smk">SMK Keperawatan</button>
                 </div>
 
                 <div id="tab-content" class="bg-white p-6 md:p-8 rounded-lg shadow-lg transition-all duration-500">
@@ -447,41 +447,52 @@
     </footer>
 
     <script>
-        // Skrip untuk menu mobile
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Skrip untuk navigasi tab
-        const tabButtons = document.querySelectorAll('.tab-button');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const tabId = button.dataset.tab;
-
-                // Nonaktifkan semua tombol dan panel
-                tabButtons.forEach(btn => {
-                    btn.classList.remove('tab-active');
-                    btn.classList.add('tab-inactive');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Skrip untuk menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) { // Tambahkan pengecekan null
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
                 });
-                tabPanes.forEach(pane => {
-                    pane.classList.add('hidden');
-                });
+            }
 
-                // Aktifkan tombol dan panel yang diklik
-                button.classList.add('tab-active');
-                button.classList.remove('tab-inactive');
-                document.getElementById(tabId).classList.remove('hidden');
-            });
-        });
-        
-        // Tutup menu mobile saat link di klik
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+            // Skrip untuk navigasi tab
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            if (tabButtons.length > 0 && tabPanes.length > 0) { // Tambahkan pengecekan jika elemen ditemukan
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.dataset.tab;
+                        const targetPane = document.getElementById(tabId);
+
+                        if (targetPane) { // Pastikan targetPane tidak null
+                            // Nonaktifkan semua tombol dan panel
+                            tabButtons.forEach(btn => {
+                                btn.classList.remove('tab-active');
+                                btn.classList.add('tab-inactive');
+                            });
+                            tabPanes.forEach(pane => {
+                                pane.classList.add('hidden');
+                            });
+
+                            // Aktifkan tombol dan panel yang diklik
+                            button.classList.add('tab-active');
+                            button.classList.remove('tab-inactive');
+                            targetPane.classList.remove('hidden');
+                        } else {
+                            console.error(`Error: Tab pane with ID '${tabId}' not found.`);
+                        }
+                    });
+                });
+            }
+            
+            // Tutup menu mobile saat link di klik
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
             });
         });
     </script>
