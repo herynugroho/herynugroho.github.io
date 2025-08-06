@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Datang di Yayasan Pendidikan Al-Burhaan</title>
+    
+    <!-- Chosen Palette: Hijau Toska (#5A9D87), Kuning Cerah (#FFC107), Putih Bersih (#F8F8F8), Teks Gelap (#333333) -->
+    <!-- Application Structure Plan: Halaman ini dirancang sebagai landing page sederhana dengan dua tombol utama. Struktur ini dipilih untuk memberikan pilihan eksplorasi yang jelas kepada pengguna: melihat profil yayasan dalam format aplikasi web interaktif satu halaman atau dalam format buletin digital yang lebih terstruktur seperti buku. Desain minimalis memastikan fokus pada pilihan navigasi. -->
+    <!-- Visualization & Content Choices: Informasi: Pilihan Navigasi -> Tujuan: Memberikan opsi jelas -> Metode: Dua Tombol Besar -> Interaksi: Klik untuk navigasi -> Justifikasi: Sangat intuitif dan langsung. Tidak ada data kuantitatif yang memerlukan Chart.js atau Plotly.js dalam laporan sumber ini, sehingga tidak digunakan. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F8F8F8;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+        }
+        .bg-hijau-toska { background-color: #5A9D87; }
+        .bg-kuning-cerah { background-color: #FFC107; }
+        .text-hijau-toska { color: #5A9D87; }
+        .text-kuning-cerah { color: #FFC107; }
+        .button-large {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 3rem;
+            border-radius: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none; /* Remove underline for links */
+        }
+        .button-large:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+        .button-large h2 {
+            font-size: 1.75rem; /* 28px */
+            margin-bottom: 0.5rem;
+        }
+        .button-large p {
+            font-size: 1rem; /* 16px */
+            opacity: 0.9;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .button-large {
+                padding: 1.5rem 2rem;
+                border-radius: 1rem;
+            }
+            .button-large h2 {
+                font-size: 1.25rem; /* 20px */
+            }
+            .button-large p {
+                font-size: 0.875rem; /* 14px */
+            }
+            .grid-cols-2-md {
+                grid-template-columns: 1fr; /* Stack buttons vertically on small screens */
+            }
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container mx-auto max-w-4xl bg-white p-8 md:p-12 rounded-lg shadow-xl text-center">
+        <img src="https://placehold.co/100x100/5A9D87/FFFFFF?text=DII" alt="Logo Yayasan" class="mx-auto mb-6 h-20 w-20 md:h-24 md:w-24 rounded-full shadow-lg">
+        <h1 class="text-3xl md:text-5xl font-bold text-hijau-toska mb-4">Selamat Datang di</h1>
+        <h2 class="text-2xl md:text-4xl font-bold text-gray-800 mb-8">Yayasan Pendidikan Al-Burhaan</h2>
+        <p class="text-gray-600 mb-12 max-w-2xl mx-auto text-base md:text-lg">
+            Jelajahi informasi lengkap mengenai visi, misi, unit pendidikan, fasilitas, kegiatan, dan testimoni dari Pesantren Darul 'Ilmi Al-Islamy Dongkokang. Pilih format yang Anda inginkan:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <a href="/web/index.html" class="button-large bg-hijau-toska text-white hover:bg-green-800">
+                <h2>Lihat Profil Web</h2>
+                <p>Pengalaman interaktif satu halaman</p>
+            </a>
+            <a href="/buletin/index.html" class="button-large bg-kuning-cerah text-gray-800 hover:bg-yellow-500">
+                <h2>Baca Buletin Digital</h2>
+                <p>Tampilan seperti buku dengan transisi slide</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
