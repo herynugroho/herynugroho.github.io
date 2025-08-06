@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buletin Digital Yayasan Pendidikan Al-Burhaan</title>
+    
+    <!-- Chosen Palette: Hijau Toska (#5A9D87), Kuning Cerah (#FFC107), Putih Bersih (#F8F8F8), Teks Gelap (#333333) -->
+    <!-- Application Structure Plan: Aplikasi ini dirancang sebagai "Buletin Digital" dengan struktur linear, di mana setiap bagian utama profil Yayasan (Sampul, Sambutan, Visi/Misi, Unit Pendidikan, Fasilitas, Kegiatan & Pembinaan, Testimoni, Pendaftaran/Kontak) disajikan sebagai "halaman" terpisah. Pengguna dapat menavigasi secara berurutan menggunakan tombol "Berikutnya" dan "Sebelumnya" yang memicu transisi slide, meniru pengalaman membalik halaman buku fisik. Struktur ini dipilih untuk memandu pengguna melalui narasi Yayasan secara terstruktur dan fokus pada satu informasi per tampilan, cocok untuk gambaran profil yang ringkas. -->
+    <!-- Visualization & Content Choices: Informasi: Sampul -> Tujuan: Branding & Daya Tarik Awal -> Metode: Hero Section -> Interaksi: None. | Informasi: Sambutan Ketua -> Tujuan: Personal & Pengantar -> Metode: Teks & Foto -> Interaksi: None. | Informasi: Visi & Misi -> Tujuan: Inti Yayasan -> Metode: Dua Blok Teks dengan Ikon -> Interaksi: None. | Informasi: Unit Pendidikan -> Tujuan: Gambaran Umum Penawaran -> Metode: Daftar Singkat dengan Ikon -> Interaksi: None (fokus pada ringkasan). | Informasi: Fasilitas -> Tujuan: Menarik secara Visual -> Metode: Grid Gambar Kecil -> Interaksi: None. | Informasi: Kegiatan & Pembinaan Santri -> Tujuan: Menampilkan ragam aktivitas -> Metode: Dua Kolom Daftar Poin -> Interaksi: None -> Justifikasi: Menyajikan informasi padat dalam format mudah dibaca. | Informasi: Testimoni Alumni -> Tujuan: Bukti Sosial -> Metode: Kartu Testimoni Statis -> Interaksi: None. | Informasi: Pendaftaran & Kontak -> Tujuan: Informasi Aksi -> Metode: Daftar Langkah & Detail Kontak -> Interaksi: None. Tidak ada data kuantitatif yang memerlukan Chart.js atau Plotly.js dalam laporan sumber ini, sehingga tidak digunakan. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F8F8F8;
+            color: #333333;
+            overflow: hidden; /* Mencegah scroll body */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+        }
+        .bg-hijau-toska { background-color: #5A9D87; }
+        .bg-kuning-cerah { background-color: #FFC107; }
+        .text-hijau-toska { color: #5A9D87; }
+        .text-kuning-cerah { color: #FFC107; }
+        .border-hijau-toska { border-color: #5A9D87; }
+        .border-kuning-cerah { border-color: #FFC107; }
+
+        .slide-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out; /* Transisi fade */
+            pointer-events: none; /* Mencegah interaksi pada slide yang tidak aktif */
+        }
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto; /* Mengizinkan interaksi pada slide aktif */
+        }
+        .slide-content {
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto; /* Izinkan scroll jika konten terlalu panjang */
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 1rem 1.2rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        #prev-slide { left: 1rem; }
+        #next-slide { right: 1rem; }
+        .nav-button.hidden {
+            display: none;
+        }
+
+        /* Responsive adjustments for slide content */
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 1.5rem;
+            }
+            .slide h1 { font-size: 2.5rem; }
+            .slide h2 { font-size: 1.5rem; }
+            .slide h3 { font-size: 1.25rem; }
+            .slide p, .slide li { font-size: 0.9rem; }
+            .nav-button {
+                padding: 0.8rem 1rem;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="slide-container">
+        <!-- Slide 1: Sampul -->
+        <section id="slide1" class="slide active bg-hijau-toska text-white">
+            <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Kolase+Kegiatan+Siswa');"></div>
+            <div class="relative text-center z-10 p-6 slide-content bg-hijau-toska bg-opacity-90">
+                <img src="https://placehold.co/120x120/FFFFFF/5A9D87?text=DII" alt="Logo Yayasan" class="mx-auto mb-6 h-24 w-24 rounded-full shadow-lg">
+                <h1 class="text-4xl md:text-6xl font-bold mb-2">Yayasan Pendidikan Al-Burhaan</h1>
+                <h2 class="text-xl md:text-2xl mb-4 font-light">Pesantren Darul 'Ilmi Al-Islamy Dongkokang</h2>
+                <p class="max-w-2xl mx-auto text-lg mb-8 font-light">"Meneguhkan Iman, Mengembangkan Ilmu, Membentuk Generasi Qur'ani."</p>
+            </div>
+        </section>
+
+        <!-- Slide 2: Kata Pengantar / Sambutan Ketua Yayasan -->
+        <section id="slide2" class="slide bg-kuning-cerah text-gray-800">
+            <div class="relative p-6 slide-content bg-white">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-4">Sambutan Ketua Yayasan</h2>
+                <div class="flex flex-col md:flex-row items-center md:items-start">
+                    <img src="https://placehold.co/100x100/FFC107/333333?text=Ketua" alt="Foto Ketua Yayasan" class="w-24 h-24 rounded-full mr-0 md:mr-6 mb-4 md:mb-0 object-cover shadow-md">
+                    <p class="text-gray-700 italic text-center md:text-left">"Assalamu'alaikum Warahmatullahi Wabarakatuh. Dengan penuh rasa syukur, kami persembahkan buku profil ini sebagai cerminan komitmen kami dalam mencetak generasi penerus bangsa yang beriman, berilmu, dan berakhlak mulia. Kami mengundang Anda untuk menjadi bagian dari keluarga besar kami dalam mewujudkan cita-cita luhur ini. Wassalamu'alaikum Warahmatullahi Wabarakatuh."</p>
+                </div>
+                <p class="text-right font-bold mt-4 text-gray-800">– [Nama Ketua Yayasan]</p>
+            </div>
+        </section>
+
+        <!-- Slide 3: Visi & Misi Yayasan -->
+        <section id="slide3" class="slide bg-hijau-toska text-white">
+            <div class="relative p-6 slide-content bg-white text-gray-800">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Visi & Misi Kami</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-2 flex items-center">
+                            <span class="mr-2">✨</span> Visi
+                        </h3>
+                        <p class="text-gray-700">Menjadi lembaga pendidikan Islam terdepan yang berlandaskan Al-Qur'an dan As-Sunnah, mencetak generasi yang berakhlak mulia, berilmu amaliah, dan berdaya saing global.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-2 flex items-center">
+                            <span class="mr-2">🎯</span> Misi
+                        </h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Menyelenggarakan pendidikan formal terintegrasi.</li>
+                            <li>Membina karakter Islami & hafalan Al-Qur'an.</li>
+                            <li>Mengembangkan kurikulum relevan.</li>
+                            <li>Menciptakan lingkungan kondusif.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Unit Pendidikan -->
+        <section id="slide4" class="slide bg-kuning-cerah text-gray-800">
+            <div class="relative p-6 slide-content bg-white">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Unit Pendidikan Kami</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://placehold.co/60x60/5A9D87/FFFFFF?text=MI" alt="Logo MI" class="rounded-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-hijau-toska">MI Darul 'Ilmi Al-Islamy</h3>
+                            <p class="text-gray-700 text-sm">Fondasi awal karakter dan ilmu Qur'ani.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://placehold.co/60x60/5A9D87/FFFFFF?text=MTs" alt="Logo MTs" class="rounded-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-hijau-toska">MTs Darul 'Ilmi Al-Islamy</h3>
+                            <p class="text-gray-700 text-sm">Pembentukan pribadi berilmu dan berakhlak.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://placehold.co/60x60/5A9D87/FFFFFF?text=SMP" alt="Logo SMP" class="rounded-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-hijau-toska">SMP Darul 'Ilmi Al-Islamy</h3>
+                            <p class="text-gray-700 text-sm">Mencetak generasi unggul penuh potensi.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://placehold.co/60x60/5A9D87/FFFFFF?text=SMK" alt="Logo SMK" class="rounded-full">
+                        <div>
+                            <h3 class="text-xl font-bold text-hijau-toska">SMK Keperawatan Darul 'Ilmi</h3>
+                            <p class="text-gray-700 text-sm">Profesional, Islami, dan siap berkontribusi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Fasilitas Unggulan -->
+        <section id="slide5" class="slide bg-hijau-toska text-white">
+            <div class="relative p-6 slide-content bg-white text-gray-800">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Fasilitas Unggulan</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="flex flex-col items-center p-3 bg-gray-100 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x70/FFC107/333333?text=Masjid" alt="Masjid" class="rounded-md mb-2">
+                        <p class="text-sm font-semibold">Masjid</p>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-100 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x70/FFC107/333333?text=Asrama" alt="Asrama" class="rounded-md mb-2">
+                        <p class="text-sm font-semibold">Asrama</p>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-100 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x70/FFC107/333333?text=Kelas" alt="Ruang Kelas" class="rounded-md mb-2">
+                        <p class="text-sm font-semibold">Ruang Kelas</p>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-100 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x70/FFC107/333333?text=Lab+Komputer" alt="Lab Komputer" class="rounded-md mb-2">
+                        <p class="text-sm font-semibold">Lab Komputer</p>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-100 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x70/FFC107/333333?text=Perpustakaan" alt="Perpustakaan" class="rounded-md mb-2">
+                        <p class="text-sm font-semibold">Perpustakaan</p>
+                    </div>
+                    <div class="flex flex-col items-center p-3 bg-gray-100 rounded-lg shadow-sm">
+                        <img src="https://placehold.co/100x70/FFC107/333333?text=Lapangan" alt="Lapangan Olahraga" class="rounded-md mb-2">
+                        <p class="text-sm font-semibold">Lapangan Olahraga</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Kegiatan & Pembinaan Santri -->
+        <section id="slide6" class="slide bg-kuning-cerah text-gray-800">
+            <div class="relative p-6 slide-content bg-white">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Kegiatan & Pembinaan Santri</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Kegiatan Ekstrakurikuler</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Tahfidz & Tilawah Al-Qur'an</li>
+                            <li>Kaligrafi Islam & Seni Islami</li>
+                            <li>Hadroh & Marawis</li>
+                            <li>Pramuka</li>
+                            <li>Olahraga (Futsal, Basket, Panahan)</li>
+                            <li>Klub Sains & Matematika</li>
+                            <li>Jurnalistik & Mading</li>
+                            <li>Bahasa Arab & Inggris</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Kegiatan Pondok Pesantren</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Kajian Kitab Kuning</li>
+                            <li>Pembinaan Akhlak & Adab</li>
+                            <li>Leadership Training (LDKS)</li>
+                            <li>Bakti Sosial & Pengabdian Masyarakat</li>
+                            <li>Muhadharah (Latihan Pidato)</li>
+                            <li>Dzikir & Doa Bersama</li>
+                            <li>Qiyamul Lail Berjamaah</li>
+                            <li>Program Kemandirian Santri</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Testimoni Alumni -->
+        <section id="slide7" class="slide bg-hijau-toska text-white">
+            <div class="relative p-6 slide-content bg-white text-gray-800">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Kata Mereka: Testimoni Alumni</h2>
+                <div class="space-y-6">
+                    <div class="border-l-4 border-hijau-toska pl-4 italic text-gray-700">
+                        "Pesantren Darul 'Ilmi Al-Islamy bukan hanya tempat belajar, tapi rumah kedua. Ilmu agama dan keperawatan yang saya dapatkan di SMK sangat relevan dan membentuk saya menjadi pribadi yang profesional dan berakhlak mulia. Terima kasih!"
+                        <p class="font-semibold mt-2 not-italic">- Ahmad Fikri, Alumni SMK Keperawatan, Angkatan 2020</p>
+                    </div>
+                    <div class="border-l-4 border-hijau-toska pl-4 italic text-gray-700">
+                        "Saya sangat bersyukur pernah menimba ilmu di MTs Darul 'Ilmi. Hafalan Al-Qur'an saya semakin kuat, dan saya diajarkan bagaimana menyeimbangkan ilmu dunia dan akhirat. Lingkungannya sangat mendukung untuk tumbuh dan berkembang."
+                        <p class="font-semibold mt-2 not-italic">- Siti Aisyah, Alumni MTs Darul 'Ilmi Al-Islamy, Angkatan 2018</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Pendaftaran & Kontak -->
+        <section id="slide8" class="slide bg-kuning-cerah text-gray-800">
+            <div class="relative p-6 slide-content bg-white">
+                <h2 class="text-3xl font-bold text-hijau-toska mb-6 text-center">Pendaftaran Santri Baru</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Alur Pendaftaran</h3>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-2">
+                            <li>Isi formulir pendaftaran (online/langsung).</li>
+                            <li>Lengkapi berkas administrasi.</li>
+                            <li>Ikuti tes seleksi.</li>
+                            <li>Pengumuman hasil seleksi.</li>
+                            <li>Daftar ulang.</li>
+                        </ol>
+                        <h4 class="text-xl font-bold text-hijau-toska mt-6 mb-2">Jadwal Penting TA 2025/2026</h4>
+                        <p class="text-gray-700"><strong>Gelombang I:</strong> 1 Maret - 30 April 2025</p>
+                        <p class="text-gray-700"><strong>Gelombang II:</strong> 1 Mei - 30 Juni 2025</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-kuning-cerah mb-3">Hubungi Kami</h3>
+                        <p class="text-gray-700"><strong>Alamat:</strong> Pesantren Darul 'Ilmi Al-Islamy Dongkokang, Jl. Pendidikan No. 1, Desa Dongkokang, Bantaeng, Sulawesi Selatan</p>
+                        <p class="text-gray-700 mt-2"><strong>Telepon:</strong> [Nomor Telepon Kantor]</p>
+                        <p class="text-gray-700"><strong>WhatsApp:</strong> [Nomor WhatsApp Pendaftaran]</p>
+                        <p class="text-gray-700"><strong>Email:</strong> [Alamat Email Resmi]</p>
+                        <p class="text-gray-700"><strong>Website:</strong> [Alamat Website Resmi]</p>
+                        <div class="flex space-x-4 mt-4">
+                            <a href="#" class="text-hijau-toska hover:text-kuning-cerah">Instagram</a>
+                            <a href="#" class="text-hijau-toska hover:text-kuning-cerah">Facebook</a>
+                            <a href="#" class="text-hijau-toska hover:text-kuning-cerah">YouTube</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Tombol Navigasi -->
+    <button id="prev-slide" class="nav-button hidden">‹</button>
+    <button id="next-slide" class="nav-button">›</button>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevButton = document.getElementById('prev-slide');
+        const nextButton = document.getElementById('next-slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            if (currentSlide === 0) {
+                prevButton.classList.add('hidden');
+            } else {
+                prevButton.classList.remove('hidden');
+            }
+
+            if (currentSlide === slides.length - 1) {
+                nextButton.classList.add('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+            }
+        }
+
+        nextButton.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Inisialisasi slide pertama saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
