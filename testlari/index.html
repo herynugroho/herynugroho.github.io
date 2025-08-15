@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacak Latihan Lari</title>
+    <!-- Memuat Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Memuat Chart.js untuk membuat grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Menggunakan font Inter dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Menerapkan font Inter ke seluruh halaman */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style untuk scrollbar agar lebih modern */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #64748b;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-900">Dashboard Pelacak Lari</h1>
+            <p class="text-slate-600 mt-2">Catat dan pantau progres latihan lari Anda di sini.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Input & Riwayat Lari -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Formulir Input Data Lari -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4">Tambah Catatan Lari Baru</h2>
+                    <form id="run-form" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="date" class="block text-sm font-medium text-slate-700 mb-1">Tanggal</label>
+                                <input type="date" id="date" name="date" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            </div>
+                            <div>
+                                <label for="distance" class="block text-sm font-medium text-slate-700 mb-1">Jarak (km)</label>
+                                <input type="number" id="distance" name="distance" step="0.01" min="0" placeholder="Contoh: 5.2" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            </div>
+                        </div>
+                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="duration" class="block text-sm font-medium text-slate-700 mb-1">Durasi (menit)</label>
+                                <input type="number" id="duration" name="duration" step="1" min="0" placeholder="Contoh: 30" required class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            </div>
+                             <div>
+                                <label for="notes" class="block text-sm font-medium text-slate-700 mb-1">Catatan</label>
+                                <input type="text" id="notes" name="notes" placeholder="Contoh: Lari pagi santai" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+                            Simpan Catatan Lari
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Tabel Riwayat Lari -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4">Riwayat Latihan Lari</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="p-4 text-sm font-semibold text-slate-600">Tanggal</th>
+                                    <th class="p-4 text-sm font-semibold text-slate-600">Jarak</th>
+                                    <th class="p-4 text-sm font-semibold text-slate-600">Durasi</th>
+                                    <th class="p-4 text-sm font-semibold text-slate-600">Pace</th>
+                                    <th class="p-4 text-sm font-semibold text-slate-600">Catatan</th>
+                                    <th class="p-4 text-sm font-semibold text-slate-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="run-log-body">
+                                <!-- Data lari akan dimasukkan di sini oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Statistik & Grafik -->
+            <div class="space-y-8">
+                <!-- Kartu Statistik Utama -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4">Statistik Total</h2>
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-sm text-blue-800 font-medium">Total Jarak</p>
+                            <p id="total-distance" class="text-2xl font-bold text-blue-900">0 km</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <p class="text-sm text-green-800 font-medium">Total Sesi Lari</p>
+                            <p id="total-runs" class="text-2xl font-bold text-green-900">0</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <p class="text-sm text-purple-800 font-medium">Pace Rata-rata</p>
+                            <p id="avg-pace" class="text-2xl font-bold text-purple-900">0:00/km</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <p class="text-sm text-yellow-800 font-medium">Lari Terjauh</p>
+                            <p id="max-distance" class="text-2xl font-bold text-yellow-900">0 km</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grafik Progres -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4">Grafik Progres Latihan</h2>
+                    <canvas id="progress-chart"></canvas>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mengambil elemen-elemen DOM yang diperlukan
+            const runForm = document.getElementById('run-form');
+            const runLogBody = document.getElementById('run-log-body');
+            const totalDistanceEl = document.getElementById('total-distance');
+            const totalRunsEl = document.getElementById('total-runs');
+            const avgPaceEl = document.getElementById('avg-pace');
+            const maxDistanceEl = document.getElementById('max-distance');
+            const chartCanvas = document.getElementById('progress-chart');
+            const dateInput = document.getElementById('date');
+
+            // Set tanggal hari ini sebagai default pada form input
+            dateInput.valueAsDate = new Date();
+
+            // Mengambil data dari localStorage atau inisialisasi array kosong
+            let runs = JSON.parse(localStorage.getItem('runs')) || [];
+            let progressChart;
+
+            // Fungsi untuk menghitung pace dalam format menit:detik/km
+            const calculatePace = (distance, duration) => {
+                if (distance <= 0 || duration <= 0) return '0:00';
+                const paceDecimal = duration / distance;
+                const minutes = Math.floor(paceDecimal);
+                const seconds = Math.round((paceDecimal - minutes) * 60);
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            };
+            
+            // Fungsi untuk merender semua data lari ke UI
+            const renderUI = () => {
+                // Mengurutkan data lari berdasarkan tanggal terbaru
+                runs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                // Membersihkan tabel sebelum diisi data baru
+                runLogBody.innerHTML = '';
+                
+                if (runs.length === 0) {
+                    runLogBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500">Belum ada data lari. Mulai tambahkan sekarang!</td></tr>`;
+                } else {
+                    runs.forEach((run, index) => {
+                        const pace = calculatePace(run.distance, run.duration);
+                        const row = document.createElement('tr');
+                        row.className = 'border-b border-slate-200 hover:bg-slate-50';
+                        row.innerHTML = `
+                            <td class="p-4">${new Date(run.date).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}</td>
+                            <td class="p-4">${run.distance.toFixed(2)} km</td>
+                            <td class="p-4">${run.duration} min</td>
+                            <td class="p-4">${pace}/km</td>
+                            <td class="p-4 text-slate-600">${run.notes || '-'}</td>
+                            <td class="p-4">
+                                <button data-index="${index}" class="delete-btn text-red-500 hover:text-red-700 font-medium">Hapus</button>
+                            </td>
+                        `;
+                        runLogBody.appendChild(row);
+                    });
+                }
+                
+                updateDashboard();
+                updateChart();
+                saveRuns();
+            };
+
+            // Fungsi untuk memperbarui kartu statistik
+            const updateDashboard = () => {
+                if (runs.length === 0) {
+                    totalDistanceEl.textContent = '0 km';
+                    totalRunsEl.textContent = '0';
+                    avgPaceEl.textContent = '0:00/km';
+                    maxDistanceEl.textContent = '0 km';
+                    return;
+                }
+
+                const totalDistance = runs.reduce((sum, run) => sum + run.distance, 0);
+                const totalDuration = runs.reduce((sum, run) => sum + run.duration, 0);
+                const maxDistance = Math.max(...runs.map(run => run.distance));
+
+                totalDistanceEl.textContent = `${totalDistance.toFixed(2)} km`;
+                totalRunsEl.textContent = runs.length;
+                maxDistanceEl.textContent = `${maxDistance.toFixed(2)} km`;
+                avgPaceEl.textContent = `${calculatePace(totalDistance, totalDuration)}/km`;
+            };
+
+            // Fungsi untuk memperbarui grafik progres
+            const updateChart = () => {
+                if (progressChart) {
+                    progressChart.destroy();
+                }
+                
+                // Mengurutkan data untuk grafik berdasarkan tanggal terlama
+                const sortedRuns = [...runs].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                const labels = sortedRuns.map(run => new Date(run.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
+                const distanceData = sortedRuns.map(run => run.distance);
+                const paceData = sortedRuns.map(run => run.duration / run.distance);
+
+                progressChart = new Chart(chartCanvas, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Jarak (km)',
+                                data: distanceData,
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                yAxisID: 'yDistance',
+                                tension: 0.3,
+                                fill: true,
+                            },
+                            {
+                                label: 'Pace (min/km)',
+                                data: paceData,
+                                borderColor: '#8b5cf6',
+                                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                                yAxisID: 'yPace',
+                                tension: 0.3,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            yDistance: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Jarak (km)'
+                                }
+                            },
+                            yPace: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                reverse: true, // Pace lebih baik jika nilainya lebih kecil
+                                grid: {
+                                    drawOnChartArea: false, 
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Pace (min/km)'
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            // Fungsi untuk menyimpan data ke localStorage
+            const saveRuns = () => {
+                localStorage.setItem('runs', JSON.stringify(runs));
+            };
+
+            // Event listener untuk form submission
+            runForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newRun = {
+                    date: runForm.date.value,
+                    distance: parseFloat(runForm.distance.value),
+                    duration: parseInt(runForm.duration.value),
+                    notes: runForm.notes.value
+                };
+                runs.push(newRun);
+                runForm.reset();
+                dateInput.valueAsDate = new Date(); // Reset tanggal ke hari ini
+                renderUI();
+            });
+
+            // Event listener untuk tombol hapus (menggunakan event delegation)
+            runLogBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const index = e.target.dataset.index;
+                    // Konfirmasi sebelum menghapus
+                    if (confirm('Apakah Anda yakin ingin menghapus catatan lari ini?')) {
+                        runs.splice(index, 1);
+                        renderUI();
+                    }
+                }
+            });
+
+            // Render UI pertama kali saat halaman dimuat
+            renderUI();
+        });
+    </script>
+</body>
+</html>
