@@ -3,640 +3,791 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UangKu - Aplikasi Keuangan</title>
-
+    <title>UangKu - Aplikasi Keuangan Keluarga</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide-react@0.292.0/dist/lucide-react.js"></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-        .card { background-color: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); transition: all 0.3s ease; }
-        .card:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1); transform: translateY(-2px); }
-        .btn-primary { background-color: #4f46e5; color: white; font-weight: 600; border-radius: 8px; padding: 10px 20px; transition: background-color 0.3s ease; }
-        .btn-primary:hover { background-color: #4338ca; }
-        .btn-primary:disabled { background-color: #a5b4fc; cursor: not-allowed; }
-        .filter-btn { border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 500; transition: all 0.2s ease; }
-        .filter-btn.active { background-color: #e0e7ff; color: #4338ca; border-color: #c7d2fe; }
-        .modal-backdrop { background-color: rgba(0,0,0,0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 50; }
-        #loading-overlay { z-index: 60; }
+        body { font-family: 'Inter', sans-serif; }
+        .modal { display: none; }
+        .modal.flex { display: flex; }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .progress-bar-bg { background-color: #e9ecef; }
+        .progress-bar { background-color: #0d6efd; }
+        .progress-bar.warning { background-color: #ffc107; }
+        .progress-bar.danger { background-color: #dc3545; }
     </style>
 </head>
-<body class="antialiased text-slate-800">
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- PIN Modal -->
-    <div id="pin-modal" class="modal-backdrop">
-        <div class="card w-full max-w-xs m-4 p-6 text-center">
-            <h2 class="text-xl font-bold mb-2">Akses Terproteksi</h2>
-            <p class="text-slate-500 mb-4 text-sm">Masukkan PIN untuk melanjutkan.</p>
-            <form id="pin-form">
-                <input type="password" id="pin-input" class="w-full p-3 text-center text-2xl tracking-widest border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" maxlength="6" required>
-                <p id="pin-error" class="text-red-500 text-sm h-5 mt-2"></p>
-                <button type="submit" class="w-full btn-primary mt-2">Masuk</button>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" class="modal-backdrop hidden">
-        <div class="flex flex-col items-center justify-center text-white">
-            <svg class="animate-spin h-8 w-8 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p>Memproses...</p>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-sm">
+            <h2 class="text-2xl font-bold text-center mb-6">Selamat Datang di UangKu</h2>
+            <p class="text-center text-gray-600 mb-6">Masukkan PIN untuk mengakses data keuangan Anda.</p>
+            <input type="password" id="pinInput" class="w-full px-4 py-2 border rounded-lg text-center text-xl tracking-widest mb-4" placeholder="******" maxlength="6">
+            <button onclick="login()" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">Masuk</button>
+            <p id="loginError" class="text-red-500 text-center mt-4 hidden"></p>
         </div>
     </div>
 
-    <div id="app" class="container mx-auto max-w-4xl p-4 md:p-6 lg:p-8 blur-sm">
-        
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-            <div>
-                <h1 class="text-3xl font-bold text-slate-900">UangKu</h1>
-                <p class="text-slate-500 mt-1">Selamat datang, mari atur keuangan dengan mudah!</p>
-            </div>
-            <div class="flex items-center gap-2 mt-4 sm:mt-0">
-                <button id="add-budget-btn" class="bg-white border border-slate-300 text-slate-700 font-semibold rounded-lg px-4 py-2 text-sm hover:bg-slate-50 flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-                    <span>Tambah Kantong</span>
-                </button>
-                <button id="add-expense-btn" class="btn-primary flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                    <span>Catat Pengeluaran</span>
-                </button>
-            </div>
-        </header>
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <div class="container mx-auto p-4 md:p-6">
+            <header class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">UangKu</h1>
+                <p class="text-gray-600">Selamat datang, mari atur keuangan dengan mudah!</p>
+            </header>
 
-        <main>
-            <!-- Budget Management Section -->
-            <section id="budget-section" class="mb-6">
-                <h2 class="text-xl font-semibold mb-3 text-slate-800">Kantong Anggaran</h2>
-                <div id="budget-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <!-- The form is now removed from here -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                 <button onclick="openBudgetModal()" class="bg-white border border-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100 transition-colors">
+                    + Tambah Kantong
+                </button>
+                 <button onclick="openTransactionModal()" class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-700 transition-colors font-semibold">
+                    + Catat Pengeluaran
+                </button>
+            </div>
+             <div class="flex justify-end mb-6">
+                <button onclick="openTutupBukuModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-colors font-semibold">
+                    Tutup Buku Bulan Ini
+                </button>
+            </div>
+
+            <!-- Budget Cards -->
+            <section class="mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Kantong Anggaran</h2>
+                <div id="budgetList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Budget cards will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Summary Cards -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
+                    <div class="bg-blue-100 p-3 rounded-full">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Anggaran</p>
+                        <p id="summaryTotalBudget" class="text-xl font-bold">Rp 0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
+                    <div class="bg-red-100 p-3 rounded-full">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Pengeluaran</p>
+                        <p id="summaryTotalExpenses" class="text-xl font-bold">Rp 0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow flex items-center gap-4">
+                     <div class="bg-green-100 p-3 rounded-full">
+                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01V8m0 0h.01M12 16h.01M12 18v-2m0-1v-1m0 0v-1m0-1V8m0 0h.01M12 4h.01"></path></svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-sm">Sisa Anggaran</p>
+                        <p id="summaryRemaining" class="text-xl font-bold">Rp 0</p>
+                    </div>
                 </div>
             </section>
             
-            <!-- Summary Section -->
-            <section id="summary-section" class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="card p-5 flex items-center gap-4">
-                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-sm text-slate-500">Total Anggaran</p>
-                        <p id="total-budget" class="text-2xl font-bold">Rp 0</p>
-                    </div>
-                </div>
-                <div class="card p-5 flex items-center gap-4">
-                    <div class="bg-red-100 text-red-600 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 11-4 4-4-4"/><path d="m15 18-4 4-4-4"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-sm text-slate-500">Total Pengeluaran</p>
-                        <p id="total-expense" class="text-2xl font-bold">Rp 0</p>
+            <!-- Transactions List -->
+            <section>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-semibold">Rekap Pengeluaran</h2>
+                    <div class="flex space-x-2">
+                        <button onclick="filterTransactions('daily')" id="filterDailyBtn" class="px-3 py-1 text-sm rounded-md bg-blue-500 text-white">Harian</button>
+                        <button onclick="filterTransactions('weekly')" id="filterWeeklyBtn" class="px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700">Pekanan</button>
+                        <button onclick="filterTransactions('monthly')" id="filterMonthlyBtn" class="px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700">Bulanan</button>
                     </div>
                 </div>
-                 <div class="card p-5 flex items-center gap-4">
-                    <div class="bg-green-100 text-green-600 p-3 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-sm text-slate-500">Sisa Anggaran</p>
-                        <p id="remaining-budget" class="text-2xl font-bold">Rp 0</p>
-                    </div>
+                <div id="transactionList" class="bg-white p-4 rounded-lg shadow">
+                    <!-- Transactions will be dynamically inserted here -->
                 </div>
             </section>
-
-            <!-- Chart and Transactions Section -->
-            <section class="card p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                    <h2 class="text-xl font-semibold text-slate-800">Rekap Pengeluaran</h2>
-                    <div id="filter-container" class="flex gap-2 mt-3 sm:mt-0">
-                        <button class="filter-btn active" data-filter="daily">Harian</button>
-                        <button class="filter-btn" data-filter="weekly">Pekanan</button>
-                        <button class="filter-btn" data-filter="monthly">Bulanan</button>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                    <div class="lg:col-span-2 h-64 md:h-72 flex flex-col items-center justify-center"><canvas id="expenseChart"></canvas></div>
-                    <div class="lg:col-span-3">
-                        <h3 class="font-semibold mb-3">Detail Transaksi</h3>
-                        <div id="transaction-list" class="space-y-3 max-h-72 overflow-y-auto pr-2">
-                           <p class="text-slate-500 text-center py-8">Belum ada transaksi untuk periode ini.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-    
-    <!-- Add Budget Modal -->
-    <div id="add-budget-modal" class="modal-backdrop hidden">
-        <div class="card w-full max-w-sm m-4 p-6 relative">
-            <button id="close-budget-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <h2 class="text-xl font-bold mb-4">Tambah Kantong Baru</h2>
-            <form id="add-budget-form">
-                <div class="mb-4">
-                    <label for="budget-name" class="block text-sm font-medium text-slate-700">Nama Kantong</label>
-                    <input type="text" id="budget-name" placeholder="cth: Gaji Bulanan" class="w-full mt-1 p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                </div>
-                <div class="mb-4">
-                     <label for="budget-amount" class="block text-sm font-medium text-slate-700">Jumlah Anggaran</label>
-                    <input type="number" id="budget-amount" placeholder="cth: 5000000" class="w-full mt-1 p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                </div>
-                <button type="submit" class="w-full btn-primary mt-2">Simpan Kantong</button>
-            </form>
-        </div>
-    </div>
-
-
-    <!-- Add Expense Modal -->
-    <div id="add-expense-modal" class="modal-backdrop hidden">
-        <div class="card w-full max-w-md m-4 p-6 relative">
-            <button id="close-modal-btn" class="absolute top-4 right-4 text-slate-500 hover:text-slate-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <h2 class="text-xl font-bold mb-4">Catat Pengeluaran Baru</h2>
-            <form id="expense-form">
-                <div class="mb-4">
-                    <label for="expense-desc" class="block text-sm font-medium text-slate-700">Deskripsi</label>
-                    <input type="text" id="expense-desc" class="mt-1 block w-full p-2 border border-slate-300 rounded-md" placeholder="Belanja bulanan di supermarket" required>
-                </div>
-                <div class="mb-4">
-                    <label for="expense-amount" class="block text-sm font-medium text-slate-700">Total Jumlah (Rp)</label>
-                    <input type="number" id="expense-amount" class="mt-1 block w-full p-2 border border-slate-300 rounded-md bg-slate-100" placeholder="0" readonly required>
-                </div>
-                <div class="border-t border-b border-slate-200 py-4 mb-4">
-                    <h3 class="text-md font-semibold text-slate-800 mb-2">Detail Belanja</h3>
-                    <div id="item-list-modal" class="space-y-2 mb-3 max-h-28 overflow-y-auto pr-1"></div>
-                    <div class="flex items-end gap-2">
-                        <div class="flex-grow">
-                            <label for="item-name" class="text-xs font-medium text-slate-600">Nama Barang</label>
-                            <input type="text" id="item-name" placeholder="cth: Susu UHT" class="w-full mt-1 p-2 text-sm border border-slate-300 rounded-md">
-                        </div>
-                        <div class="w-2/5">
-                            <label for="item-price" class="text-xs font-medium text-slate-600">Harga</label>
-                            <input type="number" id="item-price" placeholder="18000" class="w-full mt-1 p-2 text-sm border border-slate-300 rounded-md">
-                        </div>
-                        <button type="button" id="add-item-btn" class="p-2 bg-indigo-100 text-indigo-600 rounded-md hover:bg-indigo-200 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                        </button>
-                    </div>
-                    <p id="item-error" class="text-xs text-red-500 mt-1 h-4"></p>
-                </div>
-                 <div class="mb-4">
-                    <label for="expense-budget" class="block text-sm font-medium text-slate-700">Ambil dari Kantong (Opsional)</label>
-                    <select id="expense-budget" class="mt-1 block w-full p-2 border border-slate-300 rounded-md"></select>
-                </div>
-                <div class="mb-4">
-                    <label for="expense-category" class="block text-sm font-medium text-slate-700">Kategori</label>
-                    <select id="expense-category" class="mt-1 block w-full p-2 border border-slate-300 rounded-md" required></select>
-                </div>
-                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label for="expense-date" class="block text-sm font-medium text-slate-700">Tanggal</label>
-                        <input type="date" id="expense-date" class="mt-1 block w-full p-2 border border-slate-300 rounded-md" required>
-                    </div>
-                    <div>
-                        <label for="expense-receipt" class="block text-sm font-medium text-slate-700">Foto Struk (Opsional)</label>
-                         <input type="file" id="expense-receipt" accept="image/*" class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
-                    </div>
-                </div>
-                <button type="submit" class="w-full btn-primary mt-2">Simpan Pengeluaran</button>
-            </form>
         </div>
     </div>
     
-    <!-- Image Receipt Modal -->
-    <div id="image-modal" class="modal-backdrop hidden">
-        <div class="relative max-w-lg w-full m-4">
-             <button id="close-image-modal-btn" class="absolute -top-3 -right-3 bg-white rounded-full p-1.5 text-slate-800 hover:bg-slate-200 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <img id="receipt-image-content" src="" alt="Foto Struk" class="w-full h-auto object-contain rounded-lg max-h-[85vh]">
+    <!-- Modals -->
+    <!-- Budget Modal -->
+    <div id="budgetModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center z-40">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+            <h3 class="text-xl font-bold mb-4">Tambah Kantong Anggaran Baru</h3>
+            <input type="text" id="budgetNama" class="w-full px-3 py-2 border rounded-md mb-3" placeholder="Nama Kantong (e.g., Belanja Bulanan)">
+            <input type="number" id="budgetJumlah" class="w-full px-3 py-2 border rounded-md mb-4" placeholder="Jumlah Anggaran (e.g., 1500000)">
+            <div class="flex justify-end gap-3">
+                <button onclick="closeBudgetModal()" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">Batal</button>
+                <button onclick="addBudget()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Simpan</button>
+            </div>
         </div>
     </div>
 
+    <!-- Transaction Modal -->
+    <div id="transactionModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center z-40">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg max-h-screen overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4">Catat Pengeluaran</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                <div>
+                    <label for="transTanggal" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Transaksi</label>
+                    <input type="date" id="transTanggal" class="w-full px-3 py-2 border rounded-md">
+                </div>
+                <div>
+                    <label for="transJumlah" class="block text-sm font-medium text-gray-700 mb-1">Total Jumlah</label>
+                    <input type="number" id="transJumlah" class="w-full px-3 py-2 border rounded-md" placeholder="Otomatis jika detail diisi">
+                </div>
+            </div>
+
+            <input type="text" id="transDeskripsi" class="w-full px-3 py-2 border rounded-md mb-3" placeholder="Deskripsi Pengeluaran (e.g., Belanja di Supermarket A)">
+            <select id="transKategori" class="w-full px-3 py-2 border rounded-md mb-3">
+                <option value="">Pilih Kategori</option>
+                <option>Pendidikan Anak</option>
+                <option>Belanja Bahan Makanan</option>
+                <option>Gas, Air & Kebutuhan Dapur</option>
+                <option>Perlengkapan Mandi & Cuci</option>
+                <option>Token Listrik & Air PDAM</option>
+                <option>Pulsa & Paket Data</option>
+                <option>Transportasi</option>
+                <option>Dana Darurat</option>
+                <option>Kebutuhan Lainnya</option>
+                <option>Alokasi Dana</option>
+            </select>
+            <select id="transKantong" class="w-full px-3 py-2 border rounded-md mb-4">
+                <option value="">-- Opsional: Ambil dari Kantong --</option>
+                <!-- Kantong options will be populated here -->
+            </select>
+            
+            <div class="border-t pt-4 mb-4">
+                <h4 class="font-semibold mb-2">Detail Belanja (Opsional)</h4>
+                <div id="detailItemsContainer">
+                    <!-- Item fields will be added here -->
+                </div>
+                <button onclick="addDetailItem()" class="text-sm text-blue-600 hover:underline mt-2">+ Tambah Item</button>
+            </div>
+            
+             <div class="border-t pt-4 mb-4">
+                <h4 class="font-semibold mb-2">Foto Struk (Opsional)</h4>
+                <input type="file" id="transStruk" accept="image/*" class="w-full text-sm">
+                 <img id="strukPreview" src="" class="hidden mt-2 max-w-xs max-h-48 rounded-md"/>
+            </div>
+
+            <div class="flex justify-end gap-3 mt-4">
+                <button onclick="closeTransactionModal()" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">Batal</button>
+                <button onclick="addTransaction()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Simpan Transaksi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Viewer Modal -->
+    <div id="imageModal" class="modal fixed inset-0 bg-black bg-opacity-75 items-center justify-center z-50">
+        <div class="relative">
+            <button onclick="closeImageModal()" class="absolute -top-4 -right-4 text-white bg-red-600 rounded-full h-8 w-8 flex items-center justify-center">&times;</button>
+            <img id="modalImage" src="" class="max-w-screen-lg max-h-screen p-4">
+        </div>
+    </div>
+    
+    <!-- Tutup Buku Modal -->
+    <div id="tutupBukuModal" class="modal fixed inset-0 bg-gray-900 bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
+            <h3 class="text-xl font-bold mb-2">Konfirmasi Tutup Buku</h3>
+            <p class="text-gray-600 mb-4">Proses ini akan mereset pengeluaran kantong Anda untuk memulai bulan baru. Dana sisa/kurang akan dialokasikan.</p>
+            
+            <div id="tutupBukuInfo" class="mb-4 p-3 rounded-md">
+                <!-- Info surplus/defisit akan ditampilkan di sini -->
+            </div>
+
+            <div id="tutupBukuAction" class="mb-4">
+                <label for="tutupBukuTarget" class="block text-sm font-medium text-gray-700 mb-1">Alokasikan ke Kantong:</label>
+                <select id="tutupBukuTarget" class="w-full px-3 py-2 border rounded-md">
+                    <!-- Opsi kantong untuk alokasi -->
+                </select>
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="closeTutupBukuModal()" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300">Batal</button>
+                <button onclick="handleTutupBuku()" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Konfirmasi & Tutup Buku</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex flex-col items-center justify-center z-50">
+        <div class="loader"></div>
+        <p class="text-white mt-4">Memproses data...</p>
+    </div>
 
     <script>
-        // --- CONFIGURATION ---
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTJHW4Nknu2mSBIdXSk-sBdxwTWtYo88dF6F2R4rBNuCTuYpitv_EfESNptHye1c4B/exec';
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- STATE MANAGEMENT ---
-            let budgets = [];
-            let expenses = [];
-            let activeFilter = 'daily';
-            let expenseChart;
-            let tempItems = [];
-            let userPin = '';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxTJHW4Nknu2mSBIdXSk-sBdxwTWtYo88dF6F2R4rBNuCTuYpitv_EfESNptHye1c4B/exec'; // <-- GANTI DENGAN URL WEB APP ANDA
+        let currentPin = '';
+        let budgets = [];
+        let transactions = [];
+        let currentFilter = 'daily';
 
-            const categories = [
-                { id: 1, name: 'Makanan & Minuman', icon: '🍔' }, { id: 2, name: 'Transportasi', icon: '🚗' },
-                { id: 3, name: 'Tagihan', icon: '🧾' }, { id: 4, name: 'Belanja', icon: '🛒' },
-                { id: 5, name: 'Kesehatan', icon: '❤️' }, { id: 6, name: 'Pendidikan', icon: '🎓' },
-                { id: 7, name: 'Hiburan', icon: '🎬' }, { id: 8, name: 'Lainnya', icon: '📦' },
-            ];
-
-            // --- DOM ELEMENTS ---
-            const pinModal = document.getElementById('pin-modal');
-            const pinForm = document.getElementById('pin-form');
-            const pinInput = document.getElementById('pin-input');
-            const pinError = document.getElementById('pin-error');
-            const appContainer = document.getElementById('app');
-            const loadingOverlay = document.getElementById('loading-overlay');
-            const allButtons = document.querySelectorAll('button');
-            const addExpenseBtn = document.getElementById('add-expense-btn');
-            const modal = document.getElementById('add-expense-modal');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const expenseForm = document.getElementById('expense-form');
-            const addBudgetForm = document.getElementById('add-budget-form');
-            const addBudgetBtn = document.getElementById('add-budget-btn');
-            const budgetModal = document.getElementById('add-budget-modal');
-            const closeBudgetModalBtn = document.getElementById('close-budget-modal-btn');
-            const imageModal = document.getElementById('image-modal');
-            const closeImageModalBtn = document.getElementById('close-image-modal-btn');
-            const receiptImageContent = document.getElementById('receipt-image-content');
-
-
-            // --- API & DATA FUNCTIONS ---
-            const showLoading = (show) => {
-                loadingOverlay.classList.toggle('hidden', !show);
-                allButtons.forEach(btn => btn.disabled = show);
-            };
-
-            const fetchData = async () => {
-                showLoading(true);
-                try {
-                    const response = await fetch(SCRIPT_URL);
-                    const result = await response.json();
-                    if (result.status === 'success') {
-                        budgets = result.data.filter(d => d.Type === 'budget').map(d => ({
-                            id: d.ID, name: d.Data1, amount: Number(d.Data2)
-                        }));
-                        expenses = result.data.filter(d => d.Type === 'expense').map(d => ({
-                            id: d.ID, description: d.Data1, amount: Number(d.Data2),
-                            budgetId: d.Data3, categoryId: d.Data4,
-                            items: JSON.parse(d.Data5 || '[]'), date: d.Date,
-                            receiptUrl: d.Data6
-                        }));
-                        renderAll();
-                    } else {
-                        throw new Error(result.message);
-                    }
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                    alert('Gagal memuat data. Periksa koneksi dan setup Anda.');
-                } finally {
-                    showLoading(false);
-                }
-            };
-
-            const postData = async (action, payload) => {
-                showLoading(true);
-                try {
-                    const response = await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors', // Important for Apps Script POST
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ pin: userPin, action, payload }),
-                    });
-                    await fetchData();
-                } catch (error) {
-                    console.error(`Error with action ${action}:`, error);
-                    alert('Terjadi kesalahan. Data mungkin tidak tersimpan.');
-                    showLoading(false);
-                }
-            };
-            
-            // --- RENDER FUNCTIONS ---
-            const renderAll = () => {
-                renderBudgets();
-                renderSummaryAndChart();
-                populateSelectors();
-            };
-            
-            const formatCurrency = (amount) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
-
-            const renderBudgets = () => {
-                const budgetList = document.getElementById('budget-list');
-                budgetList.innerHTML = '';
-                if (budgets.length === 0) {
-                    budgetList.innerHTML = `<p class="text-slate-500 md:col-span-2 p-4 text-center">Belum ada kantong anggaran. Klik "Tambah Kantong" untuk memulai.</p>`;
+        // --- Authentication ---
+        async function login() {
+            const pinInput = document.getElementById('pinInput');
+            const pin = pinInput.value;
+            if (pin.length < 4) {
+                showLoginError('PIN minimal 4 digit.');
+                return;
+            }
+            showLoading('Mencoba masuk...');
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'login', pin: pin }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
+                if (result.status === 'ok') {
+                    currentPin = pin;
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    loadInitialData();
                 } else {
-                    budgets.forEach(budget => {
-                        const usedAmount = expenses
-                            .filter(e => e.budgetId == budget.id)
-                            .reduce((sum, e) => sum + e.amount, 0);
-                        const remainingAmount = budget.amount - usedAmount;
-                        const percentage = budget.amount > 0 ? (usedAmount / budget.amount) * 100 : 0;
-                        
-                        const budgetCard = document.createElement('div');
-                        budgetCard.className = 'card p-4 flex justify-between items-start';
-                        budgetCard.innerHTML = `
-                            <div class="flex-grow">
-                                <div class="flex justify-between items-baseline mb-2">
-                                    <p class="font-semibold text-slate-800">${budget.name}</p>
-                                    <p class="text-lg font-bold text-green-600">${formatCurrency(budget.amount)}</p>
-                                </div>
-                                <div class="w-full bg-slate-200 rounded-full h-2.5">
-                                    <div class="bg-indigo-600 h-2.5 rounded-full" style="width: ${percentage > 100 ? 100 : percentage}%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-slate-500 mt-1.5">
-                                    <span>Terpakai: <span class="font-semibold text-red-600">${formatCurrency(usedAmount)}</span></span>
-                                    <span>Sisa: <span class="font-semibold text-slate-800">${formatCurrency(remainingAmount)}</span></span>
-                                </div>
-                            </div>
-                            <button class="delete-budget-btn text-slate-400 hover:text-red-600 ml-3 flex-shrink-0" data-id="${budget.id}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                            </button>`;
-                        budgetList.appendChild(budgetCard);
-                    });
+                    showLoginError(result.message);
                 }
-            };
+            } catch (error) {
+                showLoginError('Gagal terhubung ke server.');
+            } finally {
+                hideLoading();
+            }
+        }
 
-            const renderSummaryAndChart = () => {
-                const now = new Date();
-                const filteredExpenses = expenses.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    if (activeFilter === 'daily') return expenseDate.toDateString() === now.toDateString();
-                    if (activeFilter === 'weekly') {
-                        const startOfWeek = new Date(now);
-                        startOfWeek.setDate(now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1)); // Monday as start
-                        startOfWeek.setHours(0,0,0,0);
-                        const endOfWeek = new Date(startOfWeek);
-                        endOfWeek.setDate(startOfWeek.getDate() + 6);
-                        endOfWeek.setHours(23,59,59,999);
-                        return expenseDate >= startOfWeek && expenseDate <= endOfWeek;
-                    }
-                    if (activeFilter === 'monthly') return expenseDate.getMonth() === now.getMonth() && expenseDate.getFullYear() === now.getFullYear();
-                    return false;
+        function showLoginError(message) {
+            const loginError = document.getElementById('loginError');
+            loginError.textContent = message;
+            loginError.classList.remove('hidden');
+        }
+
+        // --- Data Fetching and Display ---
+        async function loadInitialData() {
+            showLoading('Memuat data...');
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getData`);
+                const data = await response.json();
+                processData(data);
+                renderAll();
+            } catch (error) {
+                alert('Gagal memuat data awal. Pastikan URL Script benar dan sudah di-deploy.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function processData(data) {
+            budgets = [];
+            transactions = [];
+            let lastTutupBukuDate = new Date(0);
+
+            // Cari tanggal tutup buku terakhir
+            for (let i = data.length - 1; i >= 0; i--) {
+                if (data[i][2] === 'TUTUPBUKU') {
+                    lastTutupBukuDate = new Date(data[i][0]);
+                    break;
+                }
+            }
+
+            data.forEach(row => {
+                const rowDate = new Date(row[0]);
+                if (row[2] === 'BUDGET') {
+                    budgets.push({
+                        id: row[1],
+                        nama: row[3],
+                        jumlah: parseFloat(row[4])
+                    });
+                } else if (row[2] === 'TRANSACTION' && rowDate >= lastTutupBukuDate) {
+                     try {
+                        transactions.push({
+                            timestamp: row[0],
+                            id: row[1],
+                            deskripsi: row[3],
+                            jumlah: parseFloat(row[4]),
+                            kategori: row[5],
+                            kantongId: row[6],
+                            detail: row[7] ? JSON.parse(row[7]) : [],
+                            strukUrl: row[8]
+                        });
+                     } catch(e) { console.error("Gagal parse detail transaksi:", row); }
+                }
+            });
+            transactions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        }
+
+        function renderAll() {
+            renderBudgetList();
+            renderSummary();
+            filterTransactions(currentFilter);
+            populateKantongOptions();
+        }
+
+        function renderBudgetList() {
+            const budgetList = document.getElementById('budgetList');
+            budgetList.innerHTML = '';
+            if (budgets.length === 0) {
+                 budgetList.innerHTML = `<p class="text-gray-500 col-span-full">Belum ada kantong anggaran. Silakan tambahkan.</p>`;
+                 return;
+            }
+            budgets.forEach(budget => {
+                const expensesForBudget = transactions.filter(t => t.kantongId === budget.id).reduce((sum, t) => sum + t.jumlah, 0);
+                const sisa = budget.jumlah - expensesForBudget;
+                const progress = budget.jumlah > 0 ? (expensesForBudget / budget.jumlah) * 100 : 0;
+                let progressBarClass = 'progress-bar';
+                if (progress > 85) progressBarClass += ' danger';
+                else if (progress > 60) progressBarClass += ' warning';
+
+                budgetList.innerHTML += `
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-semibold text-gray-800">${budget.nama}</p>
+                                <p class="text-xl font-bold text-green-600">${formatRupiah(budget.jumlah)}</p>
+                            </div>
+                            <button onclick="confirmDeleteBudget('${budget.id}')" class="text-gray-400 hover:text-red-500">&times;</button>
+                        </div>
+                        <div class="mt-3 text-xs">
+                           <div class="flex justify-between mb-1">
+                                <span>Terpakai: <span class="font-semibold text-red-500">${formatRupiah(expensesForBudget)}</span></span>
+                                <span>Sisa: <span class="font-semibold text-blue-500">${formatRupiah(sisa)}</span></span>
+                           </div>
+                           <div class="w-full progress-bar-bg rounded-full h-2.5">
+                                <div class="${progressBarClass} h-2.5 rounded-full" style="width: ${Math.min(progress, 100)}%"></div>
+                           </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        function renderSummary() {
+            const totalBudget = budgets.reduce((sum, b) => sum + b.jumlah, 0);
+            const totalExpenses = transactions.reduce((sum, t) => sum + t.jumlah, 0);
+            const remaining = totalBudget - totalExpenses;
+            document.getElementById('summaryTotalBudget').textContent = formatRupiah(totalBudget);
+            document.getElementById('summaryTotalExpenses').textContent = formatRupiah(totalExpenses);
+            document.getElementById('summaryRemaining').textContent = formatRupiah(remaining);
+        }
+
+        function renderTransactions(filteredTransactions) {
+            const transactionList = document.getElementById('transactionList');
+            transactionList.innerHTML = '';
+            if (filteredTransactions.length === 0) {
+                transactionList.innerHTML = '<p class="text-gray-500 text-center py-4">Tidak ada transaksi untuk periode ini.</p>';
+                return;
+            }
+            filteredTransactions.forEach(t => {
+                const date = new Date(t.timestamp);
+                const dateString = date.toLocaleDateString('id-ID', { 
+                    weekday: 'long', 
+                    day: 'numeric', 
+                    month: 'long', 
+                    year: 'numeric' 
                 });
                 
-                const totalBudget = budgets.reduce((sum, b) => sum + b.amount, 0);
-                const totalAllExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
-                const totalFilteredExpense = filteredExpenses.reduce((sum, e) => sum + e.amount, 0);
-                const remainingBudget = totalBudget - totalAllExpenses;
-
-                document.getElementById('total-budget').textContent = formatCurrency(totalBudget);
-                document.getElementById('total-expense').textContent = formatCurrency(totalFilteredExpense);
-                document.getElementById('remaining-budget').textContent = formatCurrency(remainingBudget);
-
-                renderTransactionList(filteredExpenses);
-                renderChart(filteredExpenses);
-            };
-
-            const renderTransactionList = (filteredExpenses) => {
-                const transactionList = document.getElementById('transaction-list');
-                transactionList.innerHTML = '';
-                if (filteredExpenses.length === 0) {
-                    transactionList.innerHTML = `<p class="text-slate-500 text-center py-8">Belum ada transaksi.</p>`; return;
+                let detailHtml = '';
+                if (t.detail && t.detail.length > 0) {
+                    const itemsHtml = t.detail.map(item => `<li>${item.nama}: ${formatRupiah(item.harga)}</li>`).join('');
+                    detailHtml = `
+                        <button onclick="toggleDetail(this)" class="text-xs text-blue-500 hover:underline">Lihat Detail</button>
+                        <ul class="hidden text-xs text-gray-600 mt-1 pl-4 list-disc">
+                            ${itemsHtml}
+                        </ul>`;
                 }
-                const sortedExpenses = filteredExpenses.sort((a,b) => new Date(b.date) - new Date(a.date));
-                sortedExpenses.forEach(expense => {
-                    const category = categories.find(c => c.id == expense.categoryId) || {};
-                    const budget = budgets.find(b => b.id == expense.budgetId);
-                    const budgetName = budget ? budget.name : 'Tanpa Kantong';
-                    const expenseDate = new Date(expense.date);
-                    const formattedDate = new Intl.DateTimeFormat('id-ID', { weekday: 'long', day: 'numeric', month: 'long' }).format(expenseDate);
-                    
-                    const item = document.createElement('div');
-                    item.className = 'p-2 rounded-lg hover:bg-slate-50';
-                    item.innerHTML = `
-                        <div class="flex items-start justify-between">
-                            <div class="flex items-center gap-3">
-                                <span class="text-2xl pt-1">${category.icon || '❓'}</span>
-                                <div>
-                                    <p class="font-semibold">${expense.description}</p>
-                                    <p class="text-sm text-slate-500">${category.name || 'N/A'} | Dari: ${budgetName}</p>
-                                </div>
+                
+                let strukButton = '';
+                if (t.strukUrl && t.strukUrl !== 'error') {
+                    strukButton = `<button onclick="showImage('${t.strukUrl}')" class="text-xs text-green-600 hover:underline ml-2">Lihat Struk</button>`;
+                }
+
+                transactionList.innerHTML += `
+                    <div class="py-3 border-b last:border-b-0">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-semibold">${t.deskripsi}</p>
+                                <p class="text-sm text-gray-500">${t.kategori}</p>
+                                ${detailHtml}
+                                ${strukButton}
                             </div>
-                            <div class="text-right flex-shrink-0">
-                                <p class="font-semibold text-red-600">${formatCurrency(expense.amount)}</p>
-                                <p class="text-xs text-slate-400 mt-0.5">${formattedDate}</p>
-                                <div class="flex justify-end items-center gap-3 mt-1">
-                                    <button class="text-xs text-indigo-600 hover:underline view-details-btn" data-expense-id="${expense.id}" style="display: ${expense.items && expense.items.length > 0 ? 'inline' : 'none'}">Detail</button>
-                                    <button class="text-xs text-indigo-600 hover:underline view-receipt-btn" data-receipt-url="${expense.receiptUrl}" style="display: ${expense.receiptUrl && !expense.receiptUrl.startsWith('Error') ? 'inline' : 'none'}">Struk</button>
-                                    <button class="delete-expense-btn text-slate-400 hover:text-red-600" data-expense-id="${expense.id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                    </button>
-                                </div>
+                            <div class="text-right">
+                                <p class="font-bold text-red-500">${formatRupiah(t.jumlah)}</p>
+                                <p class="text-xs text-gray-400">${dateString}</p>
+                                <button onclick="confirmDeleteTransaction('${t.id}')" class="text-xs text-gray-400 hover:text-red-500 mt-1">Hapus</button>
                             </div>
                         </div>
-                        <div id="details-${expense.id}" class="hidden mt-2 pl-10 pr-2"></div>`;
-                    transactionList.appendChild(item);
+                    </div>
+                `;
+            });
+        }
+        
+        // --- Actions (Add, Delete, etc.) ---
+        
+        async function addBudget() {
+            const nama = document.getElementById('budgetNama').value;
+            const jumlah = document.getElementById('budgetJumlah').value;
+            if (!nama || !jumlah) {
+                alert('Nama dan jumlah kantong harus diisi.');
+                return;
+            }
+            showLoading('Menambahkan kantong...');
+            const payload = { action: 'addBudget', pin: currentPin, nama, jumlah: parseFloat(jumlah) };
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'application/json' }
                 });
-            };
-
-            const renderChart = (filteredExpenses) => {
-                const ctx = document.getElementById('expenseChart').getContext('2d');
-                const dataByCategory = categories.map(category => ({
-                    name: category.name,
-                    total: filteredExpenses.filter(e => e.categoryId == category.id).reduce((sum, e) => sum + e.amount, 0)
-                })).filter(c => c.total > 0);
-
-                if (expenseChart) expenseChart.destroy();
-                if (dataByCategory.length === 0) return;
-
-                expenseChart = new Chart(ctx, {
-                    type: 'doughnut', data: { labels: dataByCategory.map(c => c.name),
-                        datasets: [{ data: dataByCategory.map(c => c.total), backgroundColor: ['#6366f1', '#ec4899', '#22c55e', '#f97316', '#eab308', '#0ea5e9', '#8b5cf6', '#ef4444'], borderColor: '#fff', borderWidth: 2 }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false,
-                        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15 }}, tooltip: { callbacks: { label: (c) => `${c.label}: ${formatCurrency(c.parsed)}` }}},
-                        cutout: '60%'
-                    }
-                });
-            };
-
-            const populateSelectors = () => {
-                const budgetSelect = document.getElementById('expense-budget');
-                const categorySelect = document.getElementById('expense-category');
-                budgetSelect.innerHTML = '<option value="">-- Tanpa Kantong --</option>';
-                budgets.forEach(b => { budgetSelect.add(new Option(b.name, b.id)); });
-                categorySelect.innerHTML = '<option value="" disabled selected>Pilih Kategori</option>';
-                categories.forEach(c => { categorySelect.add(new Option(`${c.icon} ${c.name}`, c.id)); });
-            };
-            const updateTotalAmount = () => { document.getElementById('expense-amount').value = tempItems.reduce((sum, item) => sum + item.price, 0); };
-            const renderTempItems = () => {
-                const itemListModal = document.getElementById('item-list-modal');
-                itemListModal.innerHTML = '';
-                if (tempItems.length === 0) { itemListModal.innerHTML = `<p class="text-xs text-slate-400 text-center">Belum ada barang.</p>`; }
-                else {
-                    tempItems.forEach((item, index) => {
-                        const itemEl = document.createElement('div');
-                        itemEl.className = 'flex justify-between items-center text-sm bg-slate-50 p-1.5 rounded';
-                        itemEl.innerHTML = `<span>${item.name}</span><div class="flex items-center gap-2"><span class="font-medium">${formatCurrency(item.price)}</span><button type="button" class="delete-item-btn text-red-400 hover:text-red-600 font-bold" data-index="${index}">&times;</button></div>`;
-                        itemListModal.appendChild(itemEl);
+                const result = await response.json();
+                if (result.status === 'ok') {
+                    budgets.push({ id: result.newId, nama, jumlah: parseFloat(jumlah) });
+                    renderAll();
+                    closeBudgetModal();
+                } else {
+                    alert('Gagal: ' + result.message);
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan koneksi.');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        async function confirmDeleteBudget(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus kantong anggaran ini? Transaksi yang terkait tidak akan terhapus.')) {
+                showLoading('Menghapus kantong...');
+                const payload = { action: 'deleteBudget', pin: currentPin, id };
+                 try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
                     });
-                }
-                updateTotalAmount();
-            };
-             const fileToBase64 = (file) => new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-
-            // --- EVENT LISTENERS ---
-            pinForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const pin = pinInput.value;
-                showLoading(true);
-                try {
-                    userPin = pin;
-                    pinModal.classList.add('hidden');
-                    appContainer.classList.remove('blur-sm');
-                    await fetchData();
-                } catch (error) {
-                    pinError.textContent = "Gagal terhubung ke server.";
-                    console.error(error);
-                    showLoading(false);
-                }
-            });
-
-            const closeBudgetModal = () => {
-                budgetModal.classList.add('hidden');
-                addBudgetForm.reset();
-            };
-
-            addBudgetBtn.addEventListener('click', () => {
-                budgetModal.classList.remove('hidden');
-            });
-            closeBudgetModalBtn.addEventListener('click', closeBudgetModal);
-            budgetModal.addEventListener('click', (e) => {
-                if (e.target === budgetModal) closeBudgetModal();
-            });
-            
-            addBudgetForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const nameInput = document.querySelector('#add-budget-modal #budget-name');
-                const amountInput = document.querySelector('#add-budget-modal #budget-amount');
-                if (!nameInput.value || !amountInput.value) return;
-                const payload = { id: Date.now(), name: nameInput.value, amount: parseInt(amountInput.value) };
-                postData('addBudget', payload);
-                closeBudgetModal();
-            });
-
-            document.getElementById('budget-list').addEventListener('click', e => {
-                const deleteBtn = e.target.closest('.delete-budget-btn');
-                if (deleteBtn) {
-                    if (confirm('Anda yakin ingin menghapus kantong ini?')) {
-                        postData('deleteBudget', { id: deleteBtn.dataset.id });
-                    }
-                }
-            });
-
-            expenseForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (tempItems.length === 0) {
-                    alert('Mohon tambahkan setidaknya satu barang.'); return;
-                }
-                
-                const receiptFile = document.getElementById('expense-receipt').files[0];
-                let receiptImageBase64 = '';
-                if (receiptFile) {
-                    receiptImageBase64 = await fileToBase64(receiptFile);
-                }
-
-                const budgetIdValue = document.getElementById('expense-budget').value;
-                const payload = {
-                    id: Date.now(),
-                    amount: parseInt(document.getElementById('expense-amount').value),
-                    description: document.getElementById('expense-desc').value,
-                    budgetId: budgetIdValue ? parseInt(budgetIdValue) : 0,
-                    categoryId: parseInt(document.getElementById('expense-category').value),
-                    date: document.getElementById('expense-date').value,
-                    items: [...tempItems],
-                    receiptImage: receiptImageBase64,
-                };
-                postData('addExpense', payload);
-                modal.classList.add('hidden');
-            });
-            
-            const closeModal = () => { modal.classList.add('hidden'); tempItems = []; };
-            addExpenseBtn.addEventListener('click', () => { tempItems = []; expenseForm.reset(); renderTempItems(); document.getElementById('expense-date').valueAsDate = new Date(); modal.classList.remove('hidden'); });
-            closeModalBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
-
-            document.getElementById('add-item-btn').addEventListener('click', () => {
-                const name = document.getElementById('item-name').value.trim();
-                const price = parseInt(document.getElementById('item-price').value);
-                if (name && price > 0) {
-                    tempItems.push({ name, price }); renderTempItems();
-                    document.getElementById('item-name').value = '';
-                    document.getElementById('item-price').value = '';
-                    document.getElementById('item-name').focus();
-                }
-            });
-
-            document.getElementById('item-list-modal').addEventListener('click', (e) => {
-                if (e.target.classList.contains('delete-item-btn')) {
-                    tempItems.splice(parseInt(e.target.dataset.index), 1); renderTempItems();
-                }
-            });
-
-            document.getElementById('filter-container').addEventListener('click', (e) => {
-                if(e.target.tagName === 'BUTTON') {
-                    document.querySelector('.filter-btn.active').classList.remove('active');
-                    e.target.classList.add('active'); activeFilter = e.target.dataset.filter;
-                    renderSummaryAndChart();
-                }
-            });
-
-            document.getElementById('transaction-list').addEventListener('click', (e) => {
-                const detailsBtn = e.target.closest('.view-details-btn');
-                if (detailsBtn) {
-                    const expenseId = parseInt(detailsBtn.dataset.expenseId);
-                    const expense = expenses.find(exp => exp.id == expenseId);
-                    const detailsContainer = document.getElementById(`details-${expenseId}`);
-                    if (detailsContainer.classList.contains('hidden')) {
-                        detailsContainer.classList.remove('hidden'); detailsBtn.textContent = 'Sembunyikan';
-                        let itemsHtml = '<ul class="text-sm space-y-1 text-slate-600 border-l-2 border-slate-200 pl-4 py-1">';
-                        expense.items.forEach(item => { itemsHtml += `<li class="flex justify-between"><span>- ${item.name}</span> <span>${formatCurrency(item.price)}</span></li>`; });
-                        itemsHtml += '</ul>'; detailsContainer.innerHTML = itemsHtml;
+                    const result = await response.json();
+                    if (result.status === 'ok') {
+                        budgets = budgets.filter(b => b.id !== id);
+                        renderAll();
                     } else {
-                        detailsContainer.classList.add('hidden'); detailsBtn.textContent = 'Detail'; detailsContainer.innerHTML = '';
+                        alert('Gagal: ' + result.message);
                     }
+                } catch (error) {
+                    alert('Terjadi kesalahan koneksi.');
+                } finally {
+                    hideLoading();
                 }
+            }
+        }
+        
+        async function addTransaction() {
+            const tanggal = document.getElementById('transTanggal').value;
+            const deskripsi = document.getElementById('transDeskripsi').value;
+            let jumlah = parseFloat(document.getElementById('transJumlah').value);
+            const kategori = document.getElementById('transKategori').value;
+            const kantongId = document.getElementById('transKantong').value;
+            const strukFile = document.getElementById('transStruk').files[0];
 
-                const receiptBtn = e.target.closest('.view-receipt-btn');
-                if (receiptBtn) {
-                    const imageUrl = receiptBtn.dataset.receiptUrl;
-                    receiptImageContent.src = imageUrl;
-                    imageModal.classList.remove('hidden');
-                }
-
-                const deleteBtn = e.target.closest('.delete-expense-btn');
-                if (deleteBtn) {
-                    const expenseId = deleteBtn.dataset.expenseId;
-                    if (confirm('Anda yakin ingin menghapus transaksi ini? Data yang dihapus tidak bisa dikembalikan.')) {
-                        postData('deleteExpense', { id: expenseId });
-                    }
+            const detailItems = [];
+            const detailNodes = document.querySelectorAll('.detail-item');
+            let totalDetail = 0;
+            detailNodes.forEach(node => {
+                const nama = node.querySelector('.detail-item-nama').value;
+                const harga = parseFloat(node.querySelector('.detail-item-harga').value);
+                if (nama && harga > 0) {
+                    detailItems.push({ nama, harga });
+                    totalDetail += harga;
                 }
             });
+            
+            if (detailItems.length > 0) {
+                jumlah = totalDetail;
+            }
 
-            const closeImageModal = () => {
-                imageModal.classList.add('hidden');
-                receiptImageContent.src = '';
+            if (!tanggal || !deskripsi || !jumlah || !kategori) {
+                alert('Tanggal, deskripsi, jumlah, dan kategori harus diisi.');
+                return;
+            }
+            
+            showLoading('Menyimpan transaksi...');
+            
+            let base64Struk = "";
+            if (strukFile) {
+                base64Struk = await toBase64(strukFile);
+            }
+
+            const payload = { 
+                action: 'addTransaction', 
+                pin: currentPin, 
+                tanggal: tanggal,
+                deskripsi, 
+                jumlah, 
+                kategori, 
+                kantongId, 
+                detail: detailItems,
+                struk: base64Struk
             };
-            closeImageModalBtn.addEventListener('click', closeImageModal);
-            imageModal.addEventListener('click', e => {
-                if (e.target === imageModal) closeImageModal();
-            });
 
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
+                if (result.status === 'ok') {
+                    // Refresh data from server to ensure correct timestamp
+                    loadInitialData();
+                    closeTransactionModal();
+                } else {
+                    alert('Gagal: ' + result.message);
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan koneksi.');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        async function confirmDeleteTransaction(id) {
+             if (confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
+                showLoading('Menghapus transaksi...');
+                const payload = { action: 'deleteTransaction', pin: currentPin, id };
+                 try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const result = await response.json();
+                    if (result.status === 'ok') {
+                        transactions = transactions.filter(t => t.id !== id);
+                        renderAll();
+                    } else {
+                        alert('Gagal: ' + result.message);
+                    }
+                } catch (error) {
+                    alert('Terjadi kesalahan koneksi.');
+                } finally {
+                    hideLoading();
+                }
+            }
+        }
+
+        async function handleTutupBuku() {
+            const targetKantongId = document.getElementById('tutupBukuTarget').value;
+            if (!targetKantongId) {
+                alert('Silakan pilih kantong tujuan untuk alokasi dana.');
+                return;
+            }
+
+            const { totalSisa, sisaPerKantong } = calculateSurplus();
+            
+            showLoading('Memproses tutup buku...');
+            const payload = {
+                action: 'tutupbuku',
+                pin: currentPin,
+                totalSisa,
+                sisaPerKantong,
+                targetKantongId
+            };
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
+                if (result.status === 'ok') {
+                    alert('Tutup buku berhasil! Data akan dimuat ulang untuk periode baru.');
+                    closeTutupBukuModal();
+                    loadInitialData(); // Muat ulang semua data
+                } else {
+                    alert('Gagal: ' + result.message);
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan koneksi.');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // --- Modal Controls ---
+        
+        function openBudgetModal() { document.getElementById('budgetModal').classList.add('flex'); }
+        function closeBudgetModal() { 
+            document.getElementById('budgetModal').classList.remove('flex'); 
+            document.getElementById('budgetNama').value = '';
+            document.getElementById('budgetJumlah').value = '';
+        }
+
+        function openTransactionModal() {
+            document.getElementById('transactionModal').classList.add('flex');
+            document.getElementById('detailItemsContainer').innerHTML = '';
+            // Set default date to today
+            document.getElementById('transTanggal').valueAsDate = new Date();
+            addDetailItem();
+        }
+        function closeTransactionModal() {
+            document.getElementById('transactionModal').classList.remove('flex');
+            document.getElementById('transDeskripsi').value = '';
+            document.getElementById('transJumlah').value = '';
+            document.getElementById('transStruk').value = '';
+            document.getElementById('strukPreview').classList.add('hidden');
+        }
+        
+        function openTutupBukuModal() {
+            const { totalSisa, sisaPerKantong } = calculateSurplus();
+            const infoDiv = document.getElementById('tutupBukuInfo');
+            const actionDiv = document.getElementById('tutupBukuAction');
+            const targetSelect = document.getElementById('tutupBukuTarget');
+            
+            targetSelect.innerHTML = budgets.map(b => `<option value="${b.id}">${b.nama}</option>`).join('');
+
+            if (totalSisa >= 0) {
+                infoDiv.className = 'mb-4 p-3 rounded-md bg-green-100 text-green-800';
+                infoDiv.innerHTML = `Anda memiliki <strong>sisa dana (surplus)</strong> sebesar <strong>${formatRupiah(totalSisa)}</strong>.`;
+                actionDiv.querySelector('label').textContent = 'Pindahkan sisa dana ke kantong:';
+            } else {
+                infoDiv.className = 'mb-4 p-3 rounded-md bg-red-100 text-red-800';
+                infoDiv.innerHTML = `Anda memiliki <strong>kekurangan dana (defisit)</strong> sebesar <strong>${formatRupiah(Math.abs(totalSisa))}</strong>.`;
+                 actionDiv.querySelector('label').textContent = 'Ambil dana dari kantong berikut untuk menutupi:';
+            }
+            document.getElementById('tutupBukuModal').classList.add('flex');
+        }
+        function closeTutupBukuModal() { document.getElementById('tutupBukuModal').classList.remove('flex'); }
+        
+        // --- Utility and Helper Functions ---
+        
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+        }
+        
+        function showLoading(message = 'Memproses...') {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.querySelector('p').textContent = message;
+            overlay.style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+        
+        function populateKantongOptions() {
+            const select = document.getElementById('transKantong');
+            select.innerHTML = '<option value="">-- Opsional: Ambil dari Kantong --</option>';
+            budgets.forEach(b => {
+                select.innerHTML += `<option value="${b.id}">${b.nama}</option>`;
+            });
+        }
+        
+        function addDetailItem() {
+            const container = document.getElementById('detailItemsContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'flex gap-2 mb-2 detail-item';
+            newItem.innerHTML = `
+                <input type="text" class="w-2/3 px-2 py-1 border rounded-md detail-item-nama" placeholder="Nama Item">
+                <input type="number" class="w-1/3 px-2 py-1 border rounded-md detail-item-harga" placeholder="Harga" oninput="updateTotalJumlah()">
+                <button type="button" onclick="this.parentElement.remove(); updateTotalJumlah()" class="text-red-500 font-bold">&times;</button>
+            `;
+            container.appendChild(newItem);
+        }
+        
+        function updateTotalJumlah() {
+            let total = 0;
+            document.querySelectorAll('.detail-item-harga').forEach(input => {
+                const value = parseFloat(input.value);
+                if (!isNaN(value)) {
+                    total += value;
+                }
+            });
+            document.getElementById('transJumlah').value = total > 0 ? total : '';
+        }
+        
+        document.getElementById('transStruk').addEventListener('change', function(event){
+            const [file] = event.target.files;
+            if (file) {
+                const preview = document.getElementById('strukPreview');
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('hidden');
+            }
         });
+        
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+        
+        function toggleDetail(button) {
+            const ul = button.nextElementSibling;
+            ul.classList.toggle('hidden');
+            button.textContent = ul.classList.contains('hidden') ? 'Lihat Detail' : 'Sembunyikan Detail';
+        }
+        
+        function showImage(url) {
+            document.getElementById('modalImage').src = url;
+            document.getElementById('imageModal').classList.add('flex');
+        }
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.remove('flex');
+            document.getElementById('modalImage').src = '';
+        }
+        
+        function filterTransactions(period) {
+            currentFilter = period;
+            const now = new Date();
+            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const startOfWeek = new Date(startOfDay);
+            startOfWeek.setDate(startOfDay.getDate() - now.getDay());
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            let filtered;
+            if (period === 'daily') {
+                filtered = transactions.filter(t => new Date(t.timestamp) >= startOfDay);
+            } else if (period === 'weekly') {
+                filtered = transactions.filter(t => new Date(t.timestamp) >= startOfWeek);
+            } else { // monthly
+                filtered = transactions.filter(t => new Date(t.timestamp) >= startOfMonth);
+            }
+
+            renderTransactions(filtered);
+            updateFilterButtons(period);
+        }
+        
+        function updateFilterButtons(activePeriod) {
+            ['daily', 'weekly', 'monthly'].forEach(period => {
+                const btn = document.getElementById(`filter${period.charAt(0).toUpperCase() + period.slice(1)}Btn`);
+                if (period === activePeriod) {
+                    btn.className = 'px-3 py-1 text-sm rounded-md bg-blue-500 text-white';
+                } else {
+                    btn.className = 'px-3 py-1 text-sm rounded-md bg-gray-200 text-gray-700';
+                }
+            });
+        }
+        
+        function calculateSurplus() {
+            const sisaPerKantong = budgets.map(budget => {
+                const expensesForBudget = transactions.filter(t => t.kantongId === budget.id).reduce((sum, t) => sum + t.jumlah, 0);
+                return {
+                    id: budget.id,
+                    nama: budget.nama,
+                    sisa: budget.jumlah - expensesForBudget
+                };
+            });
+            const totalSisa = sisaPerKantong.reduce((sum, b) => sum + b.sisa, 0);
+            return { totalSisa, sisaPerKantong };
+        }
+
     </script>
 </body>
 </html>
-
-
 
