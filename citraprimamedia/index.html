@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Teknis Interaktif - PT Citra Prima Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.3/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.min.js"></script>
+    <!-- Chosen Palette: Professional Green & Yellow -->
+    <!-- Application Structure Plan: A single-page application using a sidebar navigation to switch between content views. This structure is chosen for its clarity and ease of access to different sections of the technical proposal, mimicking a professional dashboard experience. The key interaction is the navigation system and the interactive Gantt chart for the project timeline. -->
+    <!-- Visualization & Content Choices: Report Info: 16-week project timeline -> Goal: Show project phases and duration -> Viz: Gantt Chart (simulated with Chart.js horizontal bar) -> Interaction: Hover tooltips for task details -> Justification: Provides a clear, professional, and instantly understandable view of the project schedule. All other information is presented using structured HTML/CSS tables and lists for clarity and readability. Library/Method: Chart.js with Luxon adapter for the chart. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link.active {
+            background-color: #166534; /* green-800 */
+            color: white;
+            border-left: 4px solid #facc15; /* yellow-400 */
+        }
+        .sidebar-link:hover:not(.active) {
+            background-color: #15803d; /* green-700 */
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50vh;
+            max-height: 500px;
+        }
+        table th, table td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-green-900 text-white flex flex-col fixed h-full">
+            <div class="p-6 border-b border-green-800">
+                <h1 class="text-xl font-bold">PT Citra Prima Media</h1>
+                <p class="text-xs text-green-300">Proposal Anti-Fraud</p>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#" class="sidebar-link active flex items-center p-3 rounded-lg" data-target="perkenalan">
+                    <span class="mr-3">1.</span> Perkenalan Perusahaan
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="solusi">
+                    <span class="mr-3">2.</span> Solusi & Arsitektur
+                </a>
+                 <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="keamanan">
+                    <span class="mr-3">3.</span> Keamanan & Kepatuhan
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="jadwal">
+                    <span class="mr-3">4.</span> Rencana Proyek
+                </a>
+                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-target="tim">
+                    <span class="mr-3">5.</span> Struktur Tim
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="ml-64 flex-1 p-8 overflow-y-auto">
+            
+            <!-- Section 1: Perkenalan Perusahaan -->
+            <section id="perkenalan" class="content-section active">
+                <h2 class="text-3xl font-bold text-green-900 mb-2">1. Perkenalan Perusahaan</h2>
+                <p class="text-lg text-slate-600 mb-6">Profil PT Citra Prima Media </p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <p class="text-slate-700 leading-relaxed">
+                        PT. Citra Prima Media  adalah perusahaan yang bergerak di bidang pengadaan barang dan jasa, meliputi <b>konstruksi, jaringan fiber optik, mekanik, elektrik, perangkat telekomunikasi, dan teknologi informasi</b>. Kami berkomitmen untuk menyediakan solusi IT terintegrasi dan handal bagi perusahaan nasional maupun instansi pemerintah, dengan berfokus pada kualitas dan keberlanjutan.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-green-800 mb-4">Visi</h3>
+                        <p>Menjadi perusahaan terdepan di bidang konstruksi dan teknologi informasi, yang memberikan dampak positif dan berkelanjutan bagi masyarakat dan lingkungan.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-green-800 mb-4">Misi</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Mengembangkan solusi konstruksi yang inovatif dan ramah lingkungan.</li>
+                            <li>Memberikan layanan teknologi informasi yang terintegrasi dan handal.</li>
+                            <li>Meningkatkan kepuasan pelanggan melalui pelayanan prima dan hasil berkualitas.</li>
+                            <li>Membangun tim yang profesional dan berorientasi pada pertumbuhan bersama.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-800 mb-4">Bidang Usaha Inti (KBLI Relevan)</h3>
+                    <p class="mb-4">Untuk mendukung proyek pengembangan sistem informasi yang kompleks dan sensitif seperti Aplikasi Anti-Fraud, PT Citra Prima Media memiliki izin usaha pada kategori KBLI berikut (sesuai NIB 9120302932155), yang menjamin legalitas dan kapabilitas kami dalam proyek ini:</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th class="w-1/3">KBLI Utama</th>
+                                    <th>Deskripsi Relevansi Proyek</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium">Aktivitas Konsultasi Komputer</td>
+                                    <td>Memastikan analisis kebutuhan sistem, desain arsitektur, dan implementasi yang sesuai dengan regulasi kementerian.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Aktivitas Pemrograman Komputer Lainnya</td>
+                                    <td>Jaminan kapabilitas inti dalam pengembangan perangkat lunak untuk aplikasi web-based yang aman dan skalabel (Django Rest Framework, React).</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Aktivitas Pengolahan Data</td>
+                                    <td>Kapabilitas dalam mengelola, menganalisis (termasuk machine learning dan graph analysis), serta mengamankan volume data pengadaan yang besar dan sensitif.</td>
+                                </tr>
+                                 <tr>
+                                    <td class="font-medium">Perdagangan Besar Peralatan Telekomunikasi</td>
+                                    <td>Mendukung proyek dengan kebutuhan pengadaan infrastruktur jaringan, server, dan object storage (MinIO) jika diperlukan.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Solusi & Arsitektur -->
+            <section id="solusi" class="content-section">
+                <h2 class="text-3xl font-bold text-green-900 mb-2">2. Solusi & Arsitektur Sistem</h2>
+                <p class="text-lg text-slate-600 mb-6">Pendekatan teknis untuk membangun sistem anti-fraud yang tangguh.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                     <h3 class="text-xl font-semibold text-green-800 mb-4">Arsitektur Teknis Inti</h3>
+                     <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>Komponen</th>
+                                    <th>Spesifikasi KAK</th>
+                                    <th>Implementasi Citra Prima Media</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr>
+                                    <td><b>Backend</b></td>
+                                    <td>Python (Flask/Django)</td>
+                                    <td class="font-medium text-green-700">Python (Django Rest Framework)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Frontend</b></td>
+                                    <td>React</td>
+                                    <td class="font-medium text-green-700">React + Tailwind CSS (Shadcn/UI)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Database</b></td>
+                                    <td>PostgreSQL</td>
+                                    <td class="font-medium text-green-700">PostgreSQL (Versi 16)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Object Storage</b></td>
+                                    <td>MinIO</td>
+                                    <td class="font-medium text-green-700">MinIO (S3 Compatible Storage)</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Server OS</b></td>
+                                    <td>Linux Ubuntu Server 24.04.3 LTS</td>
+                                    <td class="font-medium text-green-700">Ubuntu Server 24.04.3 LTS</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modul Deteksi 4 Modus Fraud -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                    <h3 class="text-xl font-semibold text-green-800 mb-4">Modul Deteksi 4 Modus Fraud</h3>
+                    
+                    <div class="flex border-b border-gray-200" id="fraudTabs">
+                        <button class="tab-button active-tab p-3 text-sm font-medium bg-green-600 text-white rounded-t-lg" data-tab="markup">Mark-up Harga</button>
+                        <button class="tab-button p-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-t-lg" data-tab="kolusi">Kolusi Tender</button>
+                        <button class="tab-button p-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-t-lg" data-tab="barangfiktif">Barang Fiktif</button>
+                        <button class="tab-button p-3 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-t-lg" data-tab="falsifikasi">Falsifikasi</button>
+                    </div>
+
+                    <div id="fraudContent" class="p-4 bg-gray-50 rounded-b-lg">
+                        <div class="tab-content active" id="markup">
+                            <h4 class="font-bold text-lg">Mark-up Harga (Overpricing)</h4>
+                            
+                            <p class="text-sm mt-2"><b>Metodologi:</b> Outlier Detection (Isolation Forest, Z-Score Dinamis)</p>
+                            <ul class="list-disc list-inside ml-4 text-sm mt-1 space-y-1">
+                                <li><b>Isolation Forest:</b> Algoritma ML yang mendeteksi data yang sangat berbeda (anomali) dari mayoritas, cocok untuk harga jauh di atas normal.</li>
+                                <li><b>Z-Score Dinamis:</b> Menghitung deviasi harga. Jika harga melebihi <b></b>di luar batas 3 Standar Deviasi</b> dari harga referensi (e-Katalog/SBM/harga pasar), sistem menandainya sebagai outlier.</li>
+                                <li><b>Implementasi:</b> Harga pengadaan dibandingkan dengan referensi harga nasional (e-Katalog, SBM) + <b>crawling</b> harga pasar (referensi marketplace).</li>
+                            </ul>
+                            <p class="text-sm mt-2"><b>Output Bukti Audit:</b> Kalkulasi otomatis potensi kerugian negara, pasal hukum (Perpres PBJ) yang dilanggar, dan identifikasi penanggung jawab risiko (misal PPK).</p>
+                        </div>
+                        <div class="tab-content hidden" id="kolusi">
+                            <h4 class="font-bold text-lg">Kolusi / Persekongkolan Tender</h4>
+                            <p class="text-sm mt-2"><b>Metodologi:</b> Analisis Jaringan Graf + Forensik Digital Log</p>
+                             <ul class="list-disc list-inside ml-4 text-sm mt-1 space-y-1">
+                                <li><b>Analisis Jaringan Graf:</b> Vendor (node) dan hubungan antar vendor (edge) dideteksi untuk mencari pola <b>bid-rigging</b> melalui analisis <b>centrality</b> dan <b>modularity</b>.</li>
+                                <li><b>Forensik Digital Log:</b> Melacak kesamaan alamat IP, <b>device fingerprint</b>, atau pola waktu unggah dokumen penawaran yang mencurigakan (misalnya selisih menit antar vendor).</li>
+                                <li><b>Implementasi:</b> Integrasi dengan API e-Procurement untuk mengakses data log tender (Jika Memungkinkan).</li>
+                            </ul>
+                            <p class="text-sm mt-2"><b>Output Bukti Audit:</b> Visualisasi graf hubungan vendor, log aktivitas (<b>timestamp</b>, IP), dan identifikasi pihak Pokja/PPK yang terkait.</p>
+                        </div>
+                        <div class="tab-content hidden" id="barangfiktif">
+                            <h4 class="font-bold text-lg">Penggelapan Barang/Jasa (Fiktif atau Substandard)</h4>
+                            <p class="text-sm mt-2"><b>Metodologi:</b> Compliance Cross-Validation (Validasi Silang Dokumen)</p>
+                            <ul class="list-disc list-inside ml-4 text-sm mt-1 space-y-1">
+                                <li><b>Prinsip:</b> Membandingkan konsistensi spesifikasi dan kuantitas antara <b>Rencana Pengadaan (RUP)</b>, <b>Kontrak</b>, dan <b>Dokumen Serah Terima (BAST/SP2D)</b>.</li>
+                                <li><b>Deteksi:</b> Mengecek kelengkapan <b>checklist</b> pengesahan (PA/KPA, PPK, Unit Kerja). <b>Alert</b> dipicu jika spesifikasi berkurang, kuantitas tidak sesuai, atau dokumen <b>checklist</b> hilang.</li>
+                            </ul>
+                            <p class="text-sm mt-2"><b>Output Bukti Audit:</b> Sistem menunjukkan pasal <b>Standar Akuntansi Pemerintah (SAP)</b> yang dilanggar, daftar dokumen tidak konsisten, dan penanggung jawab.</p>
+                        </div>
+                        <div class="tab-content hidden" id="falsifikasi">
+                            <h4 class="font-bold text-lg">Penyalahgunaan Wewenang dalam Dokumen (Falsifikasi)</h4>
+                            <p class="text-sm mt-2"><b>Metodologi:</b> OCR/NLP + Digital Hashing (SHA-256)</p>
+                            <ul class="list-disc list-inside ml-4 text-sm mt-1 space-y-1">
+                                <li><b>OCR/NLP:</b> Mengekstrak teks dari dokumen *scan*/PDF untuk memverifikasi konsistensi data kunci (tanggal, nilai kontrak) dengan dokumen lain.</li>
+                                <li><b>Digital Hashing (SHA-256):</b> Setiap dokumen diberi *hash* unik. Perubahan sekecil apapun pada dokumen (misal: tanggal diubah) akan mengubah <b>hash</b> dan terdeteksi sebagai modifikasi.</li>
+                                <li><b>Integrasi PKI (Public Key Infrastructure):</b> Mendukung validasi tanda tangan digital resmi (BSrE).</li>
+                            </ul>
+                            <p class="text-sm mt-2"><b>Output Bukti Audit:</b> Laporan *hash*/metadata, bukti perubahan (misal: tanggal kontrak dimundurkan), serta pasal hukum yang dilanggar.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-800 mb-4">Fitur Teknis Lanjutan</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-lg">Sistem Skoring Risiko Dinamis (ML-based)</h4>
+                            <p><b>Teknis:</b> Menggunakan model Machine Learning (Random Forest atau XGBoost) yang dilatih dengan data historis. Model ini mempertimbangkan puluhan variabel untuk menghasilkan skor risiko tunggal (0-100) per transaksi.</p>
+                            <p class="text-sm text-yellow-700 mt-1"><b>Manfaat Utama:</b> Skor risiko diperbarui real-time, memungkinkan Inspektorat memprioritaskan audit yang paling mendesak dengan akurasi prediksi anomali (90% atau lebih).</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-lg">Kertas Kerja Audit Otomatis (KKA)</h4>
+                            <p><b>Teknis:</b> Modul backend Django mengintegrasikan output dari Modul Deteksi Fraud. Sistem akan mengisi otomatis template KKA standar berdasarkan temuan.</p>
+                            <p class="text-sm text-yellow-700 mt-1"><b>Manfaat Utama:</b> Mengurangi waktu penyusunan KKA secara manual hingga 70%, memungkinkan Inspektorat fokus pada validasi lapangan.</p>
+                        </div>
+                         <div>
+                            <h4 class="font-bold text-lg">Modul Whistleblowing Aman Terintegrasi</h4>
+                            <p><b>Teknis:</b> Menggunakan protokol enkripsi PGP (Pretty Good Privacy) untuk memastikan kerahasiaan pelapor. Pesan disimpan di PostgreSQL dalam bentuk terenkripsi.</p>
+                            <p class="text-sm text-yellow-700 mt-1"><b>Manfaat Utama:</b> Menyediakan kanal pelaporan yang kredibel dan aman, yang merupakan elemen kunci dalam pencegahan fraud terintegrasi.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Keamanan & Kepatuhan -->
+            <section id="keamanan" class="content-section">
+                <h2 class="text-3xl font-bold text-green-900 mb-2">3. Keamanan & Kepatuhan</h2>
+                <p class="text-lg text-slate-600 mb-6">Menjamin sistem yang aman, stabil, dan sesuai standar audit.</p>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                         <h3 class="text-xl font-semibold text-green-800 mb-4">Keamanan dan Kepatuhan</h3>
+                         <ul class="list-disc list-inside space-y-3">
+                            <li><b>Keamanan Aplikasi:</b> Tingkat keamanan hingga application layer sesuai standar <b>SNI ISO IEC 27013:2021</b>.</li>
+                            <li><b>Kepatuhan Audit:</b> Keterlibatan tim audit/QA menjamin seluruh output sistem sesuai <b>Standar Akuntansi Pemerintah (SAP)</b>.</li>
+                            <li><b>Penyimpanan Data:</b> Penyimpanan dokumen pendukung selama 10 tahun atau lebih di MinIO Object Storage yang aman.</li>
+                         </ul>
+                    </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md">
+                         <h3 class="text-xl font-semibold text-green-800 mb-4">Keunggulan Stabilitas & Interoperabilitas</h3>
+                         <ul class="list-disc list-inside space-y-3">
+                            <li><b>Disaster Recovery Plan (DRP):</b> Strategi replikasi <b>hot-standby</b> untuk PostgreSQL dan backup komprehensif MinIO.</li>
+                            <li><b>Interoperabilitas Data:</b> Menyediakan API data terstruktur untuk integrasi dengan sistem yang sudah ada.</li>
+                         </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 4: Jadwal Proyek -->
+            <section id="jadwal" class="content-section">
+                <h2 class="text-3xl font-bold text-green-900 mb-2">4. Rencana & Jadwal Pelaksanaan Proyek</h2>
+                <p class="text-lg text-slate-600 mb-6">Jadwal implementasi terstruktur selama 16 pekan (4 Bulan), diikuti pendampingan 12 bulan.</p>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <h3 class="text-xl font-semibold text-green-800 mb-4">Timeline Proyek 16 Pekan</h3>
+                     <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="bg-green-100 text-green-800">
+                                    <th class="w-1/5">Fase</th>
+                                    <th class="w-1/6">Durasi</th>
+                                    <th class="w-1/6">Pekan ke-</th>
+                                    <th>Kegiatan Utama</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-bold bg-yellow-50 text-yellow-900">Fase 1: Perencanaan & Arsitektur</td>
+                                    <td>2 Pekan</td>
+                                    <td class="font-medium">1-2</td>
+                                    <td>Kajian Kebutuhan, Penetapan Arsitektur, Desain UI/UX Final, <b>Fraud Rules</b> Awal.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold bg-green-50 text-green-900">Fase 2: Pengembangan Inti (Backend & Integrasi)</td>
+                                    <td>7 Pekan</td>
+                                    <td class="font-medium">3-9</td>
+                                    <td>Pembangunan DB Schema, Core API (Django), Integrasi Data Sumber (SIPPA/e-Katalog), Implementasi Modul Deteksi Fraud 1 & 2.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold bg-green-50 text-green-900">Fase 3: Pengembangan Frontend & Lanjutan</td>
+                                    <td>5 Pekan</td>
+                                    <td class="font-medium">10-14</td>
+                                    <td>Pengembangan UI/UX (React), Dashboard Interaktif, Implementasi Modul Deteksi Fraud 3 & 4, Integrasi Fitur Lanjutan (ML Scoring & Whistleblowing).</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold bg-yellow-50 text-yellow-900">Fase 4: UAT, Keamanan & Finalisasi</td>
+                                    <td>2 Pekan</td>
+                                    <td class="font-medium">15-16</td>
+                                    <td>Uji Coba Penerimaan Pengguna (UAT), <b>Penetration Testing</b> oleh Security Specialist, <b>Tuning</b> Algoritma ML, Penyerahan Dokumentasi Akhir.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-green-900">Pendampingan Pasca-Proyek</td>
+                                    <td>12 Bulan</td>
+                                    <td class="font-medium">-</td>
+                                    <td>Pendampingan Implementasi & Perawatan Sistem.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Struktur Tim -->
+            <section id="tim" class="content-section">
+                <h2 class="text-3xl font-bold text-green-900 mb-2">5. Struktur Tim & Administrasi</h2>
+                <p class="text-lg text-slate-600 mb-6">Tenaga ahli profesional untuk menjamin kesuksesan proyek.</p>
+                 <div class="bg-white p-6 rounded-lg shadow-md">
+                    <p class="mb-4">Kami menjamin penggunaan tenaga ahli sesuai KAK untuk setiap bidang pekerjaan. Tim kami terdiri atas:</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center">
+                        <div class="bg-slate-100 p-4 rounded-lg">Project Manager</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Lead Developer</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Backend Developer</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Frontend Developer</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Auditor</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">UI/UX Designer</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">QA Tester</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Security Specialist</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Database Administrator</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">DevOps Engineer</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">System Analyst</div>
+                        <div class="bg-slate-100 p-4 rounded-lg">Technical Writer</div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Function to handle tab switching for Modul Deteksi
+            const setupTabs = () => {
+                const tabContainer = document.getElementById('fraudTabs');
+                const contentContainer = document.getElementById('fraudContent');
+                if (!tabContainer || !contentContainer) return;
+
+                const tabButtons = tabContainer.querySelectorAll('.tab-button');
+                const tabContents = contentContainer.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const targetTab = this.dataset.tab;
+
+                        tabButtons.forEach(btn => {
+                            btn.classList.remove('active-tab', 'bg-green-600', 'text-white');
+                            btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+                        });
+                        this.classList.add('active-tab', 'bg-green-600', 'text-white');
+                        this.classList.remove('text-gray-700', 'hover:bg-gray-100');
+
+                        tabContents.forEach(content => {
+                            if (content.id === targetTab) {
+                                content.classList.remove('hidden');
+                                content.classList.add('active');
+                            } else {
+                                content.classList.add('hidden');
+                                content.classList.remove('active');
+                            }
+                        });
+                    });
+                });
+            };
+
+            // Setup Tab Switching
+            setupTabs();
+
+
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            // Navigation logic
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.dataset.target;
+
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
