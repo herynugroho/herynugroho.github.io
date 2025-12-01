@@ -3,134 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Sistem Absensi Magang PrimaHome</title>
+    <title>Sistem Absensi Magang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f3f4f6; }
+        body { font-family: 'Segoe UI', sans-serif; }
         .bg-primary { background-color: #2563eb; }
         .hidden { display: none !important; }
+        /* Agar logo tidak bisa di-drag/seleksi */
+        .no-select { -webkit-user-select: none; user-select: none; pointer-events: none; }
     </style>
 </head>
-<body class="h-[100dvh] flex flex-col overflow-hidden pt-[env(safe-area-inset-top)] bg-f3f4f6">
+<body class="h-[100dvh] flex flex-col overflow-hidden pt-[env(safe-area-inset-top)] bg-gray-100">
 
-    <div id="loginPage" class="flex-1 flex flex-col items-center justify-center p-6 z-20">
-        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+    <div id="loginPage" class="flex-1 flex flex-col items-center justify-center p-6 z-20 relative">
+        
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 relative overflow-hidden">
+             <img src="logo-prima.png" alt="ornament" class="absolute -top-10 -right-10 w-40 opacity-[0.03] no-select grayscale transform rotate-12">
+
             <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-users-viewfinder text-3xl text-blue-600"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-800">Absensi Magang</h3>
-                <h2 style="color: rgb(92, 180, 252)" class="text-2xl font-bold text-gray-800">PRIMAVISION</h2>
-                <p class="text-gray-500 text-sm">Masuk sebagai Peserta atau Admin</p>
+                <img src="logo-prima.png" alt="Logo Prima Vision" class="h-16 w-auto mx-auto mb-6 object-contain">
+                
+                <h2 class="text-2xl font-bold text-gray-800">Absensi Magang</h2>
+                <p class="text-gray-500 text-sm mt-1">Masuk sebagai Peserta atau Admin</p>
             </div>
 
-            <div class="space-y-4">
+            <div class="space-y-5">
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">NIK / Username</label>
-                    <input type="text" id="loginNik" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition outline-none" placeholder="Masukkan NIK">
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 pl-1">NIK / Username</label>
+                    <div class="flex items-center border-2 border-gray-100 rounded-xl p-3 bg-gray-50 focus-within:border-blue-500 transition">
+                        <i class="fa-solid fa-user text-gray-400 mr-3"></i>
+                        <input type="text" id="loginNik" class="bg-transparent outline-none w-full font-semibold text-gray-700" placeholder="Masukkan NIK">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
-                    <input type="password" id="loginPass" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition outline-none" placeholder="••••••••">
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2 pl-1">Password</label>
+                    <div class="flex items-center border-2 border-gray-100 rounded-xl p-3 bg-gray-50 focus-within:border-blue-500 transition">
+                         <i class="fa-solid fa-lock text-gray-400 mr-3"></i>
+                        <input type="password" id="loginPass" class="bg-transparent outline-none w-full font-semibold text-gray-700" placeholder="••••••••">
+                    </div>
                 </div>
-                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition shadow-lg">
+                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition shadow-lg hover:shadow-blue-500/30 active:scale-[0.98]">
                     Masuk Aplikasi
                 </button>
             </div>
         </div>
-        <p class="text-gray-400 text-xs mt-6">&copy; 2025 PRIMAVISION</p>
+        <p class="text-gray-400 text-xs mt-8 font-medium">© 2025 Prima Vision Internal System</p>
     </div>
 
     <div id="dashboardPage" class="hidden w-full h-full bg-gray-50 relative flex flex-col">
-        <div class="bg-primary text-white p-6 pb-20 rounded-b-[2.5rem] shadow-lg flex-none">
-            <div class="flex justify-between items-start">
+        <div class="bg-primary text-white p-6 pb-24 rounded-b-[3rem] shadow-lg flex-none relative overflow-hidden">
+            
+            <img src="logo-prima.png" alt="ornament" class="absolute top-5 right-6 w-28 opacity-20 grayscale brightness-200 no-select">
+
+            <div class="flex justify-between items-start relative z-10">
                 <div>
-                    <h1 id="userNama" class="text-xl font-bold">Nama User</h1>
-                    <p id="userBagian" class="text-sm text-blue-200 bg-blue-700 bg-opacity-30 inline-block px-2 rounded mt-1">Divisi</p>
-                    <p id="userKampus" class="text-xs text-blue-200 mt-1 opacity-80 italic">Kampus</p>
+                    <p class="text-blue-100 text-sm">Selamat Datang,</p>
+                    <h1 id="userNama" class="text-2xl font-bold mt-1 tracking-tight">Nama User</h1>
+                    <div class="flex flex-wrap gap-2 mt-3">
+                         <p id="userBagian" class="text-[11px] font-bold text-blue-600 bg-white px-3 py-1 rounded-full inline-block uppercase tracking-wider shadow-sm">Divisi</p>
+                         <p id="userKampus" class="text-[11px] text-white bg-blue-700 bg-opacity-50 px-3 py-1 rounded-full inline-block truncate max-w-[200px]">Kampus</p>
+                    </div>
                 </div>
-                <button onclick="handleLogout()" class="text-white opacity-70 hover:opacity-100"><i class="fa-solid fa-right-from-bracket"></i></button>
+                <button onclick="handleLogout()" class="bg-white bg-opacity-20 p-3 rounded-full text-white hover:bg-opacity-30 transition backdrop-blur-sm">
+                    <i class="fa-solid fa-right-from-bracket text-lg"></i>
+                </button>
             </div>
         </div>
 
-        <div class="px-6 -mt-14 flex-none grid grid-cols-2 gap-4">
-            <button onclick="openCamera('Check In')" class="bg-white p-5 rounded-2xl shadow-md active:scale-95 transition flex flex-col items-center gap-2">
-                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-camera"></i></div>
-                <span class="font-bold text-gray-700">Check In</span>
+        <div class="px-6 -mt-16 flex-none grid grid-cols-2 gap-5 relative z-20">
+            <button onclick="openCamera('Check In')" class="bg-white p-6 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-3 border-2 border-transparent hover:border-green-100 group">
+                <div class="w-16 h-16 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shadow-sm">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <span class="font-bold text-gray-800">Check In</span>
             </button>
-            <button onclick="openCamera('Check Out')" class="bg-white p-5 rounded-2xl shadow-md active:scale-95 transition flex flex-col items-center gap-2">
-                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-xl"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
-                <span class="font-bold text-gray-700">Check Out</span>
+            <button onclick="openCamera('Check Out')" class="bg-white p-6 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-3 border-2 border-transparent hover:border-red-100 group">
+                <div class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-red-500 group-hover:text-white transition-colors duration-300 shadow-sm">
+                    <i class="fa-solid fa-person-walking-arrow-right"></i>
+                </div>
+                <span class="font-bold text-gray-800">Check Out</span>
             </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto px-6 mt-6 pb-6">
-            <h3 class="font-bold text-gray-700 mb-3 text-sm">Riwayat Hari Ini</h3>
+        <div class="flex-1 overflow-y-auto px-6 mt-8 pb-6">
+            <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-blue-500"></i> Riwayat Hari Ini
+            </h3>
             <div id="historyContainer" class="space-y-3"></div>
         </div>
     </div>
 
-    <div id="adminPage" class="hidden w-full h-full bg-gray-100 flex flex-col">
-        <div class="bg-white px-6 py-4 shadow-sm z-10 flex justify-between items-center border-b">
+    <div id="adminPage" class="hidden w-full h-full bg-gray-50 flex flex-col relative">
+        
+        <div class="bg-white px-6 py-5 shadow-sm z-10 flex justify-between items-center border-b border-gray-100 relative overflow-hidden">
+             <img src="logo-prima.png" alt="ornament" class="absolute top-2 right-4 w-32 opacity-[0.05] grayscale no-select pointer-events-none">
+
             <div>
-                <h1 class="font-bold text-gray-800 text-lg">Administrator</h1>
-                <p class="text-xs text-gray-500">Rekapitulasi Absensi</p>
+                <h1 class="font-black text-gray-800 text-xl tracking-tight">Administrator</h1>
+                <p class="text-xs font-medium text-gray-400">Rekapitulasi Absensi Prima Vision</p>
             </div>
-            <div class="flex gap-3">
-                <button onclick="openSpreadsheet()" class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-green-700 flex items-center gap-2">
-                    <i class="fa-solid fa-table"></i> Excel
+            <div class="flex gap-3 relative z-10">
+                <button onclick="openSpreadsheet()" class="bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm hover:bg-emerald-600 flex items-center gap-2 transition active:scale-95">
+                    <i class="fa-solid fa-table-cells"></i> Excel
                 </button>
-                <button onclick="handleLogout()" class="text-red-500 text-sm font-semibold">Keluar</button>
+                <button onclick="handleLogout()" class="bg-red-50 text-red-500 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-100 transition active:scale-95">
+                    Keluar
+                </button>
             </div>
         </div>
 
-        <div class="px-6 py-4 bg-white shadow-sm flex flex-col gap-3">
-            <div>
-                <label class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Filter Nama</label>
-                <select id="adminFilter" onchange="renderAdminData()" class="w-full mt-1 p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:ring-2 focus:ring-blue-100 outline-none">
-                    <option value="ALL">Semua Anak Magang</option>
-                </select>
-            </div>
-            
-            <div>
-                <label class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Filter Tanggal</label>
-                <input type="date" id="dateFilter" onchange="renderAdminData()" class="w-full mt-1 p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:ring-2 focus:ring-blue-100 outline-none">
+        <div class="px-6 py-5 bg-white shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)] flex flex-col gap-4 z-10 rounded-b-3xl mx-2 mt-2">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] text-gray-400 font-bold uppercase tracking-wider ml-1">Filter Nama</label>
+                    <div class="relative mt-1">
+                        <select id="adminFilter" onchange="renderAdminData()" class="w-full appearance-none p-3 pl-4 pr-10 border-2 border-gray-100 rounded-2xl text-sm font-semibold text-gray-700 bg-gray-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition">
+                            <option value="ALL">Semua Anak Magang</option>
+                        </select>
+                         <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 font-bold uppercase tracking-wider ml-1">Filter Tanggal</label>
+                    <div class="relative mt-1">
+                        <input type="date" id="dateFilter" onchange="renderAdminData()" class="w-full p-3 border-2 border-gray-100 rounded-2xl text-sm font-semibold text-gray-700 bg-gray-50 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition text-center uppercase">
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="flex-1 overflow-y-auto p-4" id="adminContent">
-            <div class="text-center mt-10 text-gray-400">
-                <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i>
-                <p>Memuat data...</p>
+            <div class="flex flex-col items-center justify-center mt-20 text-gray-400">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4 text-blue-500"></i>
+                <p class="font-medium animate-pulse">Sedang memuat data...</p>
             </div>
         </div>
         
-        <button onclick="fetchDataFromServer('ADMIN')" class="absolute bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-xl hover:bg-blue-700 transition z-20">
+        <button onclick="fetchDataFromServer('ADMIN')" class="absolute bottom-8 right-8 w-16 h-16 bg-blue-600 text-white rounded-full shadow-[0_10px_30px_rgba(37,99,235,0.4)] flex items-center justify-center text-2xl hover:bg-blue-700 transition z-20 active:scale-90 hover:rotate-180 duration-500">
             <i class="fa-solid fa-arrows-rotate"></i>
         </button>
     </div>
 
     <div id="cameraModal" class="hidden fixed inset-0 z-50 bg-black flex flex-col">
-        <div class="relative flex-1 bg-black flex items-center justify-center overflow-hidden">
-            <video id="video" autoplay playsinline class="absolute w-full h-full object-cover"></video>
+        <div class="relative flex-1 bg-black flex items-center justify-center overflow-hidden rounded-b-3xl">
+            <video id="video" autoplay playsinline class="absolute w-full h-full object-cover filter brightness-110"></video>
             <canvas id="canvas" class="hidden"></canvas>
-            <div class="absolute inset-0 border-2 border-white opacity-30 m-8 rounded-lg pointer-events-none"></div>
+            <div class="absolute inset-0 border-2 border-white opacity-20 m-8 rounded-3xl pointer-events-none grid grid-cols-3 grid-rows-3">
+                <div class="border-r border-b border-white border-opacity-20"></div><div class="border-r border-b border-white border-opacity-20"></div><div class="border-b border-white border-opacity-20"></div>
+                <div class="border-r border-b border-white border-opacity-20"></div><div class="border-r border-b border-white border-opacity-20"></div><div class="border-b border-white border-opacity-20"></div>
+                <div class="border-r border-white border-opacity-20"></div><div class="border-r border-white border-opacity-20"></div><div></div>
+            </div>
+             <p class="absolute top-10 text-white bg-black bg-opacity-50 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md">Pastikan wajah terlihat jelas</p>
         </div>
-        <div class="bg-black p-6 flex flex-col items-center pb-8">
-            <p id="cameraStatusText" class="text-white mb-6 font-semibold">Ambil Foto</p>
-            <div class="flex gap-10 items-center">
-                <button onclick="closeCamera()" class="text-white opacity-80 hover:opacity-100">Batal</button>
-                <button onclick="takePicture()" class="w-16 h-16 bg-white rounded-full border-4 border-gray-400 flex items-center justify-center shadow-lg active:scale-95 transition">
-                    <div class="w-14 h-14 bg-white rounded-full border-2 border-black"></div>
+        <div class="bg-black p-8 flex flex-col items-center pb-12">
+            <p id="cameraStatusText" class="text-white mb-8 font-bold text-lg tracking-wide">Ambil Foto</p>
+            <div class="flex gap-12 items-center">
+                <button onclick="closeCamera()" class="text-white opacity-60 hover:opacity-100 transition font-medium">Batal</button>
+                <button onclick="takePicture()" class="w-20 h-20 bg-white rounded-full border-4 border-blue-200 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-90 transition-all duration-300 group relative">
+                    <div class="absolute inset-0 rounded-full bg-blue-500 opacity-0 group-active:opacity-20 transition duration-300"></div>
+                    <div class="w-16 h-16 bg-white rounded-full border-[3px] border-gray-800 group-hover:border-blue-500 transition"></div>
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="loadingOverlay" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-70 flex items-center justify-center flex-col backdrop-blur-sm">
-        <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent mb-3"></div>
-        <p class="text-white font-medium text-sm">Sedang memproses...</p>
+    <div id="loadingOverlay" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-80 flex items-center justify-center flex-col backdrop-blur-md">
+        <div class="relative w-20 h-20">
+             <div class="absolute top-0 left-0 w-full h-full border-4 border-blue-200 rounded-full animate-ping opacity-20"></div>
+             <div class="absolute top-0 left-0 w-full h-full border-4 border-t-blue-500 border-r-blue-500 border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+        </div>
+        <p class="text-white font-bold mt-6 tracking-wider">Mengirim Data...</p>
+        <p class="text-blue-200 text-xs mt-2 animate-pulse">Mohon tunggu sebentar</p>
     </div>
 
     <script>
@@ -180,10 +224,7 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('adminPage').classList.remove('hidden');
                 setupAdminFilter();
-                
-                // Set Default Tanggal ke HARI INI
                 document.getElementById('dateFilter').valueAsDate = new Date();
-                
                 fetchDataFromServer("ADMIN");   
                 return;
             }
@@ -216,7 +257,18 @@
 
         function fetchDataFromServer(mode) {
             const container = mode === "ADMIN" ? document.getElementById('adminContent') : document.getElementById('historyContainer');
-            if(mode === "ADMIN") container.innerHTML = '<div class="text-center mt-10 text-gray-500"><i class="fa-solid fa-spinner fa-spin"></i> Mengambil data...</div>';
+            if(mode === "ADMIN") {
+                 container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center mt-20 text-gray-400">
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4 text-blue-500"></i>
+                        <p class="font-medium animate-pulse">Sedang memuat data...</p>
+                    </div>`;
+            } else {
+                 container.innerHTML = `
+                    <div class="flex justify-center py-6">
+                        <i class="fa-solid fa-circle-notch fa-spin text-blue-500"></i>
+                    </div>`;
+            }
             
             fetch(APPS_SCRIPT_URL)
             .then(res => res.json())
@@ -227,7 +279,7 @@
             })
             .catch(err => {
                 console.error(err);
-                container.innerHTML = '<div class="text-center text-red-500 py-4">Gagal koneksi server.</div>';
+                container.innerHTML = '<div class="text-center text-red-400 py-4 font-medium bg-red-50 rounded-xl border border-red-100">Gagal koneksi server. Coba refresh.</div>';
             });
         }
 
@@ -237,58 +289,58 @@
             Object.values(internData).forEach(u => select.innerHTML += `<option value="${u.name}">${u.name}</option>`);
         }
 
-        // --- RENDER ADMIN DENGAN FILTER TANGGAL ---
+        // --- RENDER ADMIN (DIPERCANTIK) ---
         function renderAdminData() {
             const nameFilter = document.getElementById('adminFilter').value;
-            const dateFilter = document.getElementById('dateFilter').value; // YYYY-MM-DD
+            const dateFilter = document.getElementById('dateFilter').value; 
             const container = document.getElementById('adminContent');
             
             let filtered = rawData.filter(item => {
-                // 1. Cek Nama
                 const matchName = nameFilter === "ALL" || item.nama === nameFilter;
-                
-                // 2. Cek Tanggal
                 let matchDate = true;
                 if(dateFilter) {
-                    // Konversi waktu sheet ke YYYY-MM-DD
                     const itemDate = new Date(item.waktu).toISOString().split('T')[0];
                     matchDate = itemDate === dateFilter;
                 }
-                
                 return matchName && matchDate;
             });
 
             if (filtered.length === 0) {
                 container.innerHTML = `
-                <div class="flex flex-col items-center justify-center mt-10 text-gray-400 gap-2">
-                    <i class="fa-regular fa-calendar-xmark text-3xl"></i>
-                    <p class="text-sm">Tidak ada data pada tanggal / nama ini.</p>
+                <div class="flex flex-col items-center justify-center mt-20 text-gray-300 gap-3">
+                    <i class="fa-regular fa-folder-open text-5xl"></i>
+                    <p class="text-sm font-medium">Tidak ada data ditemukan.</p>
                 </div>`; 
                 return;
             }
 
-            let html = '<div class="space-y-3 pb-20">';
+            let html = '<div class="space-y-4 pb-24">';
             filtered.forEach(item => {
                 const dateObj = new Date(item.waktu);
-                const dateStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+                const dateStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: '2-digit' });
                 const timeStr = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                const statusColor = item.status === 'Check In' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50';
+                const isCheckIn = item.status === 'Check In';
+                const statusColor = isCheckIn ? 'text-green-600 bg-green-50 border-green-100' : 'text-red-600 bg-red-50 border-red-100';
+                const statusIcon = isCheckIn ? 'fa-camera' : 'fa-person-walking-arrow-right';
                 const fotoUrl = getEmbedLink(item.foto); 
 
                 html += `
-                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center gap-3">
-                    <div class="w-12 h-12 flex-none rounded-lg bg-gray-200 overflow-hidden cursor-pointer" onclick="window.open('${item.foto}', '_blank')">
-                         <img src="${fotoUrl}" class="w-full h-full object-cover">
+                <div class="bg-white p-4 rounded-[20px] shadow-[0_2px_15px_-5px_rgba(0,0,0,0.08)] border border-gray-50 flex items-start gap-4 transition hover:-translate-y-1">
+                    <div class="w-16 h-16 flex-none rounded-2xl bg-gray-100 overflow-hidden cursor-pointer shadow-sm relative group" onclick="window.open('${item.foto}', '_blank')">
+                         <img src="${fotoUrl}" class="w-full h-full object-cover transition group-hover:scale-110 duration-500">
+                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition"></div>
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start">
-                            <h4 class="font-bold text-gray-800 text-sm truncate">${item.nama}</h4>
-                            <span class="text-xs font-mono text-gray-400">${dateStr}</span>
+                            <h4 class="font-bold text-gray-800 text-[15px] truncate">${item.nama}</h4>
+                            <span class="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-lg">${dateStr}</span>
                         </div>
-                        <p class="text-xs text-gray-500 truncate">${item.bagian}</p>
-                        <div class="flex justify-between items-center mt-1">
-                            <span class="text-xs px-2 py-0.5 rounded ${statusColor} font-bold border border-opacity-10 border-gray-400">${item.status}</span>
-                            <span class="text-xs font-bold text-gray-600">${timeStr}</span>
+                        <p class="text-xs text-gray-500 truncate font-medium mt-0.5">${item.bagian}</p>
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-xs px-3 py-1.5 rounded-xl ${statusColor} font-bold border flex items-center gap-2">
+                                <i class="fa-solid ${statusIcon}"></i> ${item.status}
+                            </span>
+                            <span class="font-black text-gray-700 text-base">${timeStr}</span>
                         </div>
                     </div>
                 </div>`;
@@ -296,7 +348,7 @@
             container.innerHTML = html + '</div>';
         }
 
-        // --- RENDER USER (TETAP SAMA) ---
+        // --- RENDER USER (DIPERCANTIK) ---
         function renderUserHistory() {
             const container = document.getElementById('historyContainer');
             const todayStr = new Date().toLocaleDateString('id-ID'); 
@@ -306,7 +358,12 @@
             });
 
             if (myHistory.length === 0) {
-                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">Belum ada absensi hari ini.</p>'; return;
+                container.innerHTML = `
+                <div class="bg-white rounded-3xl p-8 text-center border-2 border-dashed border-gray-200">
+                    <i class="fa-solid fa-camera-retro text-4xl text-gray-200 mb-3"></i>
+                    <p class="text-gray-400 text-sm font-medium">Belum ada aktivitas absensi hari ini.</p>
+                </div>`; 
+                return;
             }
 
             let html = '';
@@ -316,17 +373,20 @@
                 const fotoUrl = getEmbedLink(h.foto);
 
                 html += `
-                <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm border-l-4 ${isCheckIn ? 'border-green-500' : 'border-red-500'} mb-2">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg overflow-hidden bg-gray-100">
+                <div class="flex justify-between items-center p-4 bg-white rounded-[20px] shadow-sm border-l-[6px] ${isCheckIn ? 'border-green-500' : 'border-red-500'} mb-3 transition hover:shadow-md">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
                              <img src="${fotoUrl}" class="w-full h-full object-cover">
                         </div>
                         <div>
-                            <p class="text-sm font-bold text-gray-700">${h.status}</p>
-                            <p class="text-xs text-gray-400">Terverifikasi</p>
+                            <p class="text-[15px] font-bold text-gray-700 flex items-center gap-2">
+                                ${h.status} 
+                                ${isCheckIn ? '<i class="fa-solid fa-circle-check text-green-500 text-xs"></i>' : '<i class="fa-solid fa-circle-check text-red-500 text-xs"></i>'}
+                            </p>
+                            <p class="text-xs text-gray-400 font-medium mt-0.5">Terverifikasi Sistem</p>
                         </div>
                     </div>
-                    <span class="text-sm font-mono font-bold text-gray-600">${timeStr}</span>
+                    <span class="text-lg font-black text-gray-700">${timeStr}</span>
                 </div>`;
             });
             container.innerHTML = html;
