@@ -10,6 +10,7 @@
         body { font-family: 'Segoe UI', sans-serif; background-color: #f3f4f6; }
         .bg-primary { background-color: #2563eb; }
         .hidden { display: none !important; }
+        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
@@ -33,7 +34,7 @@
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Password</label>
                     <input type="password" id="loginPass" class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition outline-none" placeholder="••••••••">
                 </div>
-                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition shadow-lg">
+                <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition shadow-lg hover:shadow-xl translate-y-0 hover:-translate-y-1 transform duration-200">
                     Masuk Aplikasi
                 </button>
             </div>
@@ -65,4 +66,279 @@
         </div>
 
         <div class="flex-1 overflow-y-auto px-6 mt-6 pb-6">
-            <h3 class="font-bold text-gray-700 mb-3 text-sm">Riwayat
+            <h3 class="font-bold text-gray-700 mb-3 text-sm">Riwayat Hari Ini</h3>
+            <div id="historyContainer" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <div id="adminPage" class="hidden w-full h-full bg-gray-100 flex flex-col">
+        <div class="bg-white px-6 py-4 shadow-sm z-10 flex justify-between items-center">
+            <div>
+                <h1 class="font-bold text-gray-800 text-lg">Administrator</h1>
+                <p class="text-xs text-gray-500">Rekapitulasi Absensi</p>
+            </div>
+            <button onclick="handleLogout()" class="text-red-500 text-sm font-semibold">Keluar</button>
+        </div>
+
+        <div class="px-6 py-3 bg-white border-t border-gray-100">
+            <label class="text-xs text-gray-400 font-bold uppercase">Filter Nama:</label>
+            <select id="adminFilter" onchange="renderAdminData()" class="w-full mt-1 p-2 border rounded-lg text-sm bg-gray-50">
+                <option value="ALL">Semua Anak Magang</option>
+                </select>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4" id="adminContent">
+            <div class="text-center mt-10 text-gray-400">
+                <i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i>
+                <p>Memuat data...</p>
+            </div>
+        </div>
+        
+        <button onclick="fetchAdminData()" class="absolute bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center text-xl hover:bg-blue-700 transition">
+            <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
+    </div>
+
+    <div id="cameraModal" class="hidden fixed inset-0 z-50 bg-black flex flex-col">
+        <div class="relative flex-1 bg-black flex items-center justify-center overflow-hidden">
+            <video id="video" autoplay playsinline class="absolute w-full h-full object-cover"></video>
+            <canvas id="canvas" class="hidden"></canvas>
+            <div class="absolute inset-0 border-2 border-white opacity-30 m-8 rounded-lg pointer-events-none"></div>
+        </div>
+        <div class="bg-black p-6 flex flex-col items-center pb-8">
+            <p id="cameraStatusText" class="text-white mb-6 font-semibold">Ambil Foto</p>
+            <div class="flex gap-10 items-center">
+                <button onclick="closeCamera()" class="text-white opacity-80 hover:opacity-100">Batal</button>
+                <button onclick="takePicture()" class="w-16 h-16 bg-white rounded-full border-4 border-gray-400 flex items-center justify-center shadow-lg active:scale-95 transition">
+                    <div class="w-14 h-14 bg-white rounded-full border-2 border-black"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-70 flex items-center justify-center flex-col backdrop-blur-sm">
+        <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent mb-3"></div>
+        <p class="text-white font-medium text-sm">Sedang memproses...</p>
+    </div>
+
+    <script>
+        // --- KONFIGURASI ---
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwEMLvNup4NKhEAeT5d7l5DNFXRxDoet1OmcjCvWMGNvGZo0_FvCqhLbiYZIGZTo3LNgQ/exec"; 
+        
+        // Data Pegawai (Tetap sama)
+        const internData = {
+            "7371092004030008": { name: "Habiburrahman", role: "Intern NOC", campus: "Univ. Muslim Indonesia" },
+            "7306084702020003": { name: "Andi Salsabila R", role: "Intern NOC", campus: "Poltek Negeri Ujung Pandang" },
+            "7371132204020002": { name: "Muh. Addeta Rukmadi", role: "Intern NOC", campus: "Univ. Hasanuddin" },
+            "7315017108030002": { name: "Jely Cahyani", role: "Intern Marcom", campus: "Univ. Muslim Indonesia" },
+            "7371095201020002": { name: "Dwidya Indah P", role: "Intern Marcom", campus: "Univ. Muslim Indonesia" },
+            "7304075404040001": { name: "Nurul Fatimah", role: "Intern Admin Mkt", campus: "Poltek Ujung Pandang" },
+            "7309015303030002": { name: "Faiqah Nurul Utami", role: "Intern Legal", campus: "Univ. Hasanuddin" },
+            "7604034505020006": { name: "Nurul Khalifah", role: "Intern Legal", campus: "IAIN Pare-Pare" },
+            "7317096308020001": { name: "Dian Pratiwi", role: "Intern Helpdesk", campus: "Univ. Negeri Makassar" },
+            "3171080705020003": { name: "Muhammad Fadhil", role: "Intern IT Dev", campus: "Univ. Islam Makassar" }
+        };
+
+        let currentUser = null;
+        let currentAction = ""; 
+        let rawData = [];
+
+        // --- HELPER: CONVERT DRIVE IMAGE LINK ---
+        // Fungsi ini mengubah link Drive biasa menjadi link thumbnail yang bisa dirender HTML
+        function getEmbedLink(driveLink) {
+            try {
+                const id = driveLink.match(/[-\w]{25,}/);
+                if(id) return `https://lh3.googleusercontent.com/d/${id[0]}=s200`; // s200 artinya size 200px (ringan)
+            } catch (e) { }
+            return "https://via.placeholder.com/150?text=No+Img";
+        }
+
+        // --- LOGIN & DASHBOARD LOGIC (TETAP SAMA) ---
+        function handleLogin() {
+            const nik = document.getElementById('loginNik').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            if (!nik) return alert("Masukkan NIK");
+
+            if (nik.toLowerCase() === "admin" && pass === "Kulupai") {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('adminPage').classList.remove('hidden');
+                setupAdminFilter();
+                fetchDataFromServer("ADMIN");   
+                return;
+            }
+
+            if (internData[nik] && pass === nik) {
+                currentUser = { ...internData[nik], nik: nik };
+                showUserDashboard();
+            } else {
+                alert("NIK/Password Salah");
+            }
+        }
+
+        function showUserDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+            document.getElementById('userNama').innerText = currentUser.name;
+            document.getElementById('userBagian').innerText = currentUser.role;
+            document.getElementById('userKampus').innerText = currentUser.campus;
+            fetchDataFromServer("USER");
+        }
+
+        function handleLogout() {
+            currentUser = null; rawData = [];
+            document.getElementById('loginNik').value = "";
+            document.getElementById('loginPass').value = "";
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('adminPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+
+        function fetchDataFromServer(mode) {
+            const container = mode === "ADMIN" ? document.getElementById('adminContent') : document.getElementById('historyContainer');
+            if(mode === "ADMIN") container.innerHTML = '<div class="text-center mt-10 text-gray-500"><i class="fa-solid fa-spinner fa-spin"></i> Mengambil data...</div>';
+            
+            fetch(APPS_SCRIPT_URL)
+            .then(res => res.json())
+            .then(data => {
+                rawData = data;
+                if (mode === "ADMIN") renderAdminData();
+                else renderUserHistory();
+            })
+            .catch(err => {
+                console.error(err);
+                container.innerHTML = '<div class="text-center text-red-500 py-4">Gagal koneksi server.</div>';
+            });
+        }
+
+        function setupAdminFilter() {
+            const select = document.getElementById('adminFilter');
+            select.innerHTML = '<option value="ALL">Semua Anak Magang</option>';
+            Object.values(internData).forEach(u => select.innerHTML += `<option value="${u.name}">${u.name}</option>`);
+        }
+
+        // --- RENDER ADMIN (DIPERBAIKI BAGIAN FOTO) ---
+        function renderAdminData() {
+            const filterValue = document.getElementById('adminFilter').value;
+            const container = document.getElementById('adminContent');
+            let filtered = rawData;
+            if (filterValue !== "ALL") filtered = rawData.filter(i => i.nama === filterValue);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-400 mt-10">Data tidak ditemukan.</div>'; return;
+            }
+
+            let html = '<div class="space-y-3 pb-20">';
+            filtered.forEach(item => {
+                const dateObj = new Date(item.waktu);
+                const dateStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+                const timeStr = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                const statusColor = item.status === 'Check In' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50';
+                const fotoUrl = getEmbedLink(item.foto); // <-- PANGGIL FUNGSI CONVERT LINK
+
+                html += `
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center gap-3">
+                    <div class="w-12 h-12 flex-none rounded-lg bg-gray-200 overflow-hidden cursor-pointer" onclick="window.open('${item.foto}', '_blank')">
+                         <img src="${fotoUrl}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-gray-800 text-sm truncate">${item.nama}</h4>
+                            <span class="text-xs font-mono text-gray-400">${dateStr}</span>
+                        </div>
+                        <p class="text-xs text-gray-500 truncate">${item.bagian}</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <span class="text-xs px-2 py-0.5 rounded ${statusColor} font-bold border border-opacity-10 border-gray-400">${item.status}</span>
+                            <span class="text-xs font-bold text-gray-600">${timeStr}</span>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html + '</div>';
+        }
+
+        // --- RENDER HISTORY USER (DIPERBAIKI BAGIAN FOTO) ---
+        function renderUserHistory() {
+            const container = document.getElementById('historyContainer');
+            const todayStr = new Date().toLocaleDateString('id-ID'); 
+            const myHistory = rawData.filter(item => {
+                const itemDate = new Date(item.waktu).toLocaleDateString('id-ID');
+                return item.nik == currentUser.nik && itemDate === todayStr;
+            });
+
+            if (myHistory.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-400 text-xs py-4">Belum ada absensi hari ini.</p>'; return;
+            }
+
+            let html = '';
+            myHistory.forEach(h => {
+                const timeStr = new Date(h.waktu).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+                const isCheckIn = h.status === 'Check In';
+                const fotoUrl = getEmbedLink(h.foto); // <-- PANGGIL FUNGSI CONVERT LINK
+
+                html += `
+                <div class="flex justify-between items-center p-3 bg-white rounded-lg shadow-sm border-l-4 ${isCheckIn ? 'border-green-500' : 'border-red-500'} mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg overflow-hidden bg-gray-100">
+                             <img src="${fotoUrl}" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-gray-700">${h.status}</p>
+                            <p class="text-xs text-gray-400">Terverifikasi</p>
+                        </div>
+                    </div>
+                    <span class="text-sm font-mono font-bold text-gray-600">${timeStr}</span>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- KAMERA (TETAP SAMA) ---
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        let stream = null;
+
+        function openCamera(actionType) {
+            currentAction = actionType;
+            document.getElementById('cameraStatusText').innerText = `Ambil Foto ${actionType}`;
+            document.getElementById('cameraModal').classList.remove('hidden');
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } }).then(s => { stream = s; video.srcObject = stream; });
+        }
+
+        function closeCamera() {
+            if (stream) stream.getTracks().forEach(track => track.stop());
+            document.getElementById('cameraModal').classList.add('hidden');
+        }
+
+        function takePicture() {
+            if (!navigator.geolocation) return alert("GPS Wajib Aktif");
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            navigator.geolocation.getCurrentPosition(pos => {
+                canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                const payload = {
+                    nik: currentUser.nik, nama: currentUser.name, bagian: currentUser.role, campus: currentUser.campus,
+                    status: currentAction, lat: pos.coords.latitude, long: pos.coords.longitude,
+                    foto: canvas.toDataURL('image/png')
+                };
+
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                }).then(() => {
+                    document.getElementById('loadingOverlay').classList.add('hidden');
+                    closeCamera();
+                    alert("Berhasil!");
+                    fetchDataFromServer("USER"); 
+                }).catch(e => {
+                    document.getElementById('loadingOverlay').classList.add('hidden');
+                    alert("Gagal kirim data.");
+                });
+            }, () => {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                alert("Gagal GPS");
+            });
+        }
+    </script>
+</body>
+</html>
