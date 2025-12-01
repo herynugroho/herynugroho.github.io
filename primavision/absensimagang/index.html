@@ -51,22 +51,20 @@
         <p class="text-gray-400 text-xs mt-8 font-medium">© 2025 Prima Vision Internal System</p>
     </div>
 
-    <div id="dashboardPage" class="hidden w-full h-full bg-gray-50 relative flex flex-col">
-        <div class="bg-primary text-white p-6 pb-24 rounded-b-[3rem] shadow-lg flex-none relative overflow-hidden">
-            
-            <img src="logo-prima-vision.png" alt="ornament" class="absolute top-5 right-6 w-28 opacity-20 grayscale brightness-200 no-select">
-
-            <div class="flex justify-between items-start relative z-10">
+    <div id="dashboardPage" class="hidden w-full h-full bg-white relative flex flex-col">
+        <div class="bg-primary text-white p-6 pb-24 rounded-b-[3rem] shadow-lg flex-none relative z-10">
+            <div class="flex justify-between items-start">
                 <div>
-                    <p class="text-blue-100 text-sm">Selamat Datang,</p>
-                    <h1 id="userNama" class="text-2xl font-bold mt-1 tracking-tight">Nama User</h1>
-                    <div class="flex flex-wrap gap-2 mt-3">
-                         <p id="userBagian" class="text-[11px] font-bold text-blue-600 bg-white px-3 py-1 rounded-full inline-block uppercase tracking-wider shadow-sm">Divisi</p>
-                         <p id="userKampus" class="text-[11px] text-white bg-blue-700 bg-opacity-50 px-3 py-1 rounded-full inline-block truncate max-w-[200px]">Kampus</p>
+                    <p class="text-blue-100 text-sm font-medium tracking-wide">Selamat Datang,</p>
+                    <h1 id="userNama" class="text-[22px] font-bold mt-1 tracking-tight leading-tight">Nama User</h1>
+                    <div class="flex flex-wrap items-center gap-2 mt-3">
+                         <p id="userBagian" class="text-[10px] font-extrabold text-blue-600 bg-white px-3 py-1 rounded-full inline-block uppercase tracking-widest shadow-sm">Divisi</p>
+                         <span class="text-blue-300 text-xs">•</span>
+                         <p id="userKampus" class="text-[11px] font-medium text-blue-50 truncate max-w-[180px] tracking-wide">Kampus</p>
                     </div>
                 </div>
-                <button onclick="handleLogout()" class="bg-white bg-opacity-20 p-3 rounded-full text-white hover:bg-opacity-30 transition backdrop-blur-sm">
-                    <i class="fa-solid fa-right-from-bracket text-lg"></i>
+                <button onclick="handleLogout()" class="bg-white bg-opacity-20 p-3 rounded-full text-white hover:bg-opacity-30 transition backdrop-blur-md shadow-sm active:scale-95">
+                    <i class="fa-solid fa-right-from-bracket text-lg pl-0.5"></i>
                 </button>
             </div>
         </div>
@@ -76,21 +74,36 @@
                 <div class="w-16 h-16 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shadow-sm">
                     <i class="fa-solid fa-camera"></i>
                 </div>
-                <span class="font-bold text-gray-800">Check In</span>
+                <span class="font-bold text-gray-800 text-sm uppercase tracking-wider">Check In</span>
             </button>
             <button onclick="openCamera('Check Out')" class="bg-white p-6 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-3 border-2 border-transparent hover:border-red-100 group">
                 <div class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-red-500 group-hover:text-white transition-colors duration-300 shadow-sm">
                     <i class="fa-solid fa-person-walking-arrow-right"></i>
                 </div>
-                <span class="font-bold text-gray-800">Check Out</span>
+                <span class="font-bold text-gray-800 text-sm uppercase tracking-wider">Check Out</span>
             </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto px-6 mt-8 pb-6">
-            <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
+        <div class="flex-1 overflow-y-auto px-6 mt-6 pb-4">
+            <h3 class="font-bold text-gray-800 mb-4 text-xs uppercase tracking-widest flex items-center gap-2 opacity-80">
                 <i class="fa-solid fa-clock-rotate-left text-blue-500"></i> Riwayat Hari Ini
             </h3>
             <div id="historyContainer" class="space-y-3"></div>
+        </div>
+
+        <div class="p-6 pb-8 text-center mt-auto border-t border-gray-100 bg-white">
+            <img src="logo-prima-vision.png" alt="Prima Vision Logo" class="h-10 mx-auto mb-3 object-contain">
+            
+            <h2 class="text-gray-800 font-bold text-sm tracking-wide uppercase mb-2">PT Citra Prima Media</h2>
+            
+            <div class="text-[10px] text-gray-400 leading-relaxed font-medium">
+                <p>Jl. A. P. Pettarani Diamond Building No. 07</p>
+                <p>Kota Makassar, Sulawesi Selatan 90231</p>
+                <div class="mt-1 flex flex-wrap justify-center gap-x-3 gap-y-1 text-blue-500">
+                    <span><i class="fa-solid fa-phone text-[9px]"></i> (0411) 423-848</span>
+                    <span><i class="fa-solid fa-envelope text-[9px]"></i> bod@primahome.id</span>
+                </div>
+            </div>
         </div>
     </div>
 
