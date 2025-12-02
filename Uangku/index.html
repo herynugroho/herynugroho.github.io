@@ -31,6 +31,19 @@
             border-radius: 10px;
             background-color: #4f46e5;
         }
+        /* Tab Active State */
+        .tab-active {
+            border-bottom: 2px solid #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .tab-inactive:hover {
+            color: #374151;
+        }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #888; border-radius: 3px; }
@@ -58,76 +71,92 @@
 
     <!-- Main Content -->
     <div id="main-content" class="hidden">
-        <div class="max-w-4xl mx-auto p-4 md:p-6">
-            <!-- Header Responsif: Flex-col di HP, Flex-row di Desktop -->
+        <div class="max-w-4xl mx-auto p-4 md:p-6 pb-20">
+            <!-- Header Responsif -->
             <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-bold text-indigo-600">UangKu</h1>
                     <p class="text-sm md:text-base text-gray-500">Selamat datang, mari atur keuangan!</p>
                 </div>
-                 <!-- Container Tombol: Wrap agar turun ke bawah jika sempit -->
-                 <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                    <button id="tutupBukuBtn" onclick="openTutupBukuModal()" class="flex-1 md:flex-none bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 transition font-semibold text-xs md:text-sm flex justify-center items-center"><i class="fas fa-book mr-2"></i>Tutup Buku</button>
-                    <button onclick="openKantongModal(true)" class="flex-1 md:flex-none bg-white text-gray-700 px-3 py-2 rounded-lg shadow hover:bg-gray-100 transition font-semibold text-xs md:text-sm border flex justify-center items-center"><i class="fas fa-plus-circle mr-2"></i>Kantong</button>
-                    <button onclick="openTransaksiModal(true)" class="flex-1 md:flex-none bg-indigo-600 text-white px-3 py-2 rounded-lg shadow hover:bg-indigo-700 transition font-semibold text-xs md:text-sm flex justify-center items-center"><i class="fas fa-plus mr-2"></i>Catat</button>
+                 <!-- Container Tombol: Wrap agar rapi di HP -->
+                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full md:w-auto">
+                    <button id="tutupBukuBtn" onclick="openTutupBukuModal()" class="col-span-2 sm:col-span-1 bg-green-500 text-white px-3 py-2 rounded-lg shadow hover:bg-green-600 transition font-semibold text-xs md:text-sm flex justify-center items-center"><i class="fas fa-book mr-2"></i>Tutup Buku</button>
+                    <button onclick="openKantongModal(true)" class="bg-white text-gray-700 px-3 py-2 rounded-lg shadow hover:bg-gray-100 transition font-semibold text-xs md:text-sm border flex justify-center items-center"><i class="fas fa-plus-circle mr-2"></i>Kantong</button>
+                    <button onclick="openTransaksiModal(true)" class="bg-indigo-600 text-white px-3 py-2 rounded-lg shadow hover:bg-indigo-700 transition font-semibold text-xs md:text-sm flex justify-center items-center"><i class="fas fa-plus mr-2"></i>Catat</button>
                 </div>
             </header>
 
-            <!-- Ringkasan Keuangan -->
-            <section id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                 <div class="bg-white p-4 md:p-5 rounded-lg shadow flex items-center">
-                    <div class="bg-blue-100 text-blue-600 rounded-full h-10 w-10 md:h-12 md:w-12 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-coins text-lg md:text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-xs md:text-sm text-gray-500">Total Anggaran</p>
-                        <p id="total-anggaran" class="text-lg md:text-2xl font-bold">Rp 0</p>
+            <!-- Section Tab: Ringkasan & Kantong -->
+            <section class="mb-6 bg-white rounded-lg shadow overflow-hidden">
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-gray-200">
+                    <button id="tab-rekap-btn" onclick="switchTab('rekap')" class="flex-1 py-3 text-sm md:text-base text-center transition-colors tab-active">
+                        <i class="fas fa-chart-pie mr-2"></i>Rekap Umum
+                    </button>
+                    <button id="tab-kantong-btn" onclick="switchTab('kantong')" class="flex-1 py-3 text-sm md:text-base text-center transition-colors tab-inactive">
+                        <i class="fas fa-wallet mr-2"></i>Kantong Anggaran
+                    </button>
+                </div>
+
+                <!-- Tab Content: Rekap Umum -->
+                <div id="content-rekap" class="p-4 md:p-6 block">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg flex items-center border border-blue-100">
+                            <div class="bg-blue-100 text-blue-600 rounded-full h-10 w-10 md:h-12 md:w-12 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-coins text-lg md:text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xs md:text-sm text-gray-500 font-medium">Total Anggaran</p>
+                                <p id="total-anggaran" class="text-lg md:text-xl font-bold text-gray-800">Rp 0</p>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg flex items-center border border-red-100">
+                            <div class="bg-red-100 text-red-600 rounded-full h-10 w-10 md:h-12 md:w-12 flex items-center justify-center flex-shrink-0">
+                                 <i class="fas fa-arrow-trend-down text-lg md:text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xs md:text-sm text-gray-500 font-medium">Total Pengeluaran</p>
+                                <p id="total-pengeluaran" class="text-lg md:text-xl font-bold text-gray-800">Rp 0</p>
+                            </div>
+                        </div>
+                         <div class="bg-green-50 p-4 rounded-lg flex items-center border border-green-100">
+                            <div class="bg-green-100 text-green-600 rounded-full h-10 w-10 md:h-12 md:w-12 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-wallet text-lg md:text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-xs md:text-sm text-gray-500 font-medium">Sisa Anggaran</p>
+                                <p id="sisa-anggaran" class="text-lg md:text-xl font-bold text-gray-800">Rp 0</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="bg-white p-4 md:p-5 rounded-lg shadow flex items-center">
-                    <div class="bg-red-100 text-red-600 rounded-full h-10 w-10 md:h-12 md:w-12 flex items-center justify-center flex-shrink-0">
-                         <i class="fas fa-arrow-trend-down text-lg md:text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-xs md:text-sm text-gray-500">Total Pengeluaran</p>
-                        <p id="total-pengeluaran" class="text-lg md:text-2xl font-bold">Rp 0</p>
-                    </div>
-                </div>
-                 <div class="bg-white p-4 md:p-5 rounded-lg shadow flex items-center">
-                    <div class="bg-green-100 text-green-600 rounded-full h-10 w-10 md:h-12 md:w-12 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-wallet text-lg md:text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-xs md:text-sm text-gray-500">Sisa Anggaran</p>
-                        <p id="sisa-anggaran" class="text-lg md:text-2xl font-bold">Rp 0</p>
+
+                <!-- Tab Content: Kantong Anggaran -->
+                <div id="content-kantong" class="p-4 md:p-6 hidden bg-gray-50">
+                    <div id="kantong-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Kantong cards will be inserted here -->
                     </div>
                 </div>
             </section>
             
-            <!-- Kantong Anggaran -->
-            <section class="mb-6">
-                <h2 class="text-lg md:text-xl font-bold mb-3">Kantong Anggaran</h2>
-                <div id="kantong-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Kantong cards will be inserted here -->
-                </div>
-            </section>
-            
-            <!-- Rekap Pengeluaran -->
+            <!-- Rekap Pengeluaran Chart & List -->
             <section class="bg-white p-4 md:p-6 rounded-lg shadow">
                  <!-- Header Rekap Responsif -->
                  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
-                    <h2 class="text-lg md:text-xl font-bold">Rekap Pengeluaran</h2>
+                    <h2 class="text-lg md:text-xl font-bold text-gray-800">Detail Pengeluaran</h2>
                     <div id="filter-rekap" class="flex space-x-1 bg-gray-100 p-1 rounded-lg w-full sm:w-auto overflow-x-auto">
                         <button data-filter="harian" class="filter-btn bg-white text-indigo-600 shadow px-3 py-1 rounded-md text-xs md:text-sm font-semibold flex-1 sm:flex-none">Harian</button>
                         <button data-filter="pekanan" class="filter-btn px-3 py-1 rounded-md text-xs md:text-sm font-semibold text-gray-600 flex-1 sm:flex-none">Pekanan</button>
                         <button data-filter="bulanan" class="filter-btn px-3 py-1 rounded-md text-xs md:text-sm font-semibold text-gray-600 flex-1 sm:flex-none">Bulanan</button>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="flex justify-center">
-                        <canvas id="rekapChart" class="max-h-64 w-full"></canvas>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="flex justify-center items-center bg-gray-50 rounded-lg p-4 h-64 md:h-auto">
+                        <div class="w-full h-full max-h-64 relative">
+                            <canvas id="rekapChart"></canvas>
+                        </div>
                     </div>
-                    <div id="detail-transaksi-container" class="max-h-80 overflow-y-auto pr-2">
+                    <div id="detail-transaksi-container" class="max-h-80 overflow-y-auto pr-2 custom-scrollbar">
                          <!-- Transaction details will be inserted here -->
                     </div>
                 </div>
@@ -305,6 +334,7 @@
             }
         });
 
+        // Event listener untuk filter rekap
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.filter-btn').forEach(b => {
@@ -317,6 +347,34 @@
             });
         });
     });
+
+    // =================================================================
+    // TAB FUNCTIONALITY (NEW)
+    // =================================================================
+    function switchTab(tabName) {
+        const tabRekapBtn = document.getElementById('tab-rekap-btn');
+        const tabKantongBtn = document.getElementById('tab-kantong-btn');
+        const contentRekap = document.getElementById('content-rekap');
+        const contentKantong = document.getElementById('content-kantong');
+
+        if (tabName === 'rekap') {
+            tabRekapBtn.classList.add('tab-active');
+            tabRekapBtn.classList.remove('tab-inactive');
+            tabKantongBtn.classList.add('tab-inactive');
+            tabKantongBtn.classList.remove('tab-active');
+            
+            contentRekap.classList.remove('hidden');
+            contentKantong.classList.add('hidden');
+        } else {
+            tabKantongBtn.classList.add('tab-active');
+            tabKantongBtn.classList.remove('tab-inactive');
+            tabRekapBtn.classList.add('tab-inactive');
+            tabRekapBtn.classList.remove('tab-active');
+            
+            contentKantong.classList.remove('hidden');
+            contentRekap.classList.add('hidden');
+        }
+    }
 
     async function login() {
         const pinInput = document.getElementById('pin-input');
@@ -350,6 +408,8 @@
         try {
             const response = await apiRequest({ action: 'getData', pin: pin });
             const allData = response.data;
+            
+            // Hapus header
             allData.shift(); 
 
             budgets = [];
@@ -357,6 +417,7 @@
             
             let lastTutupBukuDate = new Date(0);
             
+            // Cari tanggal tutup buku terakhir
             for (const row of allData) {
                 if(row[2] === 'TUTUPBUKU') {
                     const tutupBukuDate = new Date(row[0]);
@@ -368,6 +429,7 @@
 
             allData.forEach(row => {
                 const itemDate = new Date(row[0]);
+                // Hanya proses data setelah tutup buku terakhir
                 if(itemDate > lastTutupBukuDate) {
                     if (row[2] === 'BUDGET') {
                         budgets.push({ id: row[1], nama: row[3], jumlah: parseFloat(row[4]) });
@@ -402,6 +464,11 @@
         renderDetailTransaksi();
     }
     
+    // ... (sisa fungsi akan menggunakan `apiRequest` alih-alih `fetch`)
+    
+    // =================================================================
+    // HELPER FUNCTIONS
+    // =================================================================
     const formatRupiah = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
     const showLoading = (isLoading) => document.getElementById('loading-spinner').classList.toggle('hidden', !isLoading);
 
@@ -413,6 +480,9 @@
         document.getElementById('tutupbuku-modal').classList.add('hidden');
     }
     
+    // =================================================================
+    // KANTONG FUNCTIONS
+    // =================================================================
      function openKantongModal(show) {
         if (show) {
             document.getElementById('kantong-modal-title').textContent = 'Tambah Kantong Anggaran';
@@ -449,10 +519,12 @@
 
     async function hapusKantong(id) {
         if (!confirm("Apakah Anda yakin ingin menghapus kantong ini?")) return;
+        
         showLoading(true);
         try {
             await apiRequest({ action: 'deleteBudget', pin: pin, id: id });
             budgets = budgets.filter(b => b.id !== id);
+            // Juga hapus transaksi yang terkait
             transactions = transactions.filter(t => t.kantongId !== id);
             renderAll();
         } catch (error) {
@@ -462,6 +534,9 @@
         }
     }
 
+    // =================================================================
+    // TRANSAKSI FUNCTIONS
+    // =================================================================
     function openTransaksiModal(show) {
         if (show) {
             document.getElementById('transaksi-deskripsi').value = '';
@@ -589,6 +664,7 @@
     
      async function hapusTransaksi(id) {
         if (!confirm("Apakah Anda yakin ingin menghapus transaksi ini?")) return;
+        
         showLoading(true);
         try {
             await apiRequest({ action: 'deleteTransaction', pin: pin, id: id });
@@ -601,6 +677,10 @@
         }
     }
 
+
+    // =================================================================
+    // RENDER FUNCTIONS
+    // =================================================================
     function renderKantongList() {
         const list = document.getElementById('kantong-list');
         list.innerHTML = '';
@@ -662,7 +742,7 @@
             const startOfWeek = new Date(today);
             startOfWeek.setDate(today.getDate() - today.getDay());
             filteredTransactions = transactions.filter(t => new Date(t.tanggal) >= startOfWeek);
-        } else { 
+        } else { // Bulanan
              const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
              filteredTransactions = transactions.filter(t => new Date(t.tanggal) >= startOfMonth);
         }
@@ -699,7 +779,7 @@
                         </div>
                         <div>
                             <p class="font-semibold text-sm md:text-base">${t.deskripsi}</p>
-                            <p class="text-xs md:text-sm text-gray-500">${t.kategori} | ${kantongName}</p>
+                            <p class="text-xs md:text-sm text-gray-500">${t.kategori} | Dari: ${kantongName}</p>
                         </div>
                     </div>
                     <div class="text-right">
@@ -707,12 +787,12 @@
                          <p class="text-xs text-gray-400">${formattedDate}</p>
                          <div class="flex items-center justify-end space-x-2 mt-1">
                              ${t.struk && t.struk !== 'error' ? `<button onclick="openStrukModal(true, '${t.struk}')" class="text-xs text-indigo-500 hover:underline">Struk</button>` : ''}
-                             ${t.detail.length > 0 ? `<button onclick="this.nextElementSibling.classList.toggle('hidden')" class="text-xs text-gray-500 hover:underline">Detail</button>` : ''}
+                             ${t.detail.length > 0 ? `<button onclick="document.getElementById('detail-${t.id}').classList.toggle('hidden')" class="text-xs text-gray-500 hover:underline">Detail</button>` : ''}
                              <button onclick="hapusTransaksi('${t.id}')" class="text-xs text-gray-400 hover:text-red-500"><i class="fas fa-trash-alt"></i></button>
                          </div>
                     </div>
                 </div>
-                <div class="hidden">
+                <div id="detail-${t.id}" class="hidden">
                     ${detailHtml}
                 </div>
             `;
@@ -778,6 +858,9 @@
         return styles[kategori] || styles['Lainnya'];
     }
 
+    // =================================================================
+    // MODAL FUNCTIONS
+    // =================================================================
     function openStrukModal(show, imageUrl) {
         if(show) {
             document.getElementById('struk-modal-image').src = imageUrl;
@@ -791,7 +874,7 @@
     function openTutupBukuModal(show = true) {
          if (show) {
             const content = document.getElementById('tutupbuku-content');
-            content.innerHTML = ''; 
+            content.innerHTML = ''; // Clear previous content
 
             const sisaPerKantong = budgets.map(b => {
                 const terpakai = transactions.filter(t => t.kantongId === b.id).reduce((sum, t) => sum + t.jumlah, 0);
@@ -801,20 +884,20 @@
             const totalSisa = sisaPerKantong.reduce((sum, b) => sum + b.sisa, 0);
 
             let html = '';
-            if (totalSisa >= 0) { 
+            if (totalSisa >= 0) { // Surplus
                 html = `
                     <p class="mb-4">Terdapat sisa dana (surplus) sebesar <strong class="text-green-600">${formatRupiah(totalSisa)}</strong>.</p>
                     <p class="mb-2 text-sm">Pindahkan seluruh sisa dana ini ke kantong:</p>
-                    <select id="tutupbuku-target" class="w-full border-gray-300 rounded-md shadow-sm p-2">
+                    <select id="tutupbuku-target" class="w-full border-gray-300 rounded-md shadow-sm">
                         ${budgets.map(b => `<option value="${b.id}">${b.nama}</option>`).join('')}
                     </select>
                     <p class="text-xs text-gray-500 mt-2">Setelah dikonfirmasi, semua nilai "Terpakai" akan direset menjadi nol untuk memulai bulan baru.</p>
                 `;
-            } else { 
+            } else { // Defisit
                  html = `
                     <p class="mb-4">Terdapat kekurangan dana (defisit) sebesar <strong class="text-red-600">${formatRupiah(Math.abs(totalSisa))}</strong>.</p>
                     <p class="mb-2 text-sm">Ambil kekurangan dana dari kantong:</p>
-                     <select id="tutupbuku-target" class="w-full border-gray-300 rounded-md shadow-sm p-2">
+                     <select id="tutupbuku-target" class="w-full border-gray-300 rounded-md shadow-sm">
                         ${budgets.map(b => `<option value="${b.id}">${b.nama}</option>`).join('')}
                     </select>
                      <p class="text-xs text-gray-500 mt-2">Sistem akan mencatat pengeluaran dari kantong pilihan Anda untuk menutupi defisit, lalu mereset bulan.</p>
