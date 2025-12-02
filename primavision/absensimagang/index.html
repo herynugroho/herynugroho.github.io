@@ -318,8 +318,19 @@
                 const matchName = nameFilter === "ALL" || item.nama === nameFilter;
                 let matchDate = true;
                 if(dateFilter) {
-                    const itemDate = new Date(item.waktu).toISOString().split('T')[0];
-                    matchDate = itemDate === dateFilter;
+                    // 1. Ubah string waktu menjadi Objek Date (ini otomatis konversi ke WITA/Lokal)
+                    const d = new Date(item.waktu);
+                    
+                    // 2. Ambil Tahun, Bulan, Tanggal secara manual dari waktu LOKAL
+                    const year = d.getFullYear();
+                    const month = String(d.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0, jadi +1
+                    const day = String(d.getDate()).padStart(2, '0');
+                    
+                    // 3. Gabungkan jadi format YYYY-MM-DD
+                    const itemDateLocal = `${year}-${month}-${day}`;
+                    
+                    // 4. Bandingkan
+                    matchDate = itemDateLocal === dateFilter;
                 }
                 return matchName && matchDate;
             });
