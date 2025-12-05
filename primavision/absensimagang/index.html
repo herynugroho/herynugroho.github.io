@@ -9,25 +9,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Sistem Absensi Magang</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', sans-serif; }
         .bg-primary { background-color: #2563eb; }
         .hidden { display: none !important; }
-        /* Agar logo tidak bisa di-drag/seleksi */
         .no-select { -webkit-user-select: none; user-select: none; pointer-events: none; }
     </style>
 </head>
 <body class="h-[100dvh] flex flex-col overflow-hidden pt-[env(safe-area-inset-top)] bg-gray-100">
 
     <div id="loginPage" class="flex-1 flex flex-col items-center justify-center p-6 z-20 relative">
-        
         <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 relative overflow-hidden">
              <img src="logo-prima-vision.png" alt="ornament" class="absolute -top-10 -right-10 w-40 opacity-[0.03] no-select grayscale transform rotate-12">
 
             <div class="text-center mb-8">
                 <img src="logo-prima-vision.png" alt="Logo Prima Vision" class="h-16 w-auto mx-auto mb-6 object-contain">
-                
                 <h2 class="text-2xl font-bold text-gray-800">Absensi Magang</h2>
                 <p class="text-gray-500 text-sm mt-1">Masuk sebagai Peserta atau Admin</p>
             </div>
@@ -67,26 +64,43 @@
                          <p id="userKampus" class="text-[11px] font-medium text-blue-50 truncate max-w-[180px] tracking-wide">Kampus</p>
                     </div>
                 </div>
-                <button onclick="handleLogout()" class="bg-white bg-opacity-20 p-3 rounded-full text-white hover:bg-opacity-30 transition backdrop-blur-md shadow-sm active:scale-95">
-                    <i class="fa-solid fa-right-from-bracket text-lg pl-0.5"></i>
+                <button onclick="handleLogout()" class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-white hover:bg-opacity-30 transition shadow-sm active:scale-95">
+                    <i class="fa-solid fa-sign-out-alt"></i>
                 </button>
             </div>
         </div>
 
-        <div class="px-6 -mt-16 flex-none grid grid-cols-2 gap-5 relative z-20">
-            <button onclick="openCamera('Check In')" class="bg-white p-6 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-3 border-2 border-transparent hover:border-green-100 group">
-                <div class="w-16 h-16 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shadow-sm">
+        <div class="px-6 -mt-16 flex-none grid grid-cols-4 gap-3 relative z-20">
+            <button onclick="openCamera('Check In')" class="col-span-2 bg-white p-4 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-2 border-2 border-transparent hover:border-green-100 group">
+                <div class="w-10 h-10 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300">
                     <i class="fa-solid fa-camera"></i>
                 </div>
-                <span class="font-bold text-gray-800 text-sm uppercase tracking-wider">Check In</span>
-                <p class="font-bold text-gray-800 text-sm uppercase tracking-wider">(Datang)</p>
+                <span class="font-bold text-gray-800 text-[10px] uppercase tracking-wider">Check In</span>
             </button>
-            <button onclick="openCamera('Check Out')" class="bg-white p-6 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-3 border-2 border-transparent hover:border-red-100 group">
-                <div class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-red-500 group-hover:text-white transition-colors duration-300 shadow-sm">
-                    <i class="fa-solid fa-sign-out-alt"></i>
+            
+            <button onclick="openCamera('Check Out')" class="col-span-2 bg-white p-4 rounded-3xl shadow-[0_8px_25px_rgba(0,0,0,0.07)] active:scale-95 transition flex flex-col items-center gap-2 border-2 border-transparent hover:border-red-100 group">
+                <div class="w-10 h-10 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-xl group-hover:bg-red-500 group-hover:text-white transition-colors duration-300">
+                    <i class="fa-solid fa-person-walking-arrow-right"></i>
                 </div>
-                <span class="font-bold text-gray-800 text-sm uppercase tracking-wider">Check Out</span>
-                <span class="font-bold text-gray-800 text-sm uppercase tracking-wider">(Pulang)</span>
+                <span class="font-bold text-gray-800 text-[10px] uppercase tracking-wider">Check Out</span>
+            </button>
+
+            <button onclick="openIzinModal()" class="col-span-2 bg-white p-3 rounded-2xl shadow-sm active:scale-95 transition flex items-center justify-center gap-3 border border-transparent hover:border-yellow-100 group">
+                <div class="w-8 h-8 bg-yellow-50 text-yellow-500 rounded-xl flex items-center justify-center text-sm group-hover:bg-yellow-500 group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <div class="text-left">
+                    <span class="block font-bold text-gray-800 text-[10px] uppercase">Izin/Sakit</span>
+                </div>
+            </button>
+
+            <button onclick="openRekapModal('USER')" class="col-span-2 bg-white p-3 rounded-2xl shadow-sm active:scale-95 transition flex items-center justify-center gap-3 border border-transparent hover:border-cyan-100 group">
+                <div class="w-8 h-8 bg-cyan-50 text-cyan-500 rounded-xl flex items-center justify-center text-sm group-hover:bg-cyan-500 group-hover:text-white transition-colors">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <div class="text-left">
+                    <span class="block font-bold text-gray-800 text-[10px] uppercase">Rekap</span>
+                </div>
             </button>
         </div>
 
@@ -99,9 +113,7 @@
 
         <div class="p-6 pb-8 text-center mt-auto border-t border-gray-100 bg-white">
             <img src="logo-prima-vision.png" alt="Prima Vision Logo" class="h-10 mx-auto mb-3 object-contain">
-            
             <h2 class="text-gray-800 font-bold text-sm tracking-wide uppercase mb-2">PT Citra Prima Media</h2>
-            
             <div class="text-[10px] text-gray-400 leading-relaxed font-medium">
                 <p>Jl. A. P. Pettarani Diamond Building No. 07</p>
                 <p>Kota Makassar, Sulawesi Selatan 90231</p>
@@ -114,19 +126,20 @@
     </div>
 
     <div id="adminPage" class="hidden w-full h-full bg-gray-50 flex flex-col relative">
-        
         <div class="bg-white px-6 py-5 shadow-sm z-10 flex justify-between items-center border-b border-gray-100 relative overflow-hidden">
              <img src="logo-prima-vision.png" alt="ornament" class="absolute top-2 right-4 w-32 opacity-[0.05] grayscale no-select pointer-events-none">
-
             <div>
                 <h1 class="font-black text-gray-800 text-xl tracking-tight">Administrator</h1>
                 <p class="text-xs font-medium text-gray-400">Rekapitulasi Absensi Prima Vision</p>
             </div>
-            <div class="flex gap-3 relative z-10">
-                <button onclick="openSpreadsheet()" class="bg-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-sm hover:bg-emerald-600 flex items-center gap-2 transition active:scale-95">
-                    <i class="fa-solid fa-table-cells"></i> Excel
+            <div class="flex gap-2 relative z-10">
+                <button onclick="openRekapModal('ADMIN')" class="bg-cyan-500 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm hover:bg-cyan-600 transition active:scale-95">
+                    <i class="fa-solid fa-list-check"></i> Rekap
                 </button>
-                <button onclick="handleLogout()" class="bg-red-50 text-red-500 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-100 transition active:scale-95">
+                <button onclick="openSpreadsheet()" class="bg-emerald-500 text-white px-3 py-2 rounded-xl text-xs font-bold shadow-sm hover:bg-emerald-600 flex items-center gap-2 transition active:scale-95">
+                    <i class="fa-solid fa-table-cells"></i>
+                </button>
+                <button onclick="handleLogout()" class="bg-red-50 text-red-500 px-3 py-2 rounded-xl text-xs font-bold hover:bg-red-100 transition active:scale-95">
                     Keluar
                 </button>
             </div>
@@ -187,7 +200,105 @@
         </div>
     </div>
 
-    <div id="loadingOverlay" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-80 flex items-center justify-center flex-col backdrop-blur-md">
+    <div id="izinModal" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-end sm:items-center justify-center backdrop-blur-sm p-4 transition-all duration-300">
+        <div class="bg-white w-full max-w-md rounded-[2rem] p-6 shadow-2xl transform transition-all scale-100 relative">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+                <div>
+                    <h3 class="font-bold text-xl text-gray-800">Pengajuan Izin</h3>
+                    <p class="text-xs text-gray-400">Silakan isi data dengan jujur</p>
+                </div>
+                <button onclick="closeIzinModal()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-red-100 hover:text-red-500 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider ml-2">Jenis Pengajuan</label>
+                    <div class="relative mt-1">
+                        <select id="izinType" class="w-full p-3 pl-4 border-2 border-gray-100 rounded-xl bg-gray-50 font-semibold text-gray-700 outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-100 appearance-none">
+                            <option value="Sakit">😷 Sakit (Sick Leave)</option>
+                            <option value="Izin">📝 Izin (Permit)</option>
+                            <option value="Cuti">🏖️ Cuti (Day Off)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider ml-2">Alasan / Keterangan</label>
+                    <textarea id="izinDesc" rows="3" class="w-full mt-1 p-3 border-2 border-gray-100 rounded-xl bg-gray-50 font-medium text-gray-700 outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-100 placeholder-gray-300" placeholder="Contoh: Demam tinggi sejak semalam..."></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider ml-2">Foto Bukti</label>
+                    <label class="mt-1 flex flex-col items-center justify-center w-full h-24 border-2 border-gray-200 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-yellow-50 hover:border-yellow-300 transition group">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-gray-300 group-hover:text-yellow-500 transition mb-2"></i>
+                            <p class="text-xs text-gray-400 group-hover:text-yellow-600"><span class="font-semibold">Klik untuk upload</span> surat / foto</p>
+                        </div>
+                        <input type="file" id="izinFile" accept="image/*" class="hidden" onchange="previewFileName()">
+                    </label>
+                    <p id="fileNameDisplay" class="text-center text-xs text-green-600 mt-2 font-medium hidden">File terpilih!</p>
+                </div>
+                <button onclick="submitIzin()" class="w-full bg-yellow-500 text-white font-bold py-4 rounded-xl hover:bg-yellow-600 transition shadow-[0_10px_20px_rgba(234,179,8,0.3)] active:scale-95 mt-2 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Kirim Pengajuan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="rekapModal" class="hidden fixed inset-0 z-[70] bg-black bg-opacity-50 flex items-end sm:items-center justify-center backdrop-blur-sm p-4 transition-all duration-300">
+        <div class="bg-white w-full max-w-md h-[85vh] rounded-t-[2rem] sm:rounded-[2rem] p-0 shadow-2xl flex flex-col overflow-hidden relative">
+            <div class="p-6 pb-4 bg-white border-b border-gray-100 flex justify-between items-center flex-none">
+                <div>
+                    <h3 class="font-bold text-xl text-gray-800">Laporan Bulanan</h3>
+                    <p class="text-xs text-gray-400" id="rekapSubTitle">Detail Kehadiran</p>
+                </div>
+                <button onclick="closeRekapModal()" class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-gray-100 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-4 bg-gray-50 flex gap-3 flex-none">
+                <select id="rekapUserSelect" class="hidden w-1/3 p-2 text-xs font-bold rounded-lg border border-gray-200 outline-none">
+                    </select>
+                <select id="rekapBulan" class="flex-1 p-2 text-xs font-bold rounded-lg border border-gray-200 outline-none" onchange="generateReport()">
+                    <option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option>
+                    <option value="3">April</option><option value="4">Mei</option><option value="5">Juni</option>
+                    <option value="6">Juli</option><option value="7">Agustus</option><option value="8">September</option>
+                    <option value="9">Oktober</option><option value="10">November</option><option value="11">Desember</option>
+                </select>
+                <select id="rekapTahun" class="w-20 p-2 text-xs font-bold rounded-lg border border-gray-200 outline-none" onchange="generateReport()">
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+
+            <div class="px-4 pt-4 flex-none">
+                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl p-4 text-white shadow-lg flex justify-between items-center">
+                    <div class="text-center">
+                        <p class="text-[10px] opacity-80 uppercase font-bold">Hadir</p>
+                        <p id="sumHadir" class="text-2xl font-black">0</p>
+                    </div>
+                    <div class="w-px h-8 bg-white opacity-20"></div>
+                    <div class="text-center">
+                        <p class="text-[10px] opacity-80 uppercase font-bold">Telat</p>
+                        <p id="sumTelat" class="text-2xl font-black">0</p>
+                    </div>
+                    <div class="w-px h-8 bg-white opacity-20"></div>
+                    <div class="text-center">
+                        <p class="text-[10px] opacity-80 uppercase font-bold">Izin/Sakit</p>
+                        <p id="sumIzin" class="text-2xl font-black">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rekapContent" class="flex-1 overflow-y-auto p-4 space-y-3">
+                <div class="text-center text-gray-400 mt-10 text-xs">Pilih periode untuk melihat data</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="hidden fixed inset-0 z-[80] bg-black bg-opacity-80 flex items-center justify-center flex-col backdrop-blur-md">
         <div class="relative w-20 h-20">
              <div class="absolute top-0 left-0 w-full h-full border-4 border-blue-200 rounded-full animate-ping opacity-20"></div>
              <div class="absolute top-0 left-0 w-full h-full border-4 border-t-blue-500 border-r-blue-500 border-b-transparent border-l-transparent rounded-full animate-spin"></div>
@@ -197,11 +308,19 @@
     </div>
 
     <script>
-        // --- KONFIGURASI ---
+        // --- KONFIGURASI UTAMA ---
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwEMLvNup4NKhEAeT5d7l5DNFXRxDoet1OmcjCvWMGNvGZo0_FvCqhLbiYZIGZTo3LNgQ/exec"; 
-        
-        // --- GANTI INI DENGAN URL SPREADSHEET ANDA ---
         const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/13xFt1CVVn5uBR_iOqOVGbOtGZ7ZVkP3u2xDFHKJc6ps/edit?usp=sharing"; 
+        
+        const OFFICE_LAT = -5.153986;  
+        const OFFICE_LNG = 119.4376627; 
+        const MAX_DISTANCE_METERS = 100;
+
+        // KONFIGURASI JAM KERJA (INI YANG MENYEBABKAN ERROR JIKA HILANG)
+        const WORK_START_HOUR = 8;    // Jam 08:00 Pagi Masuk
+        const WORK_START_MINUTE = 0;
+        const WORK_END_HOUR = 17;     // Jam 17:00 Sore Pulang
+        const WORK_END_MINUTE = 0;
 
         const internData = {
             "7371092004030008": { name: "Habiburrahman", role: "Intern NOC", campus: "Univ. Muslim Indonesia" },
@@ -233,7 +352,19 @@
             window.open(GOOGLE_SHEET_URL, '_blank');
         }
 
-        // --- LOGIC UTAMA ---
+        // Rumus Haversine (Hitung Jarak)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3; 
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δφ = (lat2-lat1) * Math.PI/180;
+            const Δλ = (lon2-lon1) * Math.PI/180;
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; 
+        }
+
+        // --- SYSTEM CORE (LOGIN/LOGOUT/FETCH) ---
         function handleLogin() {
             const nik = document.getElementById('loginNik').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
@@ -277,16 +408,9 @@
         function fetchDataFromServer(mode) {
             const container = mode === "ADMIN" ? document.getElementById('adminContent') : document.getElementById('historyContainer');
             if(mode === "ADMIN") {
-                 container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center mt-20 text-gray-400">
-                        <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4 text-blue-500"></i>
-                        <p class="font-medium animate-pulse">Sedang memuat data...</p>
-                    </div>`;
+                 container.innerHTML = `<div class="flex flex-col items-center justify-center mt-20 text-gray-400"><i class="fa-solid fa-circle-notch fa-spin text-3xl mb-4 text-blue-500"></i><p class="font-medium animate-pulse">Sedang memuat data...</p></div>`;
             } else {
-                 container.innerHTML = `
-                    <div class="flex justify-center py-6">
-                        <i class="fa-solid fa-circle-notch fa-spin text-blue-500"></i>
-                    </div>`;
+                 container.innerHTML = `<div class="flex justify-center py-6"><i class="fa-solid fa-circle-notch fa-spin text-blue-500"></i></div>`;
             }
             
             fetch(APPS_SCRIPT_URL)
@@ -308,7 +432,7 @@
             Object.values(internData).forEach(u => select.innerHTML += `<option value="${u.name}">${u.name}</option>`);
         }
 
-        // --- RENDER ADMIN (DIPERCANTIK) ---
+        // --- RENDER ADMIN LIST ---
         function renderAdminData() {
             const nameFilter = document.getElementById('adminFilter').value;
             const dateFilter = document.getElementById('dateFilter').value; 
@@ -318,29 +442,18 @@
                 const matchName = nameFilter === "ALL" || item.nama === nameFilter;
                 let matchDate = true;
                 if(dateFilter) {
-                    // 1. Ubah string waktu menjadi Objek Date (ini otomatis konversi ke WITA/Lokal)
                     const d = new Date(item.waktu);
-                    
-                    // 2. Ambil Tahun, Bulan, Tanggal secara manual dari waktu LOKAL
                     const year = d.getFullYear();
-                    const month = String(d.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0, jadi +1
+                    const month = String(d.getMonth() + 1).padStart(2, '0');
                     const day = String(d.getDate()).padStart(2, '0');
-                    
-                    // 3. Gabungkan jadi format YYYY-MM-DD
                     const itemDateLocal = `${year}-${month}-${day}`;
-                    
-                    // 4. Bandingkan
                     matchDate = itemDateLocal === dateFilter;
                 }
                 return matchName && matchDate;
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                <div class="flex flex-col items-center justify-center mt-20 text-gray-300 gap-3">
-                    <i class="fa-regular fa-folder-open text-5xl"></i>
-                    <p class="text-sm font-medium">Tidak ada data ditemukan.</p>
-                </div>`; 
+                container.innerHTML = `<div class="flex flex-col items-center justify-center mt-20 text-gray-300 gap-3"><i class="fa-regular fa-folder-open text-5xl"></i><p class="text-sm font-medium">Tidak ada data ditemukan.</p></div>`; 
                 return;
             }
 
@@ -349,16 +462,26 @@
                 const dateObj = new Date(item.waktu);
                 const dateStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: '2-digit' });
                 const timeStr = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                const isCheckIn = item.status === 'Check In';
-                const statusColor = isCheckIn ? 'text-green-600 bg-green-50 border-green-100' : 'text-red-600 bg-red-50 border-red-100';
-                const statusIcon = isCheckIn ? 'fa-camera' : 'fa-person-walking-arrow-right';
+                
+                // Status Logic
+                let statusColor = "";
+                let statusIcon = "";
+                if(item.status === "Sakit" || item.status === "Izin" || item.status === "Cuti") {
+                    statusColor = "text-yellow-600 bg-yellow-50 border-yellow-100";
+                    statusIcon = "fa-file-signature";
+                } else if(item.status === "Check In") {
+                    statusColor = "text-green-600 bg-green-50 border-green-100";
+                    statusIcon = "fa-camera";
+                } else {
+                    statusColor = "text-red-600 bg-red-50 border-red-100";
+                    statusIcon = "fa-person-walking-arrow-right";
+                }
                 const fotoUrl = getEmbedLink(item.foto); 
 
                 html += `
                 <div class="bg-white p-4 rounded-[20px] shadow-[0_2px_15px_-5px_rgba(0,0,0,0.08)] border border-gray-50 flex items-start gap-4 transition hover:-translate-y-1">
                     <div class="w-16 h-16 flex-none rounded-2xl bg-gray-100 overflow-hidden cursor-pointer shadow-sm relative group" onclick="window.open('${item.foto}', '_blank')">
                          <img src="${fotoUrl}" class="w-full h-full object-cover transition group-hover:scale-110 duration-500">
-                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition"></div>
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start">
@@ -378,7 +501,7 @@
             container.innerHTML = html + '</div>';
         }
 
-        // --- RENDER USER (DIPERCANTIK) ---
+        // --- RENDER USER HISTORY ---
         function renderUserHistory() {
             const container = document.getElementById('historyContainer');
             const todayStr = new Date().toLocaleDateString('id-ID'); 
@@ -388,31 +511,29 @@
             });
 
             if (myHistory.length === 0) {
-                container.innerHTML = `
-                <div class="bg-white rounded-3xl p-8 text-center border-2 border-dashed border-gray-200">
-                    <i class="fa-solid fa-camera-retro text-4xl text-gray-200 mb-3"></i>
-                    <p class="text-gray-400 text-sm font-medium">Belum ada aktivitas absensi hari ini.</p>
-                </div>`; 
+                container.innerHTML = `<div class="bg-white rounded-3xl p-8 text-center border-2 border-dashed border-gray-200"><i class="fa-solid fa-camera-retro text-4xl text-gray-200 mb-3"></i><p class="text-gray-400 text-sm font-medium">Belum ada aktivitas absensi hari ini.</p></div>`; 
                 return;
             }
 
             let html = '';
             myHistory.forEach(h => {
                 const timeStr = new Date(h.waktu).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
-                const isCheckIn = h.status === 'Check In';
                 const fotoUrl = getEmbedLink(h.foto);
+                
+                let borderColor = "";
+                let iconStatus = "";
+                if(h.status === "Check In") { borderColor = "border-green-500"; iconStatus = '<i class="fa-solid fa-circle-check text-green-500 text-xs"></i>'; }
+                else if(h.status === "Check Out") { borderColor = "border-red-500"; iconStatus = '<i class="fa-solid fa-circle-check text-red-500 text-xs"></i>'; }
+                else { borderColor = "border-yellow-400"; iconStatus = '<i class="fa-solid fa-circle-info text-yellow-500 text-xs"></i>'; }
 
                 html += `
-                <div class="flex justify-between items-center p-4 bg-white rounded-[20px] shadow-sm border-l-[6px] ${isCheckIn ? 'border-green-500' : 'border-red-500'} mb-3 transition hover:shadow-md">
+                <div class="flex justify-between items-center p-4 bg-white rounded-[20px] shadow-sm border-l-[6px] ${borderColor} mb-3 transition hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl overflow-hidden bg-gray-100 shadow-sm">
                              <img src="${fotoUrl}" class="w-full h-full object-cover">
                         </div>
                         <div>
-                            <p class="text-[15px] font-bold text-gray-700 flex items-center gap-2">
-                                ${h.status} 
-                                ${isCheckIn ? '<i class="fa-solid fa-circle-check text-green-500 text-xs"></i>' : '<i class="fa-solid fa-circle-check text-red-500 text-xs"></i>'}
-                            </p>
+                            <p class="text-[15px] font-bold text-gray-700 flex items-center gap-2">${h.status} ${iconStatus}</p>
                             <p class="text-xs text-gray-400 font-medium mt-0.5">Terverifikasi Sistem</p>
                         </div>
                     </div>
@@ -422,7 +543,7 @@
             container.innerHTML = html;
         }
 
-        // --- KAMERA (TETAP SAMA) ---
+        // --- KAMERA & GEO ---
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         let stream = null;
@@ -433,7 +554,6 @@
             document.getElementById('cameraModal').classList.remove('hidden');
             navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } }).then(s => { stream = s; video.srcObject = stream; });
         }
-
         function closeCamera() {
             if (stream) stream.getTracks().forEach(track => track.stop());
             document.getElementById('cameraModal').classList.add('hidden');
@@ -443,22 +563,32 @@
             if (!navigator.geolocation) return alert("GPS Wajib Aktif");
             document.getElementById('loadingOverlay').classList.remove('hidden');
             navigator.geolocation.getCurrentPosition(pos => {
+                // 1. Cek Jarak Kantor
+                const userLat = pos.coords.latitude;
+                const userLng = pos.coords.longitude;
+                const distance = calculateDistance(userLat, userLng, OFFICE_LAT, OFFICE_LNG);
+                
+                if (distance > MAX_DISTANCE_METERS) {
+                    document.getElementById('loadingOverlay').classList.add('hidden');
+                    alert(`❌ LOKASI DITOLAK!\nJarak Anda: ${Math.round(distance)}m\nMaksimal: ${MAX_DISTANCE_METERS}m dari kantor.`);
+                    return; 
+                }
+
                 canvas.width = video.videoWidth; canvas.height = video.videoHeight;
                 canvas.getContext('2d').drawImage(video, 0, 0);
                 
                 const payload = {
                     nik: currentUser.nik, nama: currentUser.name, bagian: currentUser.role, campus: currentUser.campus,
-                    status: currentAction, lat: pos.coords.latitude, long: pos.coords.longitude,
+                    status: currentAction, lat: userLat, long: userLng,
                     foto: canvas.toDataURL('image/png')
                 };
 
                 fetch(APPS_SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
                 }).then(() => {
                     document.getElementById('loadingOverlay').classList.add('hidden');
                     closeCamera();
-                    alert("Berhasil!");
+                    alert(`✅ Berhasil ${currentAction}!`);
                     fetchDataFromServer("USER"); 
                 }).catch(e => {
                     document.getElementById('loadingOverlay').classList.add('hidden');
@@ -470,6 +600,232 @@
             });
         }
 
+        // --- LOGIC IZIN / SAKIT ---
+        function openIzinModal() { document.getElementById('izinModal').classList.remove('hidden'); }
+        function closeIzinModal() { 
+            document.getElementById('izinModal').classList.add('hidden');
+            document.getElementById('fileNameDisplay').classList.add('hidden');
+        }
+        function previewFileName() {
+            const fileInput = document.getElementById('izinFile');
+            const display = document.getElementById('fileNameDisplay');
+            if(fileInput.files.length > 0) {
+                display.innerText = "✅ " + fileInput.files[0].name;
+                display.classList.remove('hidden');
+            }
+        }
+        function submitIzin() {
+            const tipe = document.getElementById('izinType').value;
+            const ket = document.getElementById('izinDesc').value;
+            const fileInput = document.getElementById('izinFile');
+
+            if (!ket) return alert("Mohon isi keterangan.");
+            if (fileInput.files.length === 0) return alert("Wajib upload foto bukti.");
+
+            closeIzinModal();
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fotoBase64 = e.target.result;
+                const payload = {
+                    nik: currentUser.nik, nama: currentUser.name, 
+                    bagian: currentUser.role + ` (${tipe}: ${ket})`, 
+                    campus: currentUser.campus, status: tipe, lat: 0, long: 0, foto: fotoBase64
+                };
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                }).then(() => {
+                    document.getElementById('loadingOverlay').classList.add('hidden');
+                    alert(`✅ Pengajuan ${tipe} Berhasil!`);
+                    document.getElementById('izinDesc').value = ""; document.getElementById('izinFile').value = "";
+                    fetchDataFromServer("USER"); 
+                }).catch(err => {
+                    document.getElementById('loadingOverlay').classList.add('hidden');
+                    alert("Gagal kirim data.");
+                });
+            };
+            reader.readAsDataURL(file); 
+        }
+
+        // --- LOGIC REKAP / LAPORAN ---
+        function openRekapModal(role) {
+            const modal = document.getElementById('rekapModal');
+            const selectUser = document.getElementById('rekapUserSelect');
+            const title = document.getElementById('rekapSubTitle');
+            modal.classList.remove('hidden');
+            
+            const now = new Date();
+            document.getElementById('rekapBulan').value = now.getMonth();
+            document.getElementById('rekapTahun').value = now.getFullYear();
+
+            if (role === 'ADMIN') {
+                selectUser.classList.remove('hidden');
+                selectUser.innerHTML = '';
+                Object.values(internData).forEach(u => selectUser.innerHTML += `<option value="${u.name}">${u.name}</option>`);
+                title.innerText = "Mode Administrator";
+                selectUser.onchange = generateReport;
+            } else {
+                selectUser.classList.add('hidden');
+                title.innerText = currentUser.name;
+            }
+            generateReport();
+        }
+        function closeRekapModal() { document.getElementById('rekapModal').classList.add('hidden'); }
+        
+        function generateReport() {
+            const bulan = parseInt(document.getElementById('rekapBulan').value);
+            const tahun = parseInt(document.getElementById('rekapTahun').value);
+            
+            let targetName = "";
+            const selectUser = document.getElementById('rekapUserSelect');
+            if (!selectUser.classList.contains('hidden')) targetName = selectUser.value;
+            else targetName = currentUser.name;
+
+            const container = document.getElementById('rekapContent');
+            container.innerHTML = '<div class="text-center py-4"><i class="fa-solid fa-spinner fa-spin text-blue-500"></i> Memproses data...</div>';
+
+            const filtered = rawData.filter(item => {
+                const d = new Date(item.waktu);
+                return item.nama === targetName && d.getMonth() === bulan && d.getFullYear() === tahun;
+            });
+
+            const reportData = {};
+            filtered.forEach(item => {
+                const d = new Date(item.waktu);
+                const dateKey = d.getDate();
+                if (!reportData[dateKey]) reportData[dateKey] = { date: d, in: null, out: null, note: '', status: '' };
+
+                const jam = d.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}); // Format "08.30" atau "08:30"
+                if (item.status === 'Check In') reportData[dateKey].in = jam;
+                else if (item.status === 'Check Out') reportData[dateKey].out = jam;
+                else {
+                    reportData[dateKey].status = item.status;
+                    const match = item.bagian.match(/\(([^)]+)\)/);
+                    if (match) reportData[dateKey].note = match[1];
+                }
+            });
+
+            let html = '';
+            let countHadir = 0; let countTelat = 0; let countIzin = 0;
+            const keys = Object.keys(reportData).sort((a,b) => b - a);
+
+            if (keys.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-400 mt-10 text-xs">Belum ada data absensi bulan ini.</div>';
+                updateSummary(0,0,0); return;
+            }
+
+            // HELPER: Konversi Jam String (08:30) ke Total Menit (510)
+            const timeToMinutes = (timeStr) => {
+                if(!timeStr) return 0;
+                // Handle pemisah titik atau titik dua
+                const parts = timeStr.includes('.') ? timeStr.split('.') : timeStr.split(':');
+                return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+            };
+
+            keys.forEach(dateKey => {
+                const data = reportData[dateKey];
+                const dayName = data.date.toLocaleDateString('id-ID', { weekday: 'long' });
+                const fullDate = data.date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                let cardColor = "border-l-4 border-gray-300"; 
+                let statusBadge = ""; let details = "";
+
+                // --- LOGIKA UTAMA ---
+                if (data.status === 'Sakit' || data.status === 'Izin' || data.status === 'Cuti') {
+                    // KASUS IZIN
+                    countIzin++;
+                    cardColor = "border-l-4 border-yellow-400 bg-yellow-50";
+                    statusBadge = `<span class="bg-yellow-100 text-yellow-700 text-[10px] px-2 py-0.5 rounded font-bold">${data.status}</span>`;
+                    details = `<p class="text-xs text-gray-600 italic mt-1">"${data.note}"</p>`;
+                } else {
+                    // KASUS HADIR (Analisa Waktu)
+                    countHadir++;
+                    
+                    const minMasuk = timeToMinutes(data.in);
+                    const minPulang = timeToMinutes(data.out);
+                    
+                    const startWorkMin = WORK_START_HOUR * 60 + WORK_START_MINUTE; // 08:00 = 480 menit
+                    const endWorkMin = WORK_END_HOUR * 60 + WORK_END_MINUTE;     // 17:00 = 1020 menit
+
+                    // 1. Analisa Masuk
+                    let masukText = data.in || '<span class="text-red-500 italic">Lupa Absen</span>';
+                    let lateInfo = "";
+                    let isLate = false;
+                    
+                    if (data.in) {
+                        if (minMasuk > startWorkMin) {
+                            const diff = minMasuk - startWorkMin;
+                            lateInfo = `<p class="text-[9px] text-red-500 font-bold">Telat ${diff} mnt</p>`;
+                            isLate = true;
+                            countTelat++;
+                        }
+                    } else {
+                        // Tidak ada absen masuk tapi ada absen pulang (Aneh/Lupa)
+                        lateInfo = `<p class="text-[9px] text-red-500 font-bold">Tidak ada data</p>`;
+                    }
+
+                    // 2. Analisa Pulang
+                    let pulangText = data.out || '<span class="text-red-500 italic">Lupa Absen</span>';
+                    let earlyInfo = "";
+                    
+                    if (data.out) {
+                        if (minPulang < endWorkMin) {
+                            const diff = endWorkMin - minPulang;
+                            earlyInfo = `<p class="text-[9px] text-orange-500 font-bold">Cepat ${diff} mnt</p>`;
+                        }
+                    } else {
+                        // Tidak ada absen pulang (Lupa)
+                        earlyInfo = `<p class="text-[9px] text-red-500 font-bold">Belum scan</p>`;
+                    }
+
+                    // Penentuan Warna Kartu
+                    if (isLate) {
+                        cardColor = "border-l-4 border-red-400 bg-red-50";
+                        statusBadge = `<span class="bg-red-100 text-red-600 text-[10px] px-2 py-0.5 rounded font-bold">Terlambat</span>`;
+                    } else if (!data.in || !data.out) {
+                        cardColor = "border-l-4 border-orange-300 bg-orange-50";
+                        statusBadge = `<span class="bg-orange-100 text-orange-600 text-[10px] px-2 py-0.5 rounded font-bold">Data Tidak Lengkap</span>`;
+                    } else {
+                        cardColor = "border-l-4 border-green-500";
+                        statusBadge = `<span class="bg-green-100 text-green-600 text-[10px] px-2 py-0.5 rounded font-bold">Tepat Waktu</span>`;
+                    }
+
+                    details = `
+                        <div class="flex justify-between mt-3 text-sm">
+                            <div class="text-center w-1/3">
+                                <p class="text-[10px] text-gray-400 uppercase">Masuk</p>
+                                <p class="font-bold text-gray-700">${masukText}</p>
+                                ${lateInfo}
+                            </div>
+                            <div class="w-px bg-gray-200"></div>
+                            <div class="text-center w-1/3">
+                                <p class="text-[10px] text-gray-400 uppercase">Pulang</p>
+                                <p class="font-bold text-gray-700">${pulangText}</p>
+                                ${earlyInfo}
+                            </div>
+                        </div>`;
+                }
+
+                html += `
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 ${cardColor}">
+                    <div class="flex justify-between items-start">
+                        <div><p class="text-xs font-bold text-gray-400 uppercase">${dayName}</p><p class="text-sm font-bold text-gray-800">${fullDate}</p></div>
+                        ${statusBadge}
+                    </div>
+                    ${details}
+                </div>`;
+            });
+            container.innerHTML = html;
+            updateSummary(countHadir, countTelat, countIzin);
+        }
+        function updateSummary(hadir, telat, izin) {
+            document.getElementById('sumHadir').innerText = hadir;
+            document.getElementById('sumTelat').innerText = telat;
+            document.getElementById('sumIzin').innerText = izin;
+        }
+
+        // PWA Register
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('sw.js').then(function(registration) {
