@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penawaran Sistem Apotek Modern - Palsam 99 Medica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .gradient-blue { background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .transition-all { transition: all 0.3s ease-in-out; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-open .faq-answer { max-height: 250px; }
+        .rotate-180 { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-blue-600 p-2 rounded-lg">
+                    <i class="fas fa-microchip text-white text-xl"></i>
+                </div>
+                <span class="font-extrabold text-xl tracking-tighter text-slate-900">KASAU<span class="text-blue-600">SOFTWARE</span></span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#fitur" class="hover:text-blue-600 transition">Fitur</a>
+                <a href="#harga" class="hover:text-blue-600 transition">Investasi</a>
+                <a href="#faq" class="hover:text-blue-600 transition">FAQ</a>
+            </div>
+            <a href="https://wa.me/682336056768" class="bg-slate-900 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition duration-300 shadow-lg shadow-slate-200">
+                Konsultasi Gratis
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="gradient-blue text-white pt-24 pb-32 px-4 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center bg-blue-500/20 border border-blue-400/30 px-4 py-1.5 rounded-full text-blue-200 text-xs font-bold mb-8">
+                <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span> KHUSUS: APOTEK PALSAM 99 MEDICA
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-8 leading-[1.15]">
+                Bukan Sekadar Kasir,<br>
+                <span class="text-blue-400">Asisten Digital</span> Untuk Apotek Anda.
+            </h1>
+            <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10">
+                Lupakan pembukuan manual yang melelahkan. Kami menghadirkan sistem "Auto-Pilot" yang mengelola stok FEFO, akuntansi laba-rugi, hingga laporan performa secara otomatis.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#harga" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-2xl transition shadow-xl shadow-blue-900/20">Lihat Penawaran</a>
+                <a href="#fitur" class="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-10 rounded-2xl transition border border-white/10">Pelajari Fitur</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- App Preview Mockup -->
+    <div class="max-w-5xl mx-auto -mt-20 px-4 relative z-20">
+        <div class="bg-white rounded-3xl p-2 shadow-2xl border border-white/20">
+            <div class="bg-slate-900 rounded-2xl aspect-video flex items-center justify-center overflow-hidden">
+                <div class="text-center p-12">
+                    <i class="fas fa-desktop text-6xl text-slate-700 mb-4"></i>
+                    <p class="text-slate-500 font-medium">Visualisasi Dashboard Kasau Software (Web-Based)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <section id="fitur" class="py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h3 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Mengapa Apotek Modern Memilih Kami?</h3>
+                <p class="text-slate-500 max-w-2xl mx-auto">Kami mengadopsi standar teknologi farmasi terbaik untuk memastikan bisnis Anda berjalan efisien tanpa pengawasan 24 jam.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="group">
+                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-blue-600 transition-colors duration-500">
+                        <i class="fas fa-calculator text-blue-600 text-2xl group-hover:text-white"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Akuntansi Otomatis</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Sistem otomatis menghitung HPP (Harga Pokok Penjualan) dan menghasilkan laporan Laba/Rugi real-time. Tidak perlu akuntan manual.</p>
+                </div>
+
+                <div class="group">
+                    <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-emerald-600 transition-colors duration-500">
+                        <i class="fas fa-file-medical text-emerald-600 text-2xl group-hover:text-white"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Sistem FEFO & Expired</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Mencegah kerugian akibat obat kadaluwarsa. Sistem otomatis menyarankan penjualan obat dengan masa expired terdekat.</p>
+                </div>
+
+                <div class="group">
+                    <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-amber-600 transition-colors duration-500">
+                        <i class="fas fa-cloud-upload-alt text-amber-600 text-2xl group-hover:text-white"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Cloud & Backup Aman</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed">Seluruh data tersimpan aman di server cloud dengan backup harian otomatis. Akses data kapan saja dari mana saja tanpa takut kehilangan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="bg-slate-900 py-24 px-4 text-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-4">Software Lain vs Kasau Software</h3>
+                <p class="text-slate-400">Apa yang membuat kami berbeda dengan korporasi besar?</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-white/10">
+                            <th class="py-4 font-bold text-slate-400">Fitur / Layanan</th>
+                            <th class="py-4 px-6 font-bold text-slate-400">Software Lain</th>
+                            <th class="py-4 px-6 font-bold text-blue-400">Kasau Software</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b border-white/5">
+                            <td class="py-4">Dukungan Personal</td>
+                            <td class="py-4 px-6">Tiket Antrean / Robot Chat</td>
+                            <td class="py-4 px-6 text-blue-400 font-bold"><i class="fas fa-check mr-2"></i> WhatsApp Langsung ke Developer</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-4">Kustomisasi Fitur</td>
+                            <td class="py-4 px-6">Kaku / Sesuai Paket Saja</td>
+                            <td class="py-4 px-6 text-blue-400 font-bold"><i class="fas fa-check mr-2"></i> Bisa Custom Sesuai Kebutuhan</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-4">Kepemilikan Data</td>
+                            <td class="py-4 px-6">Tergantung Vendor</td>
+                            <td class="py-4 px-6 text-blue-400 font-bold"><i class="fas fa-check mr-2"></i> Milik Apotek Sepenuhnya</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4">Biaya Tersembunyi</td>
+                            <td class="py-4 px-6">Biaya Update / Fitur Tambahan</td>
+                            <td class="py-4 px-6 text-blue-400 font-bold"><i class="fas fa-check mr-2"></i> Transparan & Flat</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="harga" class="py-24 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <h3 class="text-3xl font-bold mb-4">Investasi Untuk Masa Depan Apotek</h3>
+                <p class="text-slate-500">Opsi fleksibel yang disesuaikan dengan kapasitas finansial Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Option 1 -->
+                <div class="border-2 border-slate-100 rounded-[2.5rem] p-10 hover:border-blue-600 transition duration-500 group relative overflow-hidden text-slate-800">
+                    <div class="mb-8">
+                        <span class="bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Kepemilikan Penuh</span>
+                        <h4 class="text-3xl font-extrabold mt-6">Paket Startup</h4>
+                        <p class="text-slate-500 mt-2">Beli Putus (One-Time Purchase)</p>
+                    </div>
+                    <div class="text-5xl font-extrabold text-slate-900 mb-8 tracking-tighter">
+                        Rp 7.000.000<span class="text-sm text-slate-400 font-normal"> /th 1</span>
+                    </div>
+                    <button onclick="toggleDetail('startup')" class="flex items-center text-blue-600 font-bold text-sm mb-10 group/btn">
+                        Lihat Rincian Biaya <i id="icon-startup" class="fas fa-chevron-down ml-2 transition-all"></i>
+                    </button>
+                    <div id="detail-startup" class="hidden space-y-4 mb-10 pb-6 border-b border-slate-50">
+                        <div class="flex justify-between text-sm"><span>Jasa Pembuatan Sistem</span> <span class="font-bold">Rp 5.000.000</span></div>
+                        <div class="flex justify-between text-sm"><span>Server & Domain (1 Th)</span> <span class="font-bold">Rp 2.000.000</span></div>
+                        <div class="text-xs text-blue-600 font-semibold bg-blue-50 p-3 rounded-xl italic text-left">Tahun ke-2 dst hanya bayar perpanjangan Server Rp 2.000.000/th tanpa biaya lisensi lagi.</div>
+                    </div>
+                    <a href="https://wa.me/682336056768" class="block w-full text-center bg-slate-900 text-white font-bold py-5 rounded-2xl hover:bg-blue-600 transition">Pesan Paket Startup</a>
+                </div>
+
+                <!-- Option 2 -->
+                <div class="bg-blue-600 rounded-[2.5rem] p-10 text-white relative shadow-2xl shadow-blue-200">
+                    <div class="mb-8">
+                        <span class="bg-white/20 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Sangat Terjangkau</span>
+                        <h4 class="text-3xl font-extrabold mt-6">Paket Langganan</h4>
+                        <p class="text-blue-100 mt-2">Model SaaS (Monthly Subscription)</p>
+                    </div>
+                    <div class="text-5xl font-extrabold mb-8 tracking-tighter">
+                        Rp 350.000<span class="text-sm text-blue-200 font-normal"> /bulan</span>
+                    </div>
+                    <button onclick="toggleDetail('saas')" class="flex items-center text-white font-bold text-sm mb-10 opacity-80 hover:opacity-100">
+                        Lihat Rincian Biaya <i id="icon-saas" class="fas fa-chevron-down ml-2 transition-all"></i>
+                    </button>
+                    <div id="detail-saas" class="hidden space-y-4 mb-10 pb-6 border-b border-white/10">
+                        <div class="flex justify-between text-sm"><span>Biaya Setup Awal</span> <span class="font-bold">Rp 500.000</span></div>
+                        <div class="flex justify-between text-sm"><span>Biaya Bulanan</span> <span class="font-bold">Rp 350.000</span></div>
+                        <div class="text-xs text-blue-100 font-semibold bg-white/10 p-3 rounded-xl text-left">Sudah termasuk Server, Domain, dan Maintenance harian. Tanpa kontrak jangka panjang.</div>
+                    </div>
+                    <a href="https://wa.me/682336056768" class="block w-full text-center bg-white text-blue-600 font-bold py-5 rounded-2xl hover:bg-blue-50 transition">Mulai Berlangganan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 px-4">
+        <div class="max-w-3xl mx-auto">
+            <h3 class="text-3xl font-bold text-center mb-16">Pertanyaan Umum</h3>
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden cursor-pointer group hover:border-blue-200" onclick="this.classList.toggle('faq-open')">
+                    <div class="p-6 flex justify-between items-center">
+                        <h5 class="font-bold text-slate-800">Apakah saya perlu beli komputer baru?</h5>
+                        <i class="fas fa-plus text-slate-300 transition-all group-[.faq-open]:rotate-45"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6 text-sm text-slate-500">
+                        Tidak harus. Aplikasi berbasis web, sehingga bisa berjalan di laptop atau komputer apa pun yang memiliki browser (Chrome/Edge). Anda cukup menyiapkan printer kasir thermal jika diperlukan.
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden cursor-pointer group hover:border-blue-200" onclick="this.classList.toggle('faq-open')">
+                    <div class="p-6 flex justify-between items-center">
+                        <h5 class="font-bold text-slate-800">Bagaimana jika data stok saya banyak?</h5>
+                        <i class="fas fa-plus text-slate-300 transition-all group-[.faq-open]:rotate-45"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6 text-sm text-slate-500">
+                        Kami menyediakan fitur impor data via Excel. Bapak/Ibu cukup mengisi template Excel yang kami sediakan, dan ribuan data obat akan masuk ke sistem dalam hitungan detik.
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden cursor-pointer group hover:border-blue-200" onclick="this.classList.toggle('faq-open')">
+                    <div class="p-6 flex justify-between items-center">
+                        <h5 class="font-bold text-slate-800">Apakah sistem mendukung laporan SIPNAP?</h5>
+                        <i class="fas fa-plus text-slate-300 transition-all group-[.faq-open]:rotate-45"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6 text-sm text-slate-500">
+                        Ya, sistem dapat menarik laporan narkotika dan psikotropika secara otomatis sesuai format yang dibutuhkan untuk pelaporan dinas kesehatan.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Footer -->
+    <footer class="bg-slate-900 text-white pt-24 pb-12 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h3 class="text-3xl font-extrabold mb-12">Siap Melangkah Ke Digital?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                    <div class="text-green-400 text-4xl mb-6"><i class="fab fa-whatsapp"></i></div>
+                    <p class="text-slate-400 text-xs uppercase mb-2 text-center">WhatsApp Direct</p>
+                    <p class="text-xl font-bold">082336056768</p>
+                </div>
+                <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                    <div class="text-blue-400 text-4xl mb-6"><i class="fas fa-globe"></i></div>
+                    <p class="text-slate-400 text-xs uppercase mb-2 text-center">Resmi Website</p>
+                    <p class="text-xl font-bold">kasau.software</p>
+                </div>
+                <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                    <div class="text-yellow-400 text-4xl mb-6"><i class="fas fa-user-tie"></i></div>
+                    <p class="text-slate-400 text-xs uppercase mb-2 text-center">Lead Developer</p>
+                    <p class="text-xl font-bold text-white">Hery Nugroho</p>
+                </div>
+            </div>
+            <div class="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center space-x-2">
+                    <div class="bg-blue-600 p-1.5 rounded-lg text-xs text-center"><i class="fas fa-microchip"></i></div>
+                    <span class="font-bold tracking-tighter">KASAU SOFTWARE</span>
+                </div>
+                <p class="text-slate-500 text-xs">© 2024 Kasau Software - Built for Efficiency.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDetail(id) {
+            const detail = document.getElementById('detail-' + id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (detail.classList.contains('hidden')) {
+                detail.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                detail.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+    </script>
+</body>
+</html>
