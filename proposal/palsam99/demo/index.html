@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Sistem Kasau Software - Apotek Palsam 99 Medica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .sidebar-item-active { background: rgba(59, 130, 246, 0.1); border-left: 4px solid #2563eb; color: #2563eb; font-weight: 700; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Role Switcher Overlay -->
+    <div id="role-overlay" class="fixed inset-0 bg-slate-900/95 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] p-10 max-w-lg w-full shadow-2xl text-center">
+            <div class="bg-blue-600 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-200">
+                <i class="fas fa-microchip text-white text-4xl"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold mb-2">Pilih Peran Demo</h2>
+            <p class="text-slate-500 mb-10">Pilih akses untuk melihat alur kerja di Apotek Palsam 99 Medica</p>
+            
+            <div class="grid grid-cols-1 gap-4 text-left">
+                <button onclick="switchRole('kasir')" class="flex items-center p-5 border-2 border-slate-100 rounded-2xl hover:bg-blue-50 hover:border-blue-200 transition-all group">
+                    <div class="bg-blue-100 text-blue-600 p-4 rounded-xl mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-cash-register text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold">KASIR</p>
+                        <p class="text-xs text-slate-500">Akses Penjualan & Transaksi</p>
+                    </div>
+                </button>
+                <button onclick="switchRole('apoteker')" class="flex items-center p-5 border-2 border-slate-100 rounded-2xl hover:bg-emerald-50 hover:border-emerald-200 transition-all group">
+                    <div class="bg-emerald-100 text-emerald-600 p-4 rounded-xl mr-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-pills text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold">APOTEKER</p>
+                        <p class="text-xs text-slate-500">Stok, Pembelian, & Manajemen ED</p>
+                    </div>
+                </button>
+                <button onclick="switchRole('owner')" class="flex items-center p-5 border-2 border-slate-100 rounded-2xl hover:bg-amber-50 hover:border-amber-200 transition-all group">
+                    <div class="bg-amber-100 text-amber-600 p-4 rounded-xl mr-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                        <i class="fas fa-chart-pie text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold">OWNER</p>
+                        <p class="text-xs text-slate-500">Laporan Keuangan & Analitik</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-72 bg-white border-r border-slate-200 flex-col hidden md:flex sticky top-0 h-screen">
+            <div class="p-8 border-b border-slate-100">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-600 p-2 rounded-xl">
+                        <i class="fas fa-microchip text-white text-sm"></i>
+                    </div>
+                    <span class="font-extrabold text-lg tracking-tighter text-slate-900 uppercase italic">Kasau<span class="text-blue-600">Soft</span></span>
+                </div>
+            </div>
+            
+            <div class="p-4 flex-grow space-y-1 overflow-y-auto">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4 mt-6 mb-2">Main Menu</p>
+                <div id="sidebar-menus" class="space-y-1">
+                    <!-- Dinamis terisi via JS -->
+                </div>
+            </div>
+
+            <div class="p-6 border-t border-slate-100">
+                <button onclick="logout()" class="w-full text-left px-4 py-4 rounded-2xl text-sm font-bold text-red-500 hover:bg-red-50 flex items-center transition group">
+                    <i class="fas fa-sign-out-alt mr-3 group-hover:-translate-x-1 transition-transform"></i> Keluar / Ganti Role
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow flex flex-col min-h-screen">
+            <!-- Header -->
+            <header class="h-20 border-b border-slate-200 bg-white/80 backdrop-blur-md px-10 flex items-center justify-between sticky top-0 z-40">
+                <div>
+                    <h2 id="view-title" class="font-extrabold text-xl text-slate-900">Dashboard</h2>
+                    <p id="view-subtitle" class="text-xs text-slate-500 font-medium">Apotek Palsam 99 Medica</p>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="text-right">
+                        <p id="user-display" class="text-sm font-bold text-slate-900 leading-none">User</p>
+                        <p id="role-display" class="text-[10px] text-blue-600 font-bold mt-1 tracking-widest uppercase">Role</p>
+                    </div>
+                    <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center border border-slate-200 overflow-hidden shadow-inner">
+                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="avatar" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Display Area -->
+            <div id="content-display" class="p-10 animate-fade-in">
+                <!-- Content injected here via JS -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const roleData = {
+            'kasir': {
+                'user': 'Siska Kasir',
+                'label': 'Staff Kasir',
+                'menus': [
+                    { id: 'pos', icon: 'fa-cash-register', label: 'Kasir Utama (POS)' },
+                    { id: 'riwayat', icon: 'fa-history', label: 'Riwayat Transaksi' }
+                ]
+            },
+            'apoteker': {
+                'user': 'Apt. Hery Nugroho',
+                'label': 'Kepala Farmasi',
+                'menus': [
+                    { id: 'pembelian', icon: 'fa-truck-loading', label: 'Pembelian (Stok Masuk)' },
+                    { id: 'stok', icon: 'fa-boxes', label: 'Inventori & Stok' },
+                    { id: 'resep', icon: 'fa-prescription', label: 'Manajemen Resep' },
+                    { id: 'ed', icon: 'fa-clock', label: 'Monitoring ED' }
+                ]
+            },
+            'owner': {
+                'user': 'Hery Nugroho',
+                'label': 'Pemilik Bisnis',
+                'menus': [
+                    { id: 'dashboard', icon: 'fa-chart-line', label: 'Dashboard Performa' },
+                    { id: 'labarugi', icon: 'fa-file-invoice-dollar', label: 'Laporan Laba & Rugi' },
+                    { id: 'karyawan', icon: 'fa-users', label: 'Manajemen Staff' }
+                ]
+            }
+        };
+
+        function switchRole(role) {
+            document.getElementById('role-overlay').classList.add('hidden');
+            document.getElementById('user-display').innerText = roleData[role].user;
+            document.getElementById('role-display').innerText = roleData[role].label;
+
+            const sidebar = document.getElementById('sidebar-menus');
+            sidebar.innerHTML = '';
+            roleData[role].menus.forEach(menu => {
+                sidebar.innerHTML += `
+                    <button id="btn-${menu.id}" onclick="navigate('${menu.id}')" class="w-full text-left px-4 py-4 rounded-2xl text-sm font-semibold text-slate-500 hover:bg-slate-50 flex items-center transition-all group">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center mr-3 bg-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i class="fas ${menu.icon}"></i>
+                        </div>
+                        ${menu.label}
+                    </button>
+                `;
+            });
+            // Auto navigate ke menu pertama tiap role
+            navigate(roleData[role].menus[0].id);
+        }
+
+        function navigate(menuId) {
+            // Update active menu style
+            document.querySelectorAll('#sidebar-menus button').forEach(btn => btn.classList.remove('sidebar-item-active'));
+            const activeBtn = document.getElementById('btn-' + menuId);
+            if(activeBtn) activeBtn.classList.add('sidebar-item-active');
+            
+            // Render content
+            renderContent(menuId);
+        }
+
+        function renderContent(id) {
+            const container = document.getElementById('content-display');
+            container.innerHTML = ''; // Clear previous content
+            
+            // Trigger Animation
+            container.classList.remove('animate-fade-in');
+            void container.offsetWidth; 
+            container.classList.add('animate-fade-in');
+
+            switch(id) {
+                // KASIR VIEWS
+                case 'pos':
+                    document.getElementById('view-title').innerText = "Kasir Utama (POS)";
+                    container.innerHTML = `
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 space-y-6">
+                                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 flex items-center">
+                                    <i class="fas fa-barcode text-blue-600 mr-4 text-xl"></i>
+                                    <input type="text" placeholder="Scan Barcode atau Cari Nama Obat..." class="w-full focus:outline-none font-medium">
+                                </div>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">${generateMockItems()}</div>
+                            </div>
+                            <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-[calc(100vh-250px)]">
+                                <div class="p-8 border-b border-slate-50 font-bold text-lg text-slate-800">Keranjang Belanja</div>
+                                <div class="p-8 flex-grow overflow-y-auto space-y-4">
+                                    <div class="flex justify-between items-center"><p class="font-bold text-sm">Amoxicillin 500mg</p><p class="text-sm">2 x 15rb</p></div>
+                                </div>
+                                <div class="p-8 bg-slate-50 rounded-b-[2.5rem]">
+                                    <div class="flex justify-between text-2xl font-black text-blue-700 mb-6"><span>Total</span><span>Rp 30.000</span></div>
+                                    <button class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl transition hover:bg-blue-700">BAYAR SEKARANG</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'riwayat':
+                    document.getElementById('view-title').innerText = "Riwayat Penjualan";
+                    container.innerHTML = `
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table class="w-full text-left text-slate-800">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">
+                                        <th class="p-6">ID Transaksi</th><th class="p-6">Jam</th><th class="p-6">Total</th><th class="p-6">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50 text-sm">
+                                    <tr><td class="p-6 font-mono font-bold">#TRX-99821</td><td class="p-6">10:45</td><td class="p-6 font-bold">Rp 45.000</td><td class="p-6 text-green-600 font-bold uppercase text-[10px]">Selesai</td></tr>
+                                    <tr><td class="p-6 font-mono font-bold">#TRX-99820</td><td class="p-6">09:30</td><td class="p-6 font-bold">Rp 125.000</td><td class="p-6 text-green-600 font-bold uppercase text-[10px]">Selesai</td></tr>
+                                </tbody>
+                            </table>
+                        </div>`;
+                    break;
+
+                // APOTEKER VIEWS
+                case 'pembelian':
+                    document.getElementById('view-title').innerText = "Pembelian (Stok Masuk)";
+                    container.innerHTML = `
+                        <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm max-w-4xl text-slate-800">
+                            <h4 class="font-bold mb-6">Form Penerimaan Barang dari Supplier</h4>
+                            <div class="grid grid-cols-2 gap-6 mb-8">
+                                <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">Nama Supplier (PBF)</label><select class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl outline-none"><option>PBF Kimia Farma</option><option>PBF Enseval</option></select></div>
+                                <div><label class="block text-xs font-bold text-slate-400 uppercase mb-2">No. Faktur</label><input type="text" placeholder="FK-..." class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl outline-none"></div>
+                            </div>
+                            <table class="w-full text-left text-sm mb-6">
+                                <thead><tr class="text-slate-400 font-bold border-b border-slate-100"><th class="pb-3">Obat</th><th class="pb-3">Batch</th><th class="pb-3">Exp</th><th class="pb-3">HPP</th></tr></thead>
+                                <tbody><tr><td class="py-4 font-bold">Sanmol 500mg</td><td><input type="text" value="B123" class="bg-slate-50 p-2 rounded w-20"></td><td><input type="date" class="bg-slate-50 p-2 rounded"></td><td class="text-right font-bold">Rp 3.500</td></tr></tbody>
+                            </table>
+                            <button class="bg-blue-600 text-white w-full py-4 rounded-xl font-bold">SIMPAN KE GUDANG</button>
+                        </div>`;
+                    break;
+
+                case 'stok':
+                    document.getElementById('view-title').innerText = "Inventori & Stok";
+                    container.innerHTML = `
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table class="w-full text-left text-slate-800">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr class="text-[10px] uppercase font-bold text-slate-400 tracking-widest"><th class="p-6">Obat</th><th class="p-6">Batch</th><th class="p-6">Exp</th><th class="p-6 text-right">Stok Sisa</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50 text-sm">
+                                    <tr><td class="p-6"><strong>Amoxicillin 500mg</strong><br><small class="text-slate-400">Antibiotik</small></td><td class="p-6 font-mono">B-4491</td><td class="p-6">Dec 2025</td><td class="p-6 text-right font-bold">45 Box</td></tr>
+                                    <tr><td class="p-6"><strong>Paracetamol 500mg</strong><br><small class="text-slate-400">Analgesik</small></td><td class="p-6 font-mono">B-1120</td><td class="p-6">Oct 2026</td><td class="p-6 text-right font-bold">120 Box</td></tr>
+                                </tbody>
+                            </table>
+                        </div>`;
+                    break;
+
+                case 'resep':
+                    document.getElementById('view-title').innerText = "Manajemen Resep";
+                    container.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-800">
+                            <div class="bg-white p-8 rounded-3xl border-2 border-blue-500 shadow-lg relative">
+                                <div class="absolute top-6 right-6 px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-[10px] font-bold">MENUNGGU RACIK</div>
+                                <h5 class="font-bold text-lg mb-2">Resep #9921 - Dr. Aris</h5>
+                                <p class="text-xs text-slate-400 mb-4">Pasien: Tn. Andi (35th)</p>
+                                <div class="border-y border-slate-50 py-4 mb-6 space-y-2">
+                                    <p class="text-sm">1. Antibiotik 500mg (3x1)</p>
+                                    <p class="text-sm">2. Vitamin C 1000mg (1x1)</p>
+                                </div>
+                                <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl transition hover:bg-blue-700">Mulai Racik</button>
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'ed':
+                    document.getElementById('view-title').innerText = "Monitoring ED (Expired)";
+                    container.innerHTML = `
+                        <div class="bg-red-50 p-6 rounded-3xl border border-red-100 mb-8 flex items-center text-red-800">
+                            <i class="fas fa-exclamation-triangle text-2xl mr-4"></i>
+                            <div><p class="font-bold">Perhatian!</p><p class="text-sm">Terdapat 3 item obat yang akan kedaluwarsa dalam 30 hari kedepan.</p></div>
+                        </div>
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm">
+                            <table class="w-full text-left text-slate-800">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr class="text-[10px] uppercase font-bold text-slate-400 tracking-widest"><th class="p-6">Nama Obat</th><th class="p-6 text-red-600">Tgl ED</th><th class="p-6">Sisa Stok</th><th class="p-6 text-center">Aksi</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50 text-sm font-bold">
+                                    <tr><td class="p-6">Procold Tablet</td><td class="p-6 text-red-600">12 Jan 2025</td><td class="p-6">15 Strip</td><td class="p-6 text-center"><button class="bg-red-600 text-white px-4 py-1 rounded-full text-[10px]">TARIK</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>`;
+                    break;
+
+                // OWNER VIEWS
+                case 'dashboard':
+                    document.getElementById('view-title').innerText = "Dashboard Performa Bisnis";
+                    container.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 text-slate-800">
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Omzet Bulan Ini</p>
+                                <h3 class="text-2xl font-extrabold text-blue-600">Rp 145.2 jt</h3>
+                                <p class="text-[10px] text-green-500 font-bold mt-2"><i class="fas fa-arrow-up"></i> 14.5% vs lalu</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Laba Bersih</p>
+                                <h3 class="text-2xl font-extrabold text-emerald-600 text-center">Rp 32.8 jt</h3>
+                            </div>
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Nilai Aset Stok</p>
+                                <h3 class="text-2xl font-extrabold text-slate-800">Rp 412.5 jt</h3>
+                            </div>
+                            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                                <p class="text-xs font-bold text-slate-400 uppercase mb-2">Transaksi</p>
+                                <h3 class="text-2xl font-extrabold text-slate-800">1,240</h3>
+                            </div>
+                        </div>
+                        <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-sm">
+                            <h4 class="font-bold mb-6 text-slate-800 text-center">Analitik Penjualan Mingguan</h4>
+                            <div class="flex items-end justify-between h-40 gap-2 px-10">
+                                <div class="w-full bg-slate-100 h-24 rounded-t-lg"></div>
+                                <div class="w-full bg-slate-100 h-32 rounded-t-lg"></div>
+                                <div class="w-full bg-slate-100 h-20 rounded-t-lg"></div>
+                                <div class="w-full bg-blue-600 h-40 rounded-t-lg shadow-lg shadow-blue-200"></div>
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'labarugi':
+                    document.getElementById('view-title').innerText = "Laporan Laba & Rugi (P&L)";
+                    container.innerHTML = `
+                        <div class="bg-white p-12 rounded-[3rem] border border-slate-200 shadow-sm max-w-4xl mx-auto text-slate-800">
+                            <div class="text-center mb-10 border-b pb-8">
+                                <h3 class="text-2xl font-extrabold">LAPORAN LABA RUGI</h3>
+                                <p class="text-sm text-slate-400 uppercase font-bold tracking-widest">Periode Desember 2024</p>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="flex justify-between font-bold text-lg border-b pb-2"><span>Total Pendapatan</span> <span>Rp 145.200.000</span></div>
+                                <div class="flex justify-between font-bold text-red-600 border-b pb-2"><span>Total HPP (Stok Terpakai)</span> <span>(Rp 102.400.000)</span></div>
+                                <div class="flex justify-between font-bold text-red-600 border-b pb-2"><span>Total Beban Operasional</span> <span>(Rp 10.000.000)</span></div>
+                                <div class="flex justify-between items-center text-3xl font-black text-emerald-600 pt-10">
+                                    <span class="italic uppercase">Laba Bersih</span>
+                                    <span>Rp 32.800.000</span>
+                                </div>
+                            </div>
+                        </div>`;
+                    break;
+
+                case 'karyawan':
+                    document.getElementById('view-title').innerText = "Manajemen Staff & Karyawan";
+                    container.innerHTML = `
+                        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden text-slate-800">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b border-slate-100">
+                                    <tr class="text-[10px] uppercase font-bold text-slate-400 tracking-widest"><th class="p-6">Nama</th><th class="p-6">Role</th><th class="p-6">Performa Penjualan</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-50">
+                                    <tr><td class="p-6 font-bold">Hery Nugroho</td><td class="p-6">Apoteker</td><td class="p-6 font-bold">Rp 12.500.000</td></tr>
+                                    <tr><td class="p-6 font-bold">Siska Amalia</td><td class="p-6">Kasir</td><td class="p-6 font-bold">Rp 32.400.000</td></tr>
+                                </tbody>
+                            </table>
+                        </div>`;
+                    break;
+            }
+        }
+
+        function generateMockItems() {
+            const items = [{ name: 'Sanmol 500mg', price: '5.000', stock: 120 }, { name: 'Amoxicillin', price: '15.000', stock: 45 }];
+            return items.map(i => `
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 hover:border-blue-500 cursor-pointer transition shadow-sm hover:shadow-md text-slate-800">
+                    <h6 class="font-bold text-sm mb-4">${i.name}</h6>
+                    <div class="flex justify-between items-end"><span class="text-blue-600 font-extrabold text-sm">Rp ${i.price}</span><span class="text-[10px] font-bold text-slate-400">Stok: ${i.stock}</span></div>
+                </div>`).join('');
+        }
+
+        function logout() {
+            document.getElementById('role-overlay').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
