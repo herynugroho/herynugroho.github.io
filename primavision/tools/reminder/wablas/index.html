@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primahome WA Reminder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans p-6">
+
+    <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-4 text-blue-600">Primahome WhatsApp Reminder</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 bg-blue-50 p-4 rounded border border-blue-200">
+            <div>
+                <label class="block text-sm font-medium mb-1">Domain API Wablas</label>
+                <input type="text" id="wablasDomain" placeholder="https://solo.wablas.com" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">API Token Wablas</label>
+                <input type="password" id="wablasToken" placeholder="Masukkan token Anda..." class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-medium mb-2">Upload File Excel (.xlsx / .xls)</label>
+            <input type="file" id="excelFile" accept=".xlsx, .xls" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+        </div>
+
+        <div id="cooldownAlert" class="hidden mb-4 p-4 bg-yellow-100 text-yellow-800 rounded-lg font-bold text-center border border-yellow-300">
+            Jeda pengiriman aktif. Menunggu: <span id="timerText">05:00</span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-3 border-b">Nama Kontak (JT_NOPEL_NAMA)</th>
+                        <th class="p-3 border-b">No WA</th>
+                        <th class="p-3 border-b text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="3" class="p-3 text-center text-gray-500 border-b">Silakan upload file Excel terlebih dahulu.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // 25 Format Pesan Random
+        const messageTemplates = [
+            "Halo {nama}, kami dari tim reminder Primahome. Mengingatkan bahwa tagihan Anda akan jatuh tempo pada tanggal {jt}. Terima kasih.",
+            "Selamat pagi/siang {nama}, perkenalkan kami tim reminder Primahome. Sekadar mengingatkan jatuh tempo pembayaran Anda di tanggal {jt}.",
+            "Yth. {nama}, kami tim reminder Primahome ingin menginformasikan bahwa tanggal jatuh tempo Anda adalah {jt}. Mohon disiapkan ya.",
+            "Salam sejahtera {nama}, dari tim reminder Primahome menginfokan jatuh tempo pembayaran pada tanggal {jt}. Terima kasih atas kerjasamanya.",
+            "Halo {nama}! Kami tim reminder Primahome. Jangan lupa ya, jatuh tempo Anda jatuh pada {jt}.",
+            "Hai {nama}, ini pesan dari tim reminder Primahome. Kami mencatat jatuh tempo Anda pada tanggal {jt}. Harap dicek kembali.",
+            "Selamat beraktivitas {nama}! Kami dari tim reminder Primahome mengingatkan jadwal jatuh tempo Anda yaitu tanggal {jt}.",
+            "Yth. Bapak/Ibu {nama}, dari tim reminder Primahome mengingatkan bahwa {jt} adalah tanggal jatuh tempo Anda. Terima kasih.",
+            "Halo {nama}, semoga sehat selalu. Kami tim reminder Primahome menginformasikan bahwa jatuh tempo Anda ada di tanggal {jt}.",
+            "Info Primahome: Halo {nama}, kami tim reminder Primahome mengingatkan tanggal jatuh tempo Anda pada {jt}.",
+            "Selamat pagi/siang {nama}, tim reminder Primahome di sini. Mohon catat tanggal jatuh tempo Anda yaitu {jt} ya.",
+            "Hai {nama}, dari tim reminder Primahome. Sekadar pengingat bersahabat untuk jatuh tempo di tanggal {jt}.",
+            "Yth. {nama}, tim reminder Primahome mengingatkan kembali mengenai jatuh tempo Anda di tanggal {jt}. Terima kasih banyak.",
+            "Halo {nama}, kami tim reminder Primahome. Menginfokan jadwal jatuh tempo pada tanggal {jt}. Mohon disiapkan.",
+            "Pemberitahuan Primahome: Hai {nama}, tim reminder kami mencatat jatuh tempo Anda pada {jt}.",
+            "Selamat beraktivitas {nama}, kami tim reminder Primahome menginfokan tanggal {jt} sebagai batas waktu jatuh tempo.",
+            "Halo {nama}! Dari tim reminder Primahome, jangan lupa untuk melakukan penyelesaian sebelum tanggal {jt}.",
+            "Yth. {nama}, salam dari tim reminder Primahome. Mengingatkan jadwal jatuh tempo Anda pada tanggal {jt}.",
+            "Hai {nama}, perkenalkan kami tim reminder Primahome. Informasi: jatuh tempo Anda ada di tanggal {jt}.",
+            "Halo {nama}, tim reminder Primahome berharap Anda sehat selalu. Mengingatkan untuk jatuh tempo di tanggal {jt}.",
+            "Salam {nama}, kami tim reminder Primahome. Mohon diperhatikan bahwa {jt} merupakan tanggal jatuh tempo Anda.",
+            "Hai {nama}! Kami tim reminder Primahome hadir untuk mengingatkan jadwal jatuh tempo pada tanggal {jt}.",
+            "Yth. {nama}, dari tim reminder Primahome. Jangan lupa, tanggal {jt} adalah jadwal jatuh tempo Anda ya.",
+            "Halo {nama}, tim reminder Primahome di sini. Sekadar mengingatkan bahwa tanggal jatuh tempo jatuh pada {jt}.",
+            "Selamat pagi/sore {nama}, kami tim reminder Primahome mengingatkan jatuh tempo di tanggal {jt}. Terima kasih atas perhatiannya."
+        ];
+
+        let sendCounter = 0;
+        let isCooldown = false;
+
+        document.getElementById('excelFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                // Parsing ke JSON, baris pertama dianggap header
+                const jsonResult = XLSX.utils.sheet_to_json(worksheet);
+                renderTable(jsonResult);
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach((row, index) => {
+                // Sesuai requirement: ambil data nama, no_wa, jt, nopel
+                const jt = row['jt'] || '';
+                const nopel = row['nopel'] || '';
+                const nama = row['nama'] || '';
+                
+                // Format nama kontak
+                const namaKontak = `${jt}_${nopel}_${nama}`;
+                
+                // Format nomor WA (Ambil nomor pertama jika ada koma)
+                let noWa = row['no_wa'] ? row['no_wa'].toString() : '';
+                if(noWa.includes(',')) {
+                    noWa = noWa.split(',')[0].trim();
+                }
+
+                // Generate random message
+                const randomTemplate = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
+                let pesan = randomTemplate.replace('{nama}', nama).replace('{jt}', jt);
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 transition";
+                tr.innerHTML = `
+                    <td class="p-3 border-b text-sm font-medium text-gray-700">${namaKontak}</td>
+                    <td class="p-3 border-b text-sm text-gray-600">${noWa}</td>
+                    <td class="p-3 border-b text-center">
+                        <button onclick="kirimPesan(this, '${noWa}', \`${pesan}\`)" class="kirim-btn bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded text-sm transition">
+                            Kirim
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function kirimPesan(btn, phone, message) {
+            if (isCooldown) {
+                alert("Sedang dalam masa jeda 5 menit. Harap tunggu.");
+                return;
+            }
+
+            const domain = document.getElementById('wablasDomain').value.trim();
+            const token = document.getElementById('wablasToken').value.trim();
+
+            if (!domain || !token) {
+                alert("Mohon isi Domain dan API Token Wablas di bagian atas terlebih dahulu!");
+                return;
+            }
+
+            // Ganti state tombol
+            btn.disabled = true;
+            btn.innerText = "Mengirim...";
+            btn.classList.replace('bg-green-500', 'bg-gray-400');
+            btn.classList.replace('hover:bg-green-600', 'hover:bg-gray-500');
+
+            try {
+                // Endpoint standar Wablas API
+                const url = `${domain}/api/send-message`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': token,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        message: message
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status) {
+                    btn.innerText = "Terkirim";
+                    btn.classList.replace('bg-gray-400', 'bg-blue-500');
+                    btn.classList.replace('hover:bg-gray-500', 'hover:bg-blue-600');
+                    
+                    sendCounter++;
+                    checkCooldown();
+                } else {
+                    throw new Error(result.message || "Gagal mengirim pesan");
+                }
+
+            } catch (error) {
+                console.error("Error API:", error);
+                alert("Gagal mengirim: " + error.message);
+                btn.disabled = false;
+                btn.innerText = "Kirim Ulang";
+                btn.classList.replace('bg-gray-400', 'bg-red-500');
+                btn.classList.replace('hover:bg-gray-500', 'hover:bg-red-600');
+            }
+        }
+
+        function checkCooldown() {
+            if (sendCounter > 0 && sendCounter % 5 === 0) {
+                mulaiCooldown();
+            }
+        }
+
+        function mulaiCooldown() {
+            isCooldown = true;
+            const alertBox = document.getElementById('cooldownAlert');
+            const timerText = document.getElementById('timerText');
+            const allBtns = document.querySelectorAll('.kirim-btn:not(:disabled)');
+            
+            // Disable semua tombol yang belum diklik
+            allBtns.forEach(btn => btn.disabled = true);
+            alertBox.classList.remove('hidden');
+
+            let timeLeft = 300; // 5 menit = 300 detik
+
+            const timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+                
+                timerText.innerText = `${minutes}:${seconds}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isCooldown = false;
+                    alertBox.classList.add('hidden');
+                    
+                    // Aktifkan kembali tombol yang belum terkirim
+                    const resetBtns = document.querySelectorAll('.kirim-btn');
+                    resetBtns.forEach(btn => {
+                        if (btn.innerText === "Kirim" || btn.innerText === "Kirim Ulang") {
+                            btn.disabled = false;
+                        }
+                    });
+                }
+                timeLeft--;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
