@@ -56,31 +56,55 @@
 
     <script>
         const messageTemplates = [
-            "Halo {nama}, kami dari tim reminder Primahome. Mengingatkan bahwa tagihan Anda akan jatuh tempo pada tanggal {jt}. Terima kasih.",
-            "Selamat pagi/siang {nama}, perkenalkan kami tim reminder Primahome. Sekadar mengingatkan jatuh tempo pembayaran Anda di tanggal {jt}.",
-            "Yth. {nama}, kami tim reminder Primahome ingin menginformasikan bahwa tanggal jatuh tempo Anda adalah {jt}. Mohon disiapkan ya.",
-            "Salam sejahtera {nama}, dari tim reminder Primahome menginfokan jatuh tempo pembayaran pada tanggal {jt}. Terima kasih atas kerjasamanya.",
-            "Halo {nama}! Kami tim reminder Primahome. Jangan lupa ya, jatuh tempo Anda jatuh pada {jt}.",
-            "Hai {nama}, ini pesan dari tim reminder Primahome. Kami mencatat jatuh tempo Anda pada tanggal {jt}. Harap dicek kembali.",
-            "Selamat beraktivitas {nama}! Kami dari tim reminder Primahome mengingatkan jadwal jatuh tempo Anda yaitu tanggal {jt}.",
-            "Yth. Bapak/Ibu {nama}, dari tim reminder Primahome mengingatkan bahwa {jt} adalah tanggal jatuh tempo Anda. Terima kasih.",
-            "Halo {nama}, semoga sehat selalu. Kami tim reminder Primahome menginformasikan bahwa jatuh tempo Anda ada di tanggal {jt}.",
-            "Info Primahome: Halo {nama}, kami tim reminder Primahome mengingatkan tanggal jatuh tempo Anda pada {jt}.",
-            "Selamat pagi/siang {nama}, tim reminder Primahome di sini. Mohon catat tanggal jatuh tempo Anda yaitu {jt} ya.",
-            "Hai {nama}, dari tim reminder Primahome. Sekadar pengingat bersahabat untuk jatuh tempo di tanggal {jt}.",
-            "Yth. {nama}, tim reminder Primahome mengingatkan kembali mengenai jatuh tempo Anda di tanggal {jt}. Terima kasih banyak.",
-            "Halo {nama}, kami tim reminder Primahome. Menginfokan jadwal jatuh tempo pada tanggal {jt}. Mohon disiapkan.",
-            "Pemberitahuan Primahome: Hai {nama}, tim reminder kami mencatat jatuh tempo Anda pada {jt}.",
-            "Selamat beraktivitas {nama}, kami tim reminder Primahome menginfokan tanggal {jt} sebagai batas waktu jatuh tempo.",
-            "Halo {nama}! Dari tim reminder Primahome, jangan lupa untuk melakukan penyelesaian sebelum tanggal {jt}.",
-            "Yth. {nama}, salam dari tim reminder Primahome. Mengingatkan jadwal jatuh tempo Anda pada tanggal {jt}.",
-            "Hai {nama}, perkenalkan kami tim reminder Primahome. Informasi: jatuh tempo Anda ada di tanggal {jt}.",
-            "Halo {nama}, tim reminder Primahome berharap Anda sehat selalu. Mengingatkan untuk jatuh tempo di tanggal {jt}.",
-            "Salam {nama}, kami tim reminder Primahome. Mohon diperhatikan bahwa {jt} merupakan tanggal jatuh tempo Anda.",
-            "Hai {nama}! Kami tim reminder Primahome hadir untuk mengingatkan jadwal jatuh tempo pada tanggal {jt}.",
-            "Yth. {nama}, dari tim reminder Primahome. Jangan lupa, tanggal {jt} adalah jadwal jatuh tempo Anda ya.",
-            "Halo {nama}, tim reminder Primahome di sini. Sekadar mengingatkan bahwa tanggal jatuh tempo jatuh pada {jt}.",
-            "Selamat pagi/sore {nama}, kami tim reminder Primahome mengingatkan jatuh tempo di tanggal {jt}. Terima kasih atas perhatiannya."
+            "Halo {nama}, semoga harinya menyenangkan! Kami dari tim Primahome bermaksud memberikan pengingat bersahabat terkait layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Hai {nama}, perkenalkan kami tim dari Primahome. Pesan ini sekadar pengingat berkala untuk layanan aktif Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Selamat beraktivitas {nama}! Kami dari Primahome ingin memastikan layanan Anda tetap berjalan lancar melalui pengingat ramah ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Yth. {nama}, semoga Anda dalam keadaan sehat. Kami tim Primahome ingin membagikan pengingat rutin untuk layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Salam hangat {nama}! Tim Primahome di sini sekadar menyapa dan mengingatkan perihal layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Halo {nama}, semoga rutinitasnya berjalan lancar ya. Ini adalah pengingat bersahabat dari Primahome untuk layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Hai {nama}, kami dari Primahome ingin mengucapkan terima kasih telah menggunakan layanan kami, sekaligus memberikan pengingat berkala.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Selamat pagi/siang/sore {nama}, tim Primahome hadir untuk memberikan pengingat layanan secara otomatis.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Yth. {nama}, pesan dari Primahome ini merupakan pengingat ramah untuk kelancaran layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Halo {nama}! Kami selalu berkomitmen memberikan kenyamanan terbaik di Primahome, karenanya kami mengirimkan pengingat ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Hai {nama}, sekadar pengingat bersahabat dari tim Primahome agar layanan Anda tetap dapat dinikmati tanpa kendala.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Salam sejahtera {nama}, kami dari Primahome bermaksud menginformasikan pengingat layanan Anda bulan ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Halo {nama}, perkenalkan kami tim pengingat dari Primahome. Kami ingin memastikan layanan Anda tetap aktif dengan pesan ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Hai {nama}, ini sapaan hangat dari Primahome sekaligus pengingat ringan mengenai layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Selamat beraktivitas {nama}, semoga selalu dilancarkan urusannya. Kami mengirimkan pesan ini sebagai pengingat layanan Primahome Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Yth. {nama}, terima kasih atas kepercayaan Anda pada Primahome. Ini adalah pesan otomatis pengingat layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Halo {nama}! Pengingat ini dari Primahome hadir agar Anda selalu bisa berselancar dan menggunakan layanan kami dengan nyaman.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Salam {nama}, tim Primahome ingin memastikan kelancaran layanan Anda melalui pengingat berkala ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Hai {nama}, semoga Anda dalam kondisi prima. Kami dari Primahome sekadar mengingatkan terkait layanan aktif Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Halo {nama}, pesan ini adalah bentuk perhatian tim Primahome agar kenyamanan layanan Anda tetap terjaga.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Yth. {nama}, semoga harinya berkah selalu. Kami dari Primahome membagikan pengingat layanan yang dikirim secara otomatis.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Hai {nama}, terima kasih telah menjadi bagian dari keluarga Primahome. Pengingat ini dikirimkan untuk kelancaran layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Selamat pagi/siang/sore {nama}! Kami dari tim Primahome hanya ingin memberikan notifikasi ringan perihal layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Halo {nama}, semoga aktivitas hari ini berkesan. Primahome menyapa Anda sekadar memberikan pesan pengingat layanan.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
+            
+            "Salam hangat {nama}, kami dari Primahome memberikan pengingat layanan Anda dengan penuh keramahtamahan.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS"
         ];
 
         let sendCounter = 0;
