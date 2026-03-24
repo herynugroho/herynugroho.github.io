@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primahome WA Reminder</title>
-    <!-- Ganti tag <script> Tailwind CDN dengan <link> CSS statis berikut: -->
+    <!-- Link CSS Statis Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -43,7 +43,6 @@
 
         <!-- Tabel Data -->
         <div class="overflow-x-auto">
-            <!-- Ubah class min-w-[600px] menjadi inline style agar support di CSS statis -->
             <table class="w-full text-left border-collapse" style="min-width: 600px;">
                 <thead>
                     <tr class="bg-gray-200">
@@ -63,37 +62,36 @@
 
     <script>
         const messageTemplates = [
-            "Halo {nama}, semoga harinya menyenangkan! Kami dari tim Primahome bermaksud memberikan pengingat bersahabat terkait layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Hai {nama}, perkenalkan kami tim dari Primahome. Pesan ini sekadar pengingat berkala untuk layanan aktif Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Selamat beraktivitas {nama}! Kami dari Primahome ingin memastikan layanan Anda tetap berjalan lancar melalui pengingat ramah ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Yth. {nama}, semoga Anda dalam keadaan sehat. Kami tim Primahome ingin membagikan pengingat rutin untuk layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Salam hangat {nama}! Tim Primahome di sini sekadar menyapa dan mengingatkan perihal layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Halo {nama}, semoga rutinitasnya berjalan lancar ya. Ini adalah pengingat bersahabat dari Primahome untuk layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Hai {nama}, kami dari Primahome ingin mengucapkan terima kasih telah menggunakan layanan kami, sekaligus memberikan pengingat berkala.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Selamat pagi/siang/sore {nama}, tim Primahome hadir untuk memberikan pengingat layanan secara otomatis.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Yth. {nama}, pesan dari Primahome ini merupakan pengingat ramah untuk kelancaran layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Halo {nama}! Kami selalu berkomitmen memberikan kenyamanan terbaik di Primahome, karenanya kami mengirimkan pengingat ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Hai {nama}, sekadar pengingat bersahabat dari tim Primahome agar layanan Anda tetap dapat dinikmati tanpa kendala.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Salam sejahtera {nama}, kami dari Primahome bermaksud menginformasikan pengingat layanan Anda bulan ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Halo {nama}, perkenalkan kami tim pengingat dari Primahome. Kami ingin memastikan layanan Anda tetap aktif dengan pesan ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Hai {nama}, ini sapaan hangat dari Primahome sekaligus pengingat ringan mengenai layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Selamat beraktivitas {nama}, semoga selalu dilancarkan urusannya. Kami mengirimkan pesan ini sebagai pengingat layanan Primahome Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Yth. {nama}, terima kasih atas kepercayaan Anda pada Primahome. Ini adalah pesan otomatis pengingat layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Halo {nama}! Pengingat ini dari Primahome hadir agar Anda selalu bisa berselancar dan menggunakan layanan kami dengan nyaman.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Salam {nama}, tim Primahome ingin memastikan kelancaran layanan Anda melalui pengingat berkala ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Hai {nama}, semoga Anda dalam kondisi prima. Kami dari Primahome sekadar mengingatkan terkait layanan aktif Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Halo {nama}, pesan ini adalah bentuk perhatian tim Primahome agar kenyamanan layanan Anda tetap terjaga.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Yth. {nama}, semoga harinya berkah selalu. Kami dari Primahome membagikan pengingat layanan yang dikirim secara otomatis.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Hai {nama}, terima kasih telah menjadi bagian dari keluarga Primahome. Pengingat ini dikirimkan untuk kelancaran layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Selamat pagi/siang/sore {nama}! Kami dari tim Primahome hanya ingin memberikan notifikasi ringan perihal layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Halo {nama}, semoga aktivitas hari ini berkesan. Primahome menyapa Anda sekadar memberikan pesan pengingat layanan.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS",
-            "Salam hangat {nama}, kami dari Primahome memberikan pengingat layanan Anda dengan penuh keramahtamahan.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\nKetik *1* untuk nomer rekening pembayaran\nKetik *2* untuk nomer telp CS"
+            "Halo {nama}, semoga harinya menyenangkan! Kami dari tim Primahome bermaksud memberikan pengingat bersahabat terkait layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Hai {nama}, perkenalkan kami tim dari Primahome. Pesan ini sekadar pengingat berkala untuk layanan aktif Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Selamat beraktivitas {nama}! Kami dari Primahome ingin memastikan layanan Anda tetap berjalan lancar melalui pengingat ramah ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Yth. {nama}, semoga Anda dalam keadaan sehat. Kami tim Primahome ingin membagikan pengingat rutin untuk layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Salam hangat {nama}! Tim Primahome di sini sekadar menyapa dan mengingatkan perihal layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Halo {nama}, semoga rutinitasnya berjalan lancar ya. Ini adalah pengingat bersahabat dari Primahome untuk layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Hai {nama}, kami dari Primahome ingin mengucapkan terima kasih telah menggunakan layanan kami, sekaligus memberikan pengingat berkala.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Selamat pagi/siang/sore {nama}, tim Primahome hadir untuk memberikan pengingat layanan secara otomatis.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Yth. {nama}, pesan dari Primahome ini merupakan pengingat ramah untuk kelancaran layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Halo {nama}! Kami selalu berkomitmen memberikan kenyamanan terbaik di Primahome, karenanya kami mengirimkan pengingat ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Hai {nama}, sekadar pengingat bersahabat dari tim Primahome agar layanan Anda tetap dapat dinikmati tanpa kendala.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Salam sejahtera {nama}, kami dari Primahome bermaksud menginformasikan pengingat layanan Anda bulan ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Halo {nama}, perkenalkan kami tim pengingat dari Primahome. Kami ingin memastikan layanan Anda tetap aktif dengan pesan ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Hai {nama}, ini sapaan hangat dari Primahome sekaligus pengingat ringan mengenai layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Selamat beraktivitas {nama}, semoga selalu dilancarkan urusannya. Kami mengirimkan pesan ini sebagai pengingat layanan Primahome Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Yth. {nama}, terima kasih atas kepercayaan Anda pada Primahome. Ini adalah pesan otomatis pengingat layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Halo {nama}! Pengingat ini dari Primahome hadir agar Anda selalu bisa berselancar dan menggunakan layanan kami dengan nyaman.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Salam {nama}, tim Primahome ingin memastikan kelancaran layanan Anda melalui pengingat berkala ini.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Hai {nama}, semoga Anda dalam kondisi prima. Kami dari Primahome sekadar mengingatkan terkait layanan aktif Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Halo {nama}, pesan ini adalah bentuk perhatian tim Primahome agar kenyamanan layanan Anda tetap terjaga.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Yth. {nama}, semoga harinya berkah selalu. Kami dari Primahome membagikan pengingat layanan yang dikirim secara otomatis.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Hai {nama}, terima kasih telah menjadi bagian dari keluarga Primahome. Pengingat ini dikirimkan untuk kelancaran layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Selamat pagi/siang/sore {nama}! Kami dari tim Primahome hanya ingin memberikan notifikasi ringan perihal layanan Anda.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Halo {nama}, semoga aktivitas hari ini berkesan. Primahome menyapa Anda sekadar memberikan pesan pengingat layanan.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS",
+            "Salam hangat {nama}, kami dari Primahome memberikan pengingat layanan Anda dengan penuh keramahtamahan.\n\nJika sudah melakukan pembayaran bisa di abaikan. Jika butuh info:\netik *1* untuk lihat nomer rekening pembayaran\nKetik *2* untuk melihat nomer telp CS"
         ];
 
         let sendCounter = 0;
         let isCooldown = false;
 
-        // Fungsi untuk copy text ke clipboard
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalHTML = btnElement.innerHTML;
@@ -133,45 +131,56 @@
                 const nopel = row['nopel'] || '';
                 const nama = row['nama'] || '';
                 
-                const namaKontak = `${jt}_${nopel}_${nama}`;
+                // Simpan nama dasar (base name) sebelum ditambahkan angka
+                const namaKontakBase = `${jt}_${nopel}_${nama}`;
                 
-                let noWa = row['no_wa'] ? row['no_wa'].toString() : '';
-                if(noWa.includes(',')) {
-                    noWa = noWa.split(',')[0].trim();
-                }
+                // Ambil string nomor WA secara utuh
+                const rawNoWa = row['no_wa'] ? row['no_wa'].toString() : '';
+                
+                // Pecah string berdasarkan koma menjadi array. 
+                // Jika tidak ada koma, array akan berisi 1 item.
+                const waArray = rawNoWa.includes(',') ? rawNoWa.split(',') : [rawNoWa];
 
-                const randomTemplate = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
-                let pesan = randomTemplate.replace('{nama}', nama);
+                // Looping untuk setiap nomor WA yang ditemukan di baris yang sama
+                // Tambahkan parameter waIndex untuk mengetahui urutan nomor
+                waArray.forEach((waNumber, waIndex) => {
+                    const noWa = waNumber.trim();
+                    if (!noWa) return; // Lewati jika kosong
 
-                // Encode pesan agar aman dilempar ke inline HTML (karena ada enter \n)
-                const safePesan = encodeURIComponent(pesan);
+                    // Jika nomor lebih dari 1, tambahkan " - 1", " - 2" dst di belakang nama kontak
+                    const namaKontak = waArray.length > 1 ? `${namaKontakBase} - ${waIndex + 1}` : namaKontakBase;
 
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-gray-50 transition";
-                tr.innerHTML = `
-                    <td class="p-3 border-b text-sm font-medium text-gray-700">
-                        <div class="flex items-center justify-between">
-                            <span>${namaKontak}</span>
-                            <button onclick="copyText('${namaKontak}', this)" class="text-gray-400 hover:text-blue-600 transition" title="Copy Nama">
-                                ${copyIcon}
+                    const randomTemplate = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
+                    let pesan = randomTemplate.replace('{nama}', nama);
+                    const safePesan = encodeURIComponent(pesan);
+
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50 transition";
+                    tr.innerHTML = `
+                        <td class="p-3 border-b text-sm font-medium text-gray-700">
+                            <div class="flex items-center justify-between">
+                                <span>${namaKontak}</span>
+                                <button onclick="copyText('${namaKontak}', this)" class="text-gray-400 hover:text-blue-600 transition" title="Copy Nama">
+                                    ${copyIcon}
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-3 border-b text-sm text-gray-600">
+                            <div class="flex items-center justify-between">
+                                <span>${noWa}</span>
+                                <button onclick="copyText('${noWa}', this)" class="text-gray-400 hover:text-blue-600 transition" title="Copy WA">
+                                    ${copyIcon}
+                                </button>
+                            </div>
+                        </td>
+                        <td class="p-3 border-b text-center">
+                            <button onclick="kirimPesan(this, '${noWa}', '${safePesan}', '${namaKontak}')" class="kirim-btn bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded text-sm transition">
+                                Kirim
                             </button>
-                        </div>
-                    </td>
-                    <td class="p-3 border-b text-sm text-gray-600">
-                        <div class="flex items-center justify-between">
-                            <span>${noWa}</span>
-                            <button onclick="copyText('${noWa}', this)" class="text-gray-400 hover:text-blue-600 transition" title="Copy WA">
-                                ${copyIcon}
-                            </button>
-                        </div>
-                    </td>
-                    <td class="p-3 border-b text-center">
-                        <button onclick="kirimPesan(this, '${noWa}', '${safePesan}', '${namaKontak}')" class="kirim-btn bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded text-sm transition">
-                            Kirim
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
             });
         }
 
@@ -185,7 +194,6 @@
             const token = document.getElementById('wablasToken').value.trim();
             const proxyUrl = document.getElementById('proxyUrl').value.trim();
             
-            // Decode kembali pesan agar enter (\n) terbaca normal oleh API
             const message = decodeURIComponent(safeMessage);
 
             if (!domain || !token || !proxyUrl) {
@@ -193,14 +201,12 @@
                 return;
             }
 
-            // Ganti state tombol
             btn.disabled = true;
             btn.innerText = "Mengirim...";
             btn.classList.replace('bg-green-500', 'bg-gray-400');
             btn.classList.replace('hover:bg-green-600', 'hover:bg-gray-500');
 
             try {
-                // Request dikirim ke API Laravel Anda (PrimaGPS)
                 const response = await fetch(proxyUrl, {
                     method: 'POST',
                     headers: {
@@ -211,7 +217,7 @@
                         token: token,
                         phone: phone,
                         message: message,
-                        nama: namaKontak // Data nama dikirim agar Laravel bisa simpan ke Phonebook Wablas
+                        nama: namaKontak
                     })
                 });
 
