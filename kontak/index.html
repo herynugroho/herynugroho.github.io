@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hery Nugroho - Digital Profile</title>
+    
+    <!-- Import Font: Space Grotesk (Modern Tech) & Fira Code (Terminal/Coding) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Import Icon Profesional dari FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #070b14;
+            --card-bg: rgba(13, 19, 33, 0.6);
+            --primary-glow: #00f0ff;
+            --secondary-glow: #0057ff;
+            --text-main: #e2e8f0;
+            --text-muted: #8b9bb4;
+            --terminal-green: #10b981;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-dark);
+            /* Pola Grid Techno */
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efek cahaya di latar belakang */
+        .bg-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 87, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.05);
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* Header Terminal Kecil */
+        .terminal-header {
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: left;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed rgba(139, 155, 180, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--terminal-green);
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 8px var(--terminal-green);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Foto Profil Techno */
+        .avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            background: #0d1321;
+            color: var(--primary-glow);
+            font-size: 32px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            /* Hapus komentar di bawah jika pakai foto asli */
+            /* background-image: url('foto-anda.jpg'); background-size: cover; color: transparent; */
+        }
+
+        /* Cincin Avatar Menyala */
+        .avatar-ring {
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            z-index: 1;
+            animation: spin 4s linear infinite;
+            opacity: 0.7;
+        }
+
+        .avatar-ring::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            background: var(--bg-dark);
+            border-radius: 50%;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .name {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0 0 5px;
+            background: linear-gradient(90deg, #ffffff, var(--primary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .title {
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            color: var(--primary-glow);
+            margin: 0 0 35px;
+            font-weight: 400;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            justify-content: center;
+        }
+
+        /* Efek Garis Kiri pada Tombol */
+        .link-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary-glow);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effect Tombol */
+        .link-item:hover {
+            background: rgba(0, 240, 255, 0.08);
+            border-color: rgba(0, 240, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 240, 255, 0.1);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .link-item:hover::before {
+            opacity: 1;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .link-item i {
+            position: absolute;
+            left: 24px;
+            font-size: 20px;
+            color: var(--primary-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .link-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="card">
+        
+        <!-- Aksen Terminal Code -->
+        <div class="terminal-header">
+            <span><span class="status-dot"></span>SYS.ONLINE</span>
+            <span>> ./init_profile.sh</span>
+        </div>
+
+        <div class="avatar-container">
+            <div class="avatar-ring"></div>
+            <!-- Ganti inisial HN dengan foto di CSS .avatar jika ada -->
+            <div class="avatar">HN</div>
+        </div>
+        
+        <h1 class="name">Hery Nugroho</h1>
+        <p class="title">&lt; Software Developer /&gt;</p>
+
+        <div class="links-container">
+            <!-- Link Kasau Software -->
+            <a href="https://kasau.software" class="link-item" target="_blank" rel="noopener noreferrer">
+                <i class="fa-solid fa-code-branch"></i>
+                Kasau.Software
+            </a>
+
+            <!-- Link WhatsApp -->
+            <a href="https://wa.me/6282336056768" class="link-item" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp"></i>
+                WhatsApp
+            </a>
+
+            <!-- Link Email -->
+            <a href="mailto:herynugie@gmail.com" class="link-item">
+                <i class="fa-regular fa-envelope"></i>
+                Email
+            </a>
+        </div>
+
+        <div class="footer">
+            // CONNECTION ESTABLISHED _ 2026
+        </div>
+    </div>
+
+</body>
+</html>
