@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimaTrack - Meeting Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2); }
+        .bg-pattern { background-image: radial-gradient(#334155 1px, transparent 1px); background-size: 20px 20px; }
+        
+        /* Animasi smooth untuk collapse */
+        #secret-area { transition: all 0.5s ease-in-out; }
+    </style>
+</head>
+<body class="bg-pattern min-h-screen flex flex-col items-center justify-center p-6">
+
+    <!-- Header Section -->
+    <div class="text-center mb-12 relative z-10 w-full max-w-5xl">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-6">
+            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+            Executive Pitching Kit
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">PrimaTrack <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Enterprise</span></h1>
+        <p class="text-slate-400 text-lg">Persiapan Audiensi Pengadaan Sistem Manajemen Armada Universitas</p>
+        
+        <div class="mt-8 flex flex-wrap justify-center gap-4 text-sm font-semibold text-slate-300">
+            <span class="bg-slate-800/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm"><i class="fa-solid fa-bullseye text-red-400 mr-2"></i>Target: 150 Unit</span>
+            <span class="bg-slate-800/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm"><i class="fa-solid fa-file-contract text-emerald-400 mr-2"></i>Kontrak: 6 Bulan</span>
+            <span class="bg-slate-800/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm"><i class="fa-solid fa-sack-dollar text-yellow-400 mr-2"></i>Plafon: Rp 500.000.000</span>
+        </div>
+    </div>
+
+    <!-- MAIN MENU (PUBLIK) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl relative z-10">
+        
+        <!-- Menu 1: Slide Presentasi -->
+        <a href="presentasi.html" target="_blank" class="card-hover group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-3xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div class="absolute -right-6 -top-6 text-slate-700 opacity-20 group-hover:text-blue-500 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110">
+                <i class="fa-solid fa-person-chalkboard text-9xl"></i>
+            </div>
+            <div class="w-14 h-14 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner border border-blue-500/20 relative z-10">
+                <i class="fa-solid fa-desktop"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white mb-2 relative z-10">1. Slide Presentasi</h2>
+            <p class="text-sm text-slate-400 flex-1 relative z-10">Tampilkan ke proyektor kampus. Berisi visualisasi pitch deck yang mematikan kelemahan Cartrack dkk.</p>
+            <div class="mt-6 flex items-center text-blue-400 text-sm font-bold uppercase tracking-widest relative z-10">
+                Buka Slide <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+            </div>
+        </a>
+
+        <!-- Menu 2: Analisis Investasi (Handout) -->
+        <a href="analisis-biaya.html" target="_blank" class="card-hover group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-3xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div class="absolute -right-6 -top-6 text-slate-700 opacity-20 group-hover:text-emerald-500 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110">
+                <i class="fa-solid fa-file-pdf text-9xl"></i>
+            </div>
+            <div class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner border border-emerald-500/20 relative z-10">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white mb-2 relative z-10">2. Analisis Investasi Klien</h2>
+            <p class="text-sm text-slate-400 flex-1 relative z-10">Dokumen A4 untuk dicetak/PDF. Fokus pada TCO (Total Cost of Ownership) untuk meyakinkan Rektorat/Keuangan.</p>
+            <div class="mt-6 flex items-center text-emerald-400 text-sm font-bold uppercase tracking-widest relative z-10">
+                Buka Dokumen <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+            </div>
+        </a>
+
+        <!-- Menu 3: Live Demo Dashboard -->
+        <a href="https://primagps.kasau.software/" target="_blank" class="card-hover group bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-3xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div class="absolute -right-6 -top-6 text-slate-700 opacity-20 group-hover:text-amber-500 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110">
+                <i class="fa-solid fa-map-location-dot text-9xl"></i>
+            </div>
+            <div class="w-14 h-14 bg-amber-500/20 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner border border-amber-500/20 relative z-10">
+                <i class="fa-solid fa-map"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white mb-2 relative z-10">3. Demo Dashboard Peta</h2>
+            <p class="text-sm text-slate-400 flex-1 relative z-10">Tunjukkan antarmuka sistem live (Simulasi). Buktikan bahwa UI PrimaTrack sangat modern, responsif, dan mudah digunakan.</p>
+            <div class="mt-6 flex items-center text-amber-400 text-sm font-bold uppercase tracking-widest relative z-10">
+                Buka Demo <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+            </div>
+        </a>
+    </div>
+
+    <!-- DIVIDER / TOGGLE AREA RAHASIA -->
+    <div class="w-full max-w-6xl relative z-10 mt-8 mb-4">
+        <button onclick="toggleSecretArea()" class="w-full flex items-center group cursor-pointer focus:outline-none">
+            <div class="flex-1 h-px bg-slate-800 group-hover:bg-slate-600 transition-colors"></div>
+            <span class="px-6 py-2 rounded-full bg-slate-900 border border-slate-800 group-hover:border-slate-700 text-xs font-bold text-slate-500 group-hover:text-slate-300 uppercase tracking-widest flex items-center gap-3 transition-all shadow-lg">
+                <i id="secret-lock-icon" class="fa-solid fa-lock text-slate-600 group-hover:text-red-500 transition-colors"></i> 
+                Area Internal
+                <i id="secret-chevron-icon" class="fa-solid fa-chevron-down ml-1"></i>
+            </span>
+            <div class="flex-1 h-px bg-slate-800 group-hover:bg-slate-600 transition-colors"></div>
+        </button>
+    </div>
+
+    <!-- AREA RAHASIA (COLLAPSED BY DEFAULT) -->
+    <div id="secret-area" class="hidden grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl relative z-10 opacity-0 transform translate-y-4">
+        
+        <!-- Menu 4: RAB Internal -->
+        <a href="analisis-margin-internal.html" target="_blank" class="card-hover group bg-gradient-to-br from-slate-900 to-black border border-red-900/50 p-8 rounded-3xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div class="absolute -right-6 -top-6 text-slate-800 opacity-30 group-hover:text-red-500 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110">
+                <i class="fa-solid fa-calculator text-9xl"></i>
+            </div>
+            <div class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner border border-red-500/20 relative z-10">
+                <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white mb-2 relative z-10">4. RAB & Margin Internal</h2>
+            <p class="text-sm text-slate-500 flex-1 relative z-10">Dokumen rahasia untuk pimpinan Bapak. Berisi HPP, OPEX, dan bukti Laba Bersih > 60% (Rp 317 Jt) di 6 bulan pertama.</p>
+            <div class="mt-6 flex items-center text-red-400 text-sm font-bold uppercase tracking-widest relative z-10">
+                Buka RAB <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+            </div>
+        </a>
+
+        <!-- Menu 5: Proyeksi Lanjutan -->
+        <a href="proyeksi_lanjutan.html" target="_blank" class="card-hover group bg-gradient-to-br from-slate-900 to-black border border-purple-900/50 p-8 rounded-3xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            <div class="absolute -right-6 -top-6 text-slate-800 opacity-30 group-hover:text-purple-500 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110">
+                <i class="fa-solid fa-rocket text-9xl"></i>
+            </div>
+            <div class="w-14 h-14 bg-purple-500/20 text-purple-400 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-inner border border-purple-500/20 relative z-10">
+                <i class="fa-solid fa-money-bill-trend-up"></i>
+            </div>
+            <h2 class="text-xl font-bold text-white mb-2 relative z-10">5. Proyeksi Tahun Berikutnya</h2>
+            <p class="text-sm text-slate-500 flex-1 relative z-10">Pipeline masa depan (Passive Income). Strategi perpanjangan kontrak (AMC) dan proyek turunan (Mobile App/RFID).</p>
+            <div class="mt-6 flex items-center text-purple-400 text-sm font-bold uppercase tracking-widest relative z-10">
+                Buka Proyeksi <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Footer Note -->
+    <div class="mt-16 text-center text-slate-500 text-xs font-medium relative z-10">
+        <p>&copy; 2026 PrimaHome IT Dev - PrimaTrack Enterprise Solutions</p>
+        <p class="mt-1"><i class="fa-solid fa-lightbulb text-yellow-500 mr-1"></i> Tip: Pastikan semua file berada dalam satu folder yang sama agar link berfungsi.</p>
+    </div>
+
+    <!-- SCRIPT UNTUK TOGGLE AREA RAHASIA -->
+    <script>
+        function toggleSecretArea() {
+            const area = document.getElementById('secret-area');
+            const lockIcon = document.getElementById('secret-lock-icon');
+            const chevronIcon = document.getElementById('secret-chevron-icon');
+
+            if (area.classList.contains('hidden')) {
+                // BUKA
+                area.classList.remove('hidden');
+                area.classList.add('grid');
+                
+                // Trigger reflow untuk animasi fade-in
+                setTimeout(() => {
+                    area.classList.remove('opacity-0', 'translate-y-4');
+                    area.classList.add('opacity-100', 'translate-y-0');
+                }, 10);
+
+                lockIcon.classList.remove('fa-lock', 'text-slate-600');
+                lockIcon.classList.add('fa-lock-open', 'text-red-500');
+                
+                chevronIcon.classList.remove('fa-chevron-down');
+                chevronIcon.classList.add('fa-chevron-up');
+            } else {
+                // TUTUP
+                area.classList.remove('opacity-100', 'translate-y-0');
+                area.classList.add('opacity-0', 'translate-y-4');
+                
+                lockIcon.classList.remove('fa-lock-open', 'text-red-500');
+                lockIcon.classList.add('fa-lock', 'text-slate-600');
+
+                chevronIcon.classList.remove('fa-chevron-up');
+                chevronIcon.classList.add('fa-chevron-down');
+
+                // Tunggu animasi selesai baru di-hide dari DOM
+                setTimeout(() => {
+                    area.classList.add('hidden');
+                    area.classList.remove('grid');
+                }, 300); // 300ms sesuai durasi transisi Tailwind
+            }
+        }
+    </script>
+
+</body>
+</html>

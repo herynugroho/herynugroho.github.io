@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitch Deck - PrimaTrack Enterprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; background-color: #0f172a; color: white; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; transform: scale(0.95); pointer-events: none; display: flex; flex-direction: column; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 10; }
+        .slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 4rem 8rem; }
+        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; }
+        
+        /* Animasi Diagram */
+        .flow-line { position: relative; height: 4px; background: #334155; flex: 1; margin: 0 1rem; border-radius: 2px; overflow: hidden; }
+        .flow-line::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, #3b82f6, transparent); animation: flow 2s infinite linear; }
+        @keyframes flow { 100% { left: 100%; } }
+        
+        .pulse-dot { width: 12px; height: 12px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+
+        /* Highlight Text */
+        .text-gradient { background: linear-gradient(to right, #60a5fa, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="relative h-screen w-screen selection:bg-blue-500 selection:text-white">
+
+    <!-- Progress Bar -->
+    <div class="absolute top-0 left-0 w-full h-1.5 bg-slate-800 z-50">
+        <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-300 w-0"></div>
+    </div>
+
+    <!-- Container Slides -->
+    <div id="presentation">
+        
+        <!-- SLIDE 1: COVER -->
+        <div class="slide active">
+            <div class="slide-content text-center items-center">
+                <div class="w-24 h-24 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-5xl font-black shadow-[0_0_40px_rgba(37,99,235,0.5)] mb-8">P</div>
+                <h2 class="text-blue-400 font-bold tracking-widest uppercase mb-4 text-sm">Proposal Solusi Institusi (Nasional)</h2>
+                <h1 class="text-6xl font-black mb-6 leading-tight">Pengadaan Sistem Terpadu<br><span class="text-gradient">Manajemen Armada Kampus</span></h1>
+                <p class="text-slate-400 text-xl max-w-2xl mx-auto mb-12">Solusi Eksklusif "Boutique Enterprise" Berbasis IoT dengan Jalur V.I.P Direct Support.</p>
+                <div class="flex gap-4">
+                    <span class="px-4 py-2 bg-slate-800 rounded-full text-sm font-semibold text-slate-300 border border-slate-700"><i class="fa-solid fa-building-columns mr-2"></i> Universitas Negeri - Jakarta</span>
+                    <span class="px-4 py-2 bg-slate-800 rounded-full text-sm font-semibold text-slate-300 border border-slate-700"><i class="fa-solid fa-calendar mr-2"></i> Tahun Anggaran 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: MASALAH -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="text-4xl font-black mb-12 border-l-4 border-blue-500 pl-6">Problem Solusi Retail / Global Saat Ini</h2>
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="glass-panel p-8">
+                        <div class="w-14 h-14 bg-red-500/20 rounded-full flex items-center justify-center text-red-400 text-2xl mb-6"><i class="fa-solid fa-clock"></i></div>
+                        <h3 class="text-xl font-bold mb-3">Zona Waktu (UTC vs WIB)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Server global memproses data secara mentah (UTC). Sering terjadi anomali "waktu dari masa depan" yang mengacaukan integritas data Laporan Pertanggungjawaban (LPJ).</p>
+                    </div>
+                    <div class="glass-panel p-8">
+                        <div class="w-14 h-14 bg-orange-500/20 rounded-full flex items-center justify-center text-orange-400 text-2xl mb-6"><i class="fa-solid fa-ticket"></i></div>
+                        <h3 class="text-xl font-bold mb-3">Birokrasi "Sistem Tiket"</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Institusi diperlakukan sama dengan ratusan ribu pengguna motor/mobil pribadi. Komplain harus melalui <i>chatbot</i> atau <i>Call Center</i>, antrean penanganan sangat lambat.</p>
+                    </div>
+                    <div class="glass-panel p-8">
+                        <div class="w-14 h-14 bg-purple-500/20 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6"><i class="fa-solid fa-link-slash"></i></div>
+                        <h3 class="text-xl font-bold mb-3">Sistem Kaku (Sulit Integrasi)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Data armada terkurung di aplikasi vendor. Rektorat tidak bisa mengintegrasikannya secara leluasa ke sistem absensi, sistem IT, atau format LPJ internal kampus.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: SOLUSI -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="text-4xl font-black mb-4 border-l-4 border-green-500 pl-6">Pendekatan PrimaTrack: <span class="text-green-400">V.I.P Enterprise Partner</span></h2>
+                <p class="text-slate-400 mb-10 text-lg">Kami tidak menjual layanan retail. Kami membangun ekosistem eksklusif untuk Universitas Anda.</p>
+                
+                <div class="grid grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-start">
+                            <i class="fa-solid fa-circle-check text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Dedicated Private Server</h4>
+                                <p class="text-sm text-slate-400 mt-1">Data armada kampus tidak dicampur di <i>public server</i> bersama pelanggan umum. Server kami sediakan khusus (<i>isolated</i>) demi menjamin keamanan aset data negara.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <i class="fa-solid fa-circle-check text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Jalur Langsung ke Developer</h4>
+                                <p class="text-sm text-slate-400 mt-1"><i>Zero Call Center Barrier.</i> Rektorat/UPT TIK memiliki akses komunikasi langsung ke tim <i>Engineering</i> kami. Respon sistemik dalam hitungan menit, tanpa antrean tiket.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <i class="fa-solid fa-circle-check text-green-500 text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Investasi Aset Hardware (CAPEX)</h4>
+                                <p class="text-sm text-slate-400 mt-1">Ratusan perangkat GPS 4G sah menjadi inventaris kampus. Termasuk penempatan teknisi rekanan di area Jakarta dengan SLA ganti unit 1x24 jam.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Simulasi Visual -->
+                    <div class="glass-panel p-8 relative overflow-hidden">
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                        <h4 class="text-center font-bold text-slate-300 mb-8 uppercase tracking-widest text-sm">Arsitektur Eksklusif Kampus</h4>
+                        
+                        <div class="flex items-center justify-between">
+                            <!-- Mobil -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-slate-800 border border-slate-600 rounded-2xl flex items-center justify-center text-2xl relative">
+                                    <i class="fa-solid fa-bus text-white"></i>
+                                    <div class="absolute -top-1 -right-1 pulse-dot"></div>
+                                </div>
+                                <span class="text-[10px] font-bold mt-3 text-slate-400">Aset 4G GPS</span>
+                            </div>
+                            
+                            <div class="flow-line"></div>
+                            
+                            <!-- Server Pribadi -->
+                            <div class="flex flex-col items-center z-10">
+                                <div class="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-[0_0_30px_rgba(37,99,235,0.4)] border-2 border-blue-400">
+                                    <i class="fa-solid fa-server text-white"></i>
+                                </div>
+                                <span class="text-[10px] font-bold mt-3 text-blue-300 text-center">Server Terisolasi<br>(Private Instance)</span>
+                            </div>
+                            
+                            <div class="flow-line"></div>
+                            
+                            <!-- Kampus -->
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-slate-800 border border-slate-600 rounded-2xl flex items-center justify-center text-2xl">
+                                    <i class="fa-solid fa-building-columns text-white"></i>
+                                </div>
+                                <span class="text-[10px] font-bold mt-3 text-slate-400 text-center">Dashboard<br>Rektorat</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: FITUR UNGGULAN -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="text-4xl font-black mb-12 text-center">Algoritma Unggulan PrimaTrack</h2>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-[2rem] shadow-xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i class="fa-solid fa-clock-rotate-left text-3xl text-blue-400"></i>
+                            <h3 class="text-2xl font-bold">Native WIB di Sisi Server</h3>
+                        </div>
+                        <p class="text-slate-400 mb-4">Mencegah ilusi data. Kode server PrimaTrack menerjemahkan pergerakan ke Waktu Indonesia Barat (WIB) sesaat setelah satelit mengirim data, menjamin validasi kronologi hukum jika terjadi insiden.</p>
+                        <div class="bg-black/50 p-4 rounded-xl font-mono text-sm text-green-400 border border-slate-700">
+                            > Menerima mentah (UTC/GPRS)<br>
+                            > Filter Anti-Future Time<br>
+                            > Valid: Tersimpan Akurat ke WIB
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 p-8 rounded-[2rem] shadow-xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i class="fa-solid fa-filter text-3xl text-emerald-400"></i>
+                            <h3 class="text-2xl font-bold">Smart Time-Anchor (Anti Sampah)</h3>
+                        </div>
+                        <p class="text-slate-400 mb-4">Kemacetan ibukota menghasilkan jutaan "data berhenti". Logika kami hanya mencatat perhentian di atas 5 menit sebagai "Persinggahan", membuat laporan LPJ ringkas, rapi, dan mudah diaudit.</p>
+                        <div class="flex items-center justify-between bg-black/50 p-4 rounded-xl border border-slate-700">
+                            <div class="text-center"><i class="fa-solid fa-traffic-light text-red-500 mb-2"></i><br><span class="text-xs text-slate-500">Lampu Merah JKT<br>(Diabaikan)</span></div>
+                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                            <div class="text-center"><i class="fa-solid fa-square-parking text-blue-500 mb-2"></i><br><span class="text-xs text-green-400 font-bold">Parkir Valid<br>(Direkam Server)</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: KOMPARASI -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="text-4xl font-black mb-10 text-center">Komparasi Layanan (Head-to-Head)</h2>
+                <div class="glass-panel overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-slate-800 border-b border-slate-700">
+                                <th class="p-6 font-bold text-slate-300 w-1/4">Indikator</th>
+                                <th class="p-6 font-bold text-slate-400 text-center w-1/4">Vendor Retail / Online<br><span class="text-xs font-normal">(Target: Publik/Massal)</span></th>
+                                <th class="p-6 font-bold text-slate-400 text-center w-1/4">Vendor Global<br><span class="text-xs font-normal">(Cartrack dkk)</span></th>
+                                <th class="p-6 font-black text-blue-400 text-center w-1/4 bg-blue-900/20">PrimaTrack Enterprise<br><span class="text-xs font-normal text-blue-300">Target: Institusi V.I.P</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/50">
+                            <tr>
+                                <td class="p-5 font-semibold">Integritas Data (Server)</td>
+                                <td class="p-5 text-center text-red-400">Dicampur (Public)</td>
+                                <td class="p-5 text-center text-slate-400">Cloud Internasional</td>
+                                <td class="p-5 text-center font-bold text-green-400 bg-blue-900/10">Terisolasi (Private Node)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-5 font-semibold">Tingkat Penanganan (SLA)</td>
+                                <td class="p-5 text-center text-orange-400">Antre Call Center</td>
+                                <td class="p-5 text-center text-orange-400">Sistem Tiket Birokrasi</td>
+                                <td class="p-5 text-center font-bold text-green-400 bg-blue-900/10"><i class="fa-solid fa-check"></i> Direct-to-Developer Line</td>
+                            </tr>
+                            <tr>
+                                <td class="p-5 font-semibold">Kustomisasi Integrasi IT</td>
+                                <td class="p-5 text-center text-red-400"><i class="fa-solid fa-xmark"></i> Tidak Tersedia</td>
+                                <td class="p-5 text-center text-red-400"><i class="fa-solid fa-xmark"></i> Sangat Kaku / Mahal</td>
+                                <td class="p-5 text-center font-bold text-green-400 bg-blue-900/10"><i class="fa-solid fa-check"></i> Custom API Ready</td>
+                            </tr>
+                            <tr>
+                                <td class="p-5 font-semibold">Paket Konektivitas IoT</td>
+                                <td class="p-5 text-center text-orange-400">Batas 6 Bulan</td>
+                                <td class="p-5 text-center text-slate-400">Biaya Bulanan Lanjutan</td>
+                                <td class="p-5 text-center font-bold text-green-400 bg-blue-900/10">Full Cover Selama Kontrak</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: ANGGARAN & VALUE -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="text-4xl font-black mb-8 border-l-4 border-yellow-500 pl-6">Justifikasi Nilai Proyek Terpadu (Rp 500 Jt)</h2>
+                <div class="grid grid-cols-5 gap-6">
+                    <div class="col-span-3 bg-slate-800 p-8 rounded-3xl border border-slate-700">
+                        <h3 class="font-bold text-xl mb-6 text-yellow-400">Fase Pengadaan & Inkubasi (6 Bulan Pertama)</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 mt-0.5"><i class="fa-solid fa-box"></i></div>
+                                <div>
+                                    <strong class="text-white">Pengadaan 150 Unit Hardware 4G Premium (Aset)</strong>
+                                    <p class="text-sm text-slate-400">Menggunakan <i>chipset</i> masa depan. 100% menjadi aset inventaris kampus setelah masa kontrak selesai (Bukan sistem sewa/pinjam alat).</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 mt-0.5"><i class="fa-solid fa-server"></i></div>
+                                <div>
+                                    <strong class="text-white">Masa Inkubasi & Transisi Sistem (6 Bulan)</strong>
+                                    <p class="text-sm text-slate-400">Anggaran ini sudah mengunci biaya pembangunan Private Server, integrasi sistem, dan kuota data IoT untuk 6 bulan tanpa biaya susulan.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mt-0.5"><i class="fa-solid fa-gears"></i></div>
+                                <div>
+                                    <strong class="text-white">Layanan VIP: Pelatihan & Rekanan SLA</strong>
+                                    <p class="text-sm text-slate-400">Mencakup Bimbingan Teknis (Bimtek) untuk staf operasional dan penyiagaan tim teknisi Jadetabek dengan jaminan <i>1-to-1 Unit Replacement</i>.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-span-2 flex flex-col justify-center gap-6">
+                        <div class="glass-panel p-6 text-center border-emerald-500/30 border">
+                            <i class="fa-solid fa-arrow-trend-down text-4xl text-emerald-400 mb-4"></i>
+                            <h4 class="font-bold text-lg mb-2">Penurunan OPEX Ekstrem</h4>
+                            <p class="text-sm text-slate-400">Karena infrastruktur fisik sudah dibeli di 6 bulan pertama, biaya perpanjangan kontrak (Renewal) di bulan ke-7 dan seterusnya akan <b>turun drastis hingga 70%</b>.</p>
+                        </div>
+                        <div class="glass-panel p-6 text-center border-blue-500/30 border">
+                            <i class="fa-solid fa-handshake-angle text-4xl text-blue-400 mb-4"></i>
+                            <h4 class="font-bold text-lg mb-2">Status: Terima Beres</h4>
+                            <p class="text-sm text-slate-400">Risiko IT 100% dipindahkan ke kami. Tidak perlu membebani staf/SDM internal kampus untuk mengelola perangkat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: PENUTUP -->
+        <div class="slide">
+            <div class="slide-content text-center items-center">
+                <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl shadow-[0_0_40px_rgba(34,197,94,0.4)] mb-8">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <h1 class="text-5xl font-black mb-6">Mitra Teknologi Presisi Institusi Anda</h1>
+                <p class="text-slate-400 text-xl max-w-2xl mx-auto mb-12">Berkomitmen menghadirkan ekosistem manajemen armada eksklusif dengan komitmen keamanan dan kedaulatan data tingkat nasional.</p>
+                <div class="bg-slate-800 py-4 px-8 rounded-full border border-slate-700 flex gap-8">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-envelope text-blue-400"></i> <span class="font-semibold">herynugie@gmail.com</span>
+                    </div>
+                    <div class="w-px h-6 bg-slate-600"></div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-green-400"></i> <span class="font-semibold">082336056768</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="absolute bottom-8 left-0 w-full flex justify-between px-12 z-50">
+        <button id="prevBtn" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:bg-slate-700 transition flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div id="slideCounter" class="flex gap-2 items-center">
+            <!-- Dots generated via JS -->
+        </div>
+        <button id="nextBtn" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white hover:bg-blue-600 transition flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progress-bar');
+        const counterContainer = document.getElementById('slideCounter');
+        let currentSlide = 0;
+
+        // Create Dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-blue-500 w-6' : 'bg-slate-600'}`;
+            counterContainer.appendChild(dot);
+        });
+        const dots = counterContainer.children;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                if(index === currentSlide) {
+                    slide.classList.add('active');
+                    slide.style.transform = 'scale(1)';
+                } else if (index < currentSlide) {
+                    slide.classList.remove('active');
+                    slide.style.transform = 'scale(1.05) translateX(-50px)';
+                    slide.style.opacity = '0';
+                } else {
+                    slide.classList.remove('active');
+                    slide.style.transform = 'scale(0.95) translateX(50px)';
+                }
+            });
+
+            // Update Progress & Dots
+            progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+            Array.from(dots).forEach((dot, i) => {
+                dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-blue-500 w-8' : 'bg-slate-600 cursor-pointer hover:bg-slate-400'}`;
+                dot.onclick = () => { currentSlide = i; updateSlides(); };
+            });
+
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => { if(currentSlide < slides.length - 1) { currentSlide++; updateSlides(); } });
+        prevBtn.addEventListener('click', () => { if(currentSlide > 0) { currentSlide--; updateSlides(); } });
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ') nextBtn.click();
+            if(e.key === 'ArrowLeft') prevBtn.click();
+        });
+
+        // Init
+        updateSlides();
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyeksi Kelanjutan Proyek - PrimaTrack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+        .table-row-hover:hover { background-color: #f1f5f9; }
+        @media print {
+            body { background: white; }
+            .no-print { display: none !important; }
+            .shadow-lg, .shadow-sm { box-shadow: none !important; border: 1px solid #e2e8f0; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200 gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="bg-blue-100 text-blue-700 text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest">Fase Pasca-Inkubasi (Bulan ke-7 dts)</span>
+                </div>
+                <h1 class="text-2xl font-black text-slate-800 uppercase tracking-tight">Proyeksi Pendapatan Berulang & Ekspansi</h1>
+                <p class="text-sm text-slate-500 font-medium mt-1">Basis Armada: <span class="font-bold text-blue-600">150 Unit</span> (Telah Berstatus Aset Kampus)</p>
+            </div>
+            <div class="flex gap-3 no-print shrink-0">
+                <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-print"></i> Cetak PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- POTENSI 1: AMC -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mt-6">
+            <div class="bg-slate-900 px-6 py-4 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-rotate"></i></div>
+                <h2 class="font-bold text-white uppercase tracking-widest text-sm">Potensi 1: AMC (Annual Maintenance Contract)</h2>
+            </div>
+            
+            <div class="p-6 border-b border-slate-100 bg-blue-50/30">
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    Kontrak perpanjangan otomatis yang wajib dibayar kampus agar 150 unit GPS tetap mendapatkan koneksi internet dan akses ke Server PrimaTrack selama 1 Tahun ke depan (12 Bulan). Kami asumsikan biaya perpanjangan yang ditawarkan sangat kompetitif, yaitu <b>Rp 1.500.000 / unit / tahun</b> (setara Rp 125.000/bulan).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100 bg-white">
+                <div class="p-6 text-center">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nilai Kontrak Tahunan</p>
+                    <p class="text-3xl font-black text-slate-800">Rp 225.000.000</p>
+                    <p class="text-xs text-slate-500 mt-1">150 unit x Rp 1.500.000</p>
+                </div>
+                <div class="p-6 text-center">
+                    <p class="text-[10px] font-black text-red-400 uppercase tracking-widest mb-2">Total Modal (Data + Server + OPEX)</p>
+                    <p class="text-3xl font-black text-red-500">Rp 57.000.000</p>
+                    <p class="text-xs text-slate-500 mt-1">Hanya biaya <i>maintenance</i> murni</p>
+                </div>
+                <div class="p-6 text-center bg-green-50/30">
+                    <p class="text-[10px] font-black text-green-500 uppercase tracking-widest mb-2">Laba Bersih Tahunan</p>
+                    <p class="text-3xl font-black text-green-600">Rp 168.000.000</p>
+                    <p class="text-xs font-bold text-green-500 mt-1 bg-green-100 inline-block px-2 py-0.5 rounded-full">Margin: 74.6%</p>
+                </div>
+            </div>
+
+            <!-- Detail Modal AMC -->
+            <div class="p-6 bg-slate-50 border-t border-slate-100">
+                <h3 class="text-xs font-bold text-slate-700 mb-3 uppercase">Rincian Modal (Beban Tahunan):</h3>
+                <ul class="space-y-2 text-sm text-slate-600">
+                    <li class="flex justify-between border-b border-slate-200 pb-2">
+                        <span><i class="fa-solid fa-wifi text-slate-400 mr-2"></i> Kuota IoT Telkomsel (150 unit x 12 bln x Rp 15.000)</span>
+                        <span class="font-bold text-slate-800">Rp 27.000.000</span>
+                    </li>
+                    <li class="flex justify-between border-b border-slate-200 pb-2">
+                        <span><i class="fa-solid fa-server text-slate-400 mr-2"></i> Sewa Private Server VPS Tahunan</span>
+                        <span class="font-bold text-slate-800">Rp 15.000.000</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span><i class="fa-solid fa-screwdriver-wrench text-slate-400 mr-2"></i> Biaya Kunjungan Teknisi Lapangan (Buffer)</span>
+                        <span class="font-bold text-slate-800">Rp 15.000.000</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- POTENSI 2: UPSELLING & EKSPANSI -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mt-6">
+            <div class="bg-slate-900 px-6 py-4 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400"><i class="fa-solid fa-rocket"></i></div>
+                <h2 class="font-bold text-white uppercase tracking-widest text-sm">Potensi 2: Ekosistem Proyek Lanjutan (Tahun ke-2 dts)</h2>
+            </div>
+            
+            <div class="p-6">
+                <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                    Karena server dan API data sudah Bapak kuasai, Bapak memegang monopoli akses atas data armada kampus. Ini membuka peluang SPK (Surat Perintah Kerja) baru untuk pengembangan perangkat lunak kampus:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Project A -->
+                    <div class="border border-slate-200 p-5 rounded-xl hover:border-blue-400 transition cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-slate-800 text-lg">Aplikasi Pelacakan Bus Mahasiswa</h3>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">Nilai: Rp 75 - 150 Jt</span>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Pembuatan aplikasi mobile (Android/iOS) berbasis API PrimaTrack agar mahasiswa dapat melihat posisi bus kampus secara langsung. Sangat mendukung penilaian <b>Smart Campus</b> untuk akreditasi BAN-PT.
+                        </p>
+                    </div>
+
+                    <!-- Project B -->
+                    <div class="border border-slate-200 p-5 rounded-xl hover:border-blue-400 transition cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-slate-800 text-lg">Integrasi HRD & Absensi RFID</h3>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">Nilai: Rp 50 - 100 Jt</span>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Proyek integrasi sistem untuk mencocokkan data titik berhenti GPS dengan jadwal tugas sopir kampus, sehingga HRD dapat otomatis menghitung uang makan, uang jalan, dan overtime sopir secara presisi.
+                        </p>
+                    </div>
+
+                    <!-- Project C -->
+                    <div class="border border-slate-200 p-5 rounded-xl hover:border-blue-400 transition cursor-default">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-slate-800 text-lg">Penambahan Armada Baru</h3>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">Recurring Hardware</span>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Setiap ada pengadaan unit kendaraan dinas baru dari Rektorat (misal tahun depan ada 10 mobil baru), pihak kampus <b>wajib</b> membeli GPS dari perusahaan Bapak agar terhubung ke dashboard yang sama (Vendor Lock-in).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KESIMPULAN -->
+        <div class="mt-8 bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-8 shadow-xl text-white flex flex-col items-center justify-center text-center border border-slate-700">
+            <i class="fa-solid fa-gem text-4xl text-blue-400 mb-4"></i>
+            <h3 class="text-xl font-black text-white mb-2">Total Potensi Nilai Proyek (Tahun Ke-2)</h3>
+            <p class="text-sm text-slate-300 leading-relaxed max-w-2xl">
+                Dengan menyetujui proyek awal (Rp 500 Juta / 6 Bulan), Bapak secara otomatis membuka keran pendapatan di tahun berikutnya dengan total potensi nilai mencapai <b>Rp 350.000.000 hingga Rp 475.000.000</b> (Gabungan AMC dan Proyek Turunan), dengan <b>margin laba bersih jauh di atas 70%</b> karena infrastruktur utama telah terbangun.
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
