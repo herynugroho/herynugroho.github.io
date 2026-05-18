@@ -28,7 +28,7 @@
 <nav class="navbar navbar-dark mb-4 shadow-sm py-3">
     <div class="container-fluid px-4">
         <span class="navbar-brand mb-0 h4 d-flex align-items-center">
-            🚢 PINISI NOC DASHBOARD <span class="badge bg-primary ms-3 fs-6 px-3">V4.0 (Full Payload)</span>
+            🚢 PINISI NOC DASHBOARD <span class="badge bg-primary ms-3 fs-6 px-3">V5.0 (Ultimate Demo)</span>
         </span>
         <span class="text-white-50 small">Connected to GenieACS: localhost:7557</span>
     </div>
@@ -50,7 +50,7 @@
             <div class="card border border-light">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Database Modem (TR-069)</span>
-                    <button class="btn btn-primary btn-sm fw-bold px-4" onclick="fetchFromACS()">↻ Tarik Data</button>
+                    <button class="btn btn-primary btn-sm fw-bold px-4" onclick="fetchFromACS()">↻ Tarik Data Terkini</button>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -66,7 +66,7 @@
                                 </tr>
                             </thead>
                             <tbody id="deviceTableBody">
-                                <tr><td colspan="6" class="text-center py-5 text-muted">Klik "Tarik Data" untuk sinkronisasi dengan ACS...</td></tr>
+                                <tr><td colspan="6" class="text-center py-5 text-muted">Klik "Tarik Data Terkini" untuk sinkronisasi dengan ACS...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -80,7 +80,7 @@
                 <div class="card-body py-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
                     <div>
                         <h4 class="mb-1 fw-bold text-primary" id="diagTitle">Pilih modem dari tabel...</h4>
-                        <div class="d-flex gap-2 flex-wrap">
+                        <div class="d-flex gap-2 flex-wrap mt-2">
                             <span class="info-pill" id="diagIp">IP: -</span>
                             <span class="info-pill" id="diagBoot">Last Boot: -</span>
                             <span class="info-pill" id="diagHw">HW: -</span>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="text-end">
                         <span class="badge bg-success px-4 py-2 fs-6 mb-1 d-none" id="diagStatus">ONLINE</span>
-                        <div class="small text-muted" id="diagConnUrl">URL: -</div>
+                        <div class="small text-muted mt-2" id="diagConnUrl">URL: -</div>
                     </div>
                 </div>
             </div>
@@ -97,11 +97,15 @@
                 
                 <div class="col-lg-3">
                     <div class="card border-top border-info border-4 mb-3">
-                        <div class="card-header">Status Optik (ZTE specific)</div>
+                        <div class="card-header">Status Optik (Fiber)</div>
                         <div class="card-body text-center">
                             <h2 class="metric-value mb-0" id="txtRxPower">- <span class="fs-6 text-muted">dBm</span></h2>
-                            <p class="metric-label mt-1 mb-3">Rx Power (Redaman)</p>
-                            <div id="rxStatus" class="badge bg-secondary rounded-pill px-4 py-2 w-100">Standby</div>
+                            <p class="metric-label mt-1 mb-2">Rx Power (Redaman)</p>
+                            <div id="rxStatus" class="badge bg-secondary rounded-pill px-4 py-2 w-100 mb-3">Standby</div>
+                            
+                            <button class="btn btn-sm btn-outline-info w-100 fw-bold" id="btnRefreshOptik" onclick="tarikOptikManual()">
+                                ↻ Tarik Data Optik (Live)
+                            </button>
                         </div>
                     </div>
 
@@ -164,8 +168,8 @@
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">Host Device Connected</div>
+                    <div class="card border-top border-secondary border-4">
+                        <div class="card-header">Host Device Connected (DHCP)</div>
                         <div class="card-body p-0">
                             <table class="table table-sm table-striped mb-0" style="font-size: 0.8rem;">
                                 <thead><tr><th class="ps-3">Hostname</th><th>IP Address</th></tr></thead>
@@ -220,28 +224,22 @@
             renderTable(cachedDevices);
         } catch (error) {
             badge.className = "badge bg-danger"; badge.innerText = "🔴 OFFLINE (Cek Termius)";
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Gagal terhubung ke localhost:7557. Pastikan Termius aktif.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Gagal terhubung ke localhost:7557. Pastikan Termius aktif dan Chrome mode disable-security.</td></tr>';
         }
     }
 
-    // 2. RENDER TABEL UTAMA (Dengan Data yang Benar)
+    // 2. RENDER TABEL UTAMA 
     function renderTable(devices) {
         const tbody = document.getElementById("deviceTableBody");
         tbody.innerHTML = "";
         
         devices.forEach(dev => {
-            // MENGAMBIL DATA ROOT (Harta Karun yang baru ditemukan)
             const sn = dev._id;
             const vendor = dev._deviceId?._Manufacturer || "Unknown";
             const model = dev._deviceId?._ProductClass || "Device";
-            
-            // IP Address (Biasanya di Index 1)
             const ip = dev.InternetGatewayDevice?.WANDevice?.[1]?.WANConnectionDevice?.[1]?.WANPPPConnection?.[1]?.ExternalIPAddress?._value || "-";
-            
-            // Software Version
             const swVer = dev.InternetGatewayDevice?.DeviceInfo?.SoftwareVersion?._value || "-";
 
-            // Status Online berdasarkan Last Inform
             const diffMin = Math.abs(new Date() - new Date(dev._lastInform)) / (1000 * 60);
             let status = diffMin > 15 ? `<span class="badge bg-danger rounded-pill px-3">OFFLINE</span>` : `<span class="badge bg-success rounded-pill px-3">ONLINE</span>`;
 
@@ -282,26 +280,26 @@
         document.getElementById("diagConnUrl").innerText = `TR-069 URL: ${found.InternetGatewayDevice?.ManagementServer?.ConnectionRequestURL?._value || "-"}`;
         document.getElementById("diagStatus").classList.remove("d-none");
 
-        // --- Optik Setup (Fail-safe jika array optik belum ditarik oleh ACS) ---
-        const optikZTE = found.InternetGatewayDevice?.['X_ZTE-COM_OpticalInfo'];
-        const rx = optikZTE?.RxPower?._value || "N/A";
+        // --- Optik Setup (MULTI-PATH ZTE DETECTION) ---
+        const optikPath1 = found.InternetGatewayDevice?.['X_ZTE-COM_OpticalInfo'];
+        const optikPath2 = found.InternetGatewayDevice?.WANDevice?.['1']?.['X_ZTE-COM_WANPONInterfaceConfig'];
+        const rx = optikPath1?.RxPower?._value || optikPath2?.RXPower?._value || "N/A";
+
         document.getElementById("txtRxPower").innerHTML = rx !== "N/A" ? `${rx} <span class="fs-6 text-muted">dBm</span>` : "N/A";
         
         const rxStat = document.getElementById("rxStatus");
         if(rx === "N/A") {
-            rxStat.className = "badge bg-secondary rounded-pill px-4 py-2 w-100"; rxStat.innerText = "Data Optik Kosong";
+            rxStat.className = "badge bg-secondary rounded-pill px-4 py-2 w-100 mb-3"; rxStat.innerText = "Data Optik Kosong";
         } else if(parseFloat(rx) < -26) {
-            rxStat.className = "badge bg-danger rounded-pill px-4 py-2 w-100"; rxStat.innerText = "KRITIS (Loss)";
+            rxStat.className = "badge bg-danger rounded-pill px-4 py-2 w-100 mb-3 shadow-sm"; rxStat.innerText = "KRITIS (Fiber Loss)";
         } else {
-            rxStat.className = "badge bg-success rounded-pill px-4 py-2 w-100"; rxStat.innerText = "Sinyal Bagus";
+            rxStat.className = "badge bg-success rounded-pill px-4 py-2 w-100 mb-3 shadow-sm"; rxStat.innerText = "Sinyal Optik Bagus";
         }
 
         // --- WLAN Setup (Dual Band) ---
         const wlan = found.InternetGatewayDevice?.LANDevice?.['1']?.WLANConfiguration;
-        // Index 1 (2.4GHz)
         document.getElementById("wifiName24").value = wlan?.['1']?.SSID?._value || "";
         document.getElementById("wifiPass24").value = wlan?.['1']?.PreSharedKey?.[1]?.PreSharedKey?._value || "";
-        // Index 5 (5GHz - Berdasarkan raw JSON ZTE Bosku)
         document.getElementById("wifiName50").value = wlan?.['5']?.SSID?._value || "";
         document.getElementById("wifiPass50").value = wlan?.['5']?.PreSharedKey?.[1]?.PreSharedKey?._value || "";
 
@@ -326,7 +324,45 @@
         initTrafficChart();
     }
 
-    // 4. REMOTE TASK: Ubah WiFi SSID
+    // 4. REMOTE TASK: Tarik Optik Manual (FORCE REFRESH OBJECT)
+    async function tarikOptikManual() {
+        if(!currentDeviceId) return;
+        const btn = document.getElementById("btnRefreshOptik");
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menarik Data...';
+        btn.disabled = true;
+
+        try {
+            // Tembak 2 jalur sekaligus agar kebal untuk berbagai tipe ZTE
+            const paths = [
+                "InternetGatewayDevice.X_ZTE-COM_OpticalInfo",
+                "InternetGatewayDevice.WANDevice.1.X_ZTE-COM_WANPONInterfaceConfig"
+            ];
+
+            for (let path of paths) {
+                await fetch(`${ACS_URL}/devices/${currentDeviceId}/tasks`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: "refreshObject", objectName: path })
+                });
+            }
+
+            // Tunggu 3.5 detik memberi waktu GenieACS ngobrol dengan Modem
+            setTimeout(async () => {
+                await fetchFromACS(); // Tarik ulang seluruh data JSON
+                bukaDiagnostik(currentDeviceId); // Render ulang panel agar angkanya muncul
+                
+                btn.innerHTML = '↻ Tarik Data Optik (Live)';
+                btn.disabled = false;
+            }, 3500);
+
+        } catch (e) {
+            alert("Gagal mengirim perintah ke ACS. Pastikan Termius aktif.");
+            btn.innerHTML = '↻ Tarik Data Optik (Live)';
+            btn.disabled = false;
+        }
+    }
+
+    // 5. REMOTE TASK: Ubah WiFi SSID
     async function pushWifi(index) {
         if(!currentDeviceId) return;
         const freq = index === 1 ? "24" : "50";
@@ -336,7 +372,7 @@
         alert(`[API CALL]\n\nTask: setParameterValues\nPath: ${path}\nValue: ${val}\n\nPermintaan telah masuk antrean GenieACS.`);
     }
 
-    // 5. REMOTE TASK: Ubah WiFi Password
+    // 6. REMOTE TASK: Ubah WiFi Password
     async function pushPass(index) {
         if(!currentDeviceId) return;
         const freq = index === 1 ? "24" : "50";
@@ -346,16 +382,27 @@
         alert(`[API CALL]\n\nTask: setParameterValues\nPath: ${path}\nValue: ${val}\n\nPermintaan ganti Password telah masuk antrean GenieACS.`);
     }
 
-    // 6. REMOTE TASK: System
+    // 7. REMOTE TASK: System (Reboot / Factory Reset)
     async function sendTask(taskName) {
         if(!currentDeviceId) return;
         let msg = taskName === 'reboot' ? "Restart Modem" : "Kembalikan modem ke pengaturan Pabrik (FACTORY RESET)";
         if(confirm(`PERINGATAN!\n\nAnda akan melakukan ${msg} pada perangkat ${currentDeviceId}. Lanjutkan?`)) {
-            alert(`[API CALL]\n\nPOST /devices/${currentDeviceId}/tasks\nPayload: {"name": "${taskName}"}\n\nBerhasil dieksekusi.`);
+            
+            try {
+                const response = await fetch(`${ACS_URL}/devices/${currentDeviceId}/tasks`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: taskName })
+                });
+                if(!response.ok) throw new Error("API Error");
+                alert(`SUKSES! Sinyal ${taskName.toUpperCase()} sedang dikirim ke modem.`);
+            } catch(e) {
+                alert(`[SIMULASI DEMO]\n\nPOST /devices/${currentDeviceId}/tasks\nPayload: {"name": "${taskName}"}\n\nBerhasil disimulasikan.`);
+            }
         }
     }
 
-    // 7. CHART.JS
+    // 8. CHART.JS (Simulasi Visual Trafik)
     function initTrafficChart() {
         const ctx = document.getElementById('trafficChart').getContext('2d');
         if(trafficChartInstance) trafficChartInstance.destroy();
