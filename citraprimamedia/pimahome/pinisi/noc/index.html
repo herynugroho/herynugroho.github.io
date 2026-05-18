@@ -280,20 +280,49 @@
         document.getElementById("diagConnUrl").innerText = `TR-069 URL: ${found.InternetGatewayDevice?.ManagementServer?.ConnectionRequestURL?._value || "-"}`;
         document.getElementById("diagStatus").classList.remove("d-none");
 
-        // --- Optik Setup (MULTI-PATH ZTE DETECTION) ---
+        // --- Optik Setup (Sesuai dengan CSV Bosku) ---
+        // Mendukung RxPower (kecil) dan RXPower (KAPITAL)
         const optikPath1 = found.InternetGatewayDevice?.['X_ZTE-COM_OpticalInfo'];
         const optikPath2 = found.InternetGatewayDevice?.WANDevice?.['1']?.['X_ZTE-COM_WANPONInterfaceConfig'];
-        const rx = optikPath1?.RxPower?._value || optikPath2?.RXPower?._value || "N/A";
+        
+        const rx = optikPath1?.RxPower?._value || optikPath1?.RXPower?._value || optikPath2?.RxPower?._value || optikPath2?.RXPower?._value || "N/A";
+        const tx = optikPath1?.TxPower?._value || optikPath1?.TXPower?._value || optikPath2?.TxPower?._value || optikPath2?.TXPower?._value || "N/A";
+        
+        // Harta karun tambahan dari CSV
+        const suhu = optikPath2?.TransceiverTemperature?._value || "N/A";
+        const voltase = optikPath2?.SupplyVoltage?._value ? (optikPath2.SupplyVoltage._value / 1000).toFixed(2) : "N/A";
 
+        // Tampilkan Nilai Utama (Rx & Tx)
         document.getElementById("txtRxPower").innerHTML = rx !== "N/A" ? `${rx} <span class="fs-6 text-muted">dBm</span>` : "N/A";
         
+        // Buat detail tambahan di bawah angka Rx
         const rxStat = document.getElementById("rxStatus");
+        
         if(rx === "N/A") {
-            rxStat.className = "badge bg-secondary rounded-pill px-4 py-2 w-100 mb-3"; rxStat.innerText = "Data Optik Kosong";
-        } else if(parseFloat(rx) < -26) {
-            rxStat.className = "badge bg-danger rounded-pill px-4 py-2 w-100 mb-3 shadow-sm"; rxStat.innerText = "KRITIS (Fiber Loss)";
+            rxStat.className = "badge bg-secondary rounded-pill px-4 py-2 w-100 mb-3"; 
+            rxStat.innerText = "Data Optik Kosong";
         } else {
-            rxStat.className = "badge bg-success rounded-pill px-4 py-2 w-100 mb-3 shadow-sm"; rxStat.innerText = "Sinyal Optik Bagus";
+            // Render Suhu & TX jika datanya ada
+            let extraInfo = `<div class="d-flex justify-content-between mt-3 px-2 small text-muted border-top pt-2">
+                                <span>Tx: <b>${tx} dBm</b></span>
+                                <span>Suhu: <b>${suhu}°C</b></span>
+                                <span>Volt: <b>${voltase}V</b></span>
+                             </div>`;
+            
+            if(parseFloat(rx) < -26) {
+                rxStat.className = "badge bg-danger rounded-pill px-4 py-2 w-100 shadow-sm"; 
+                rxStat.innerText = "KRITIS (Fiber Loss)";
+            } else {
+                rxStat.className = "badge bg-success rounded-pill px-4 py-2 w-100 shadow-sm"; 
+                rxStat.innerText = "Sinyal Optik Bagus";
+            }
+            
+            // Sisipkan info extra di bawah badge status
+            if(!document.getElementById("optikExtra")) {
+                rxStat.insertAdjacentHTML('afterend', `<div id="optikExtra">${extraInfo}</div>`);
+            } else {
+                document.getElementById("optikExtra").innerHTML = extraInfo;
+            }
         }
 
         // --- WLAN Setup (Dual Band) ---
@@ -323,7 +352,6 @@
 
         initTrafficChart();
     }
-
     // 4. REMOTE TASK: Tarik Optik Manual (FORCE REFRESH OBJECT)
     async function tarikOptikManual() {
         if(!currentDeviceId) return;
