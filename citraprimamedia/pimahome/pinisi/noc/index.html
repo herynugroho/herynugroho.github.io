@@ -3,86 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PINISI Command Center - NOC Dashboard</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>PINISI Command Center - Direct ACS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .navbar-brand { font-weight: bold; letter-spacing: 1px; }
-        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 24px; }
-        .card-header { background-color: #fff; border-bottom: 1px solid #f0f0f0; font-weight: 600; color: #2c3e50; border-radius: 12px 12px 0 0 !important; padding: 15px 20px;}
-        
+        body { background-color: #f1f5f9; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .navbar { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); }
+        .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card-header { background-color: #fff; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #1e293b; border-radius: 12px 12px 0 0 !important; padding: 15px 20px;}
         .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px;}
         .bg-online { background-color: #10b981; }
-        .bg-warning { background-color: #f59e0b; }
         .bg-offline { background-color: #ef4444; }
-        
-        .text-online { color: #10b981; font-weight: bold; }
-        .text-warning { color: #f59e0b; font-weight: bold; }
-        
-        .nav-pills .nav-link.active { background-color: #0d6efd; border-radius: 8px; }
-        .nav-pills .nav-link { color: #495057; border-radius: 8px; margin-right: 5px; }
-        
-        .table th { background-color: #f8f9fa; color: #6c757d; font-weight: 600; border-bottom: 2px solid #e9ecef; }
-        .table td { vertical-align: middle; }
-        
-        #api-badge { position: fixed; bottom: 20px; right: 20px; z-index: 999; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .text-online { color: #10b981; font-weight: 600; }
+        .nav-pills .nav-link.active { background-color: #2563eb; border-radius: 8px; }
+        .nav-pills .nav-link { color: #475569; font-weight: 500; }
+        .metric-value { font-size: 2rem; font-weight: 700; color: #0f172a; }
+        .metric-label { font-size: 0.875rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
+        .btn-action { border-radius: 8px; font-weight: 500; }
+        #demo-badge { position: fixed; bottom: 20px; right: 20px; z-index: 999; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border-radius: 20px;}
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-dark bg-primary mb-4 shadow-sm">
+<nav class="navbar navbar-dark mb-4 shadow-sm py-3">
     <div class="container-fluid px-4">
         <span class="navbar-brand mb-0 h1 d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-router me-2" viewBox="0 0 16 16">
-              <path d="M1.5 2.5a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-11zm1 1a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-1z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-hdd-network me-2" viewBox="0 0 16 16">
+              <path d="M4.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1M3 4.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8.5v3a1.5 1.5 0 0 1 1.5 1.5h5.5a.5.5 0 0 1 0 1H10A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5H.5a.5.5 0 0 1 0-1H6a1.5 1.5 0 0 1 1.5-1.5V7H2a2 2 0 0 1-2-2zm1 0v1a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1"/>
             </svg>
-            PINISI Command Center
+            PINISI COMMAND CENTER
         </span>
-        <span class="text-white opacity-75">NOC Dashboard v2.0 (Laravel Proxy)</span>
+        <span class="text-white-50 small">Direct CWMP Link (Termius Tunnel)</span>
     </div>
 </nav>
 
 <div class="container-fluid px-4">
-    
-    <!-- Tab Navigasi -->
     <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab">Daftar Perangkat Aktif</button>
+        <button class="nav-link active px-4" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">1. Jaringan OLT (List Device)</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="pills-diagnostik-tab" data-bs-toggle="pill" data-bs-target="#pills-diagnostik" type="button" role="tab">Diagnostik Spesifik (TR-069)</button>
+        <button class="nav-link px-4" id="pills-diagnostik-tab" data-bs-toggle="pill" data-bs-target="#pills-diagnostik" type="button">2. Diagnostik & Monitoring Pelanggan</button>
       </li>
     </ul>
 
-    <!-- Konten Tabs -->
     <div class="tab-content" id="pills-tabContent">
         
-        <!-- ========================================== -->
-        <!-- TAB 1: HALAMAN HOME (DAFTAR PERANGKAT) -->
-        <!-- ========================================== -->
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Pemantauan OLT & Perangkat Aktif</span>
-                    <button class="btn btn-sm btn-outline-primary" onclick="loadDevicesList()">↻ Tarik Data Terbaru</button>
+                    <span>Semua Perangkat Aktif di Server</span>
+                    <button class="btn btn-sm btn-primary btn-action" onclick="fetchFromACS()">↻ Tarik Data (Live)</button>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
                                 <tr>
-                                    <th class="ps-4">Serial Number (SN)</th>
-                                    <th>Merek / Model</th>
-                                    <th>IP Management</th>
-                                    <th>Last Inform</th>
-                                    <th>Status Online</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="ps-4">Device ID (SN/MAC)</th>
+                                    <th>Pabrikan</th>
+                                    <th>IP Manajemen</th>
+                                    <th>Terkoneksi Terakhir</th>
+                                    <th>Status</th>
+                                    <th class="text-center">Tindakan</th>
                                 </tr>
                             </thead>
                             <tbody id="deviceTableBody">
-                                <tr><td colspan="6" class="text-center py-4 text-muted">Memuat data dari server Laravel API...</td></tr>
+                                <tr><td colspan="6" class="text-center py-5 text-muted">Menunggu instruksi tarik data...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -90,77 +79,67 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- TAB 2: DIAGNOSTIK & REMOTE CONTROL -->
-        <!-- ========================================== -->
         <div class="tab-pane fade" id="pills-diagnostik" role="tabpanel">
-            <!-- Form Pencarian -->
-            <div class="card mb-4">
-                <div class="card-body d-flex gap-2">
-                    <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Masukkan Serial Number (SN) Modem..." value="">
-                    <button class="btn btn-primary px-4 fw-bold" id="btnSearch" onclick="cariModemManual()">Cari Perangkat</button>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card card-body flex-row justify-content-between align-items-center bg-white">
+                        <div>
+                            <h5 class="mb-0 fw-bold text-primary" id="diagTitle">Pilih perangkat dari tabel...</h5>
+                            <small class="text-muted" id="diagIp">IP: -</small>
+                        </div>
+                        <span class="badge bg-success px-3 py-2 fs-6 d-none" id="diagStatus">ONLINE</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Dashboard Hasil (Disembunyikan awalnya) -->
-            <div class="row" id="dashboardArea" style="display: none;">
-                <!-- Info Status -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-top border-primary border-4">
-                        <div class="card-header">Informasi Jaringan</div>
-                        <div class="card-body">
-                            <h5 id="txtDeviceId" class="mb-3 text-primary fw-bold">-</h5>
-                            <table class="table table-sm table-borderless mb-0">
-                                <tr><td class="text-muted pb-2">Vendor:</td><td id="txtVendor" class="fw-bold pb-2">-</td></tr>
-                                <tr><td class="text-muted pb-2">IP Address:</td><td id="txtIp" class="fw-bold pb-2 font-monospace">-</td></tr>
-                                <tr><td class="text-muted pb-2">Terakhir Lapor:</td><td id="txtLastInform" class="pb-2">-</td></tr>
-                                <tr><td class="text-muted">Status:</td><td><span class="status-dot bg-online"></span> <span class="text-online">Terkoneksi (Aktif)</span></td></tr>
-                            </table>
+            <div class="row" id="dashboardArea" style="opacity: 0.4; pointer-events: none;">
+                <div class="col-lg-4">
+                    <div class="card border-top border-info border-4">
+                        <div class="card-header">Redaman Optik (Fiber)</div>
+                        <div class="card-body text-center py-4">
+                            <h1 class="metric-value mb-0" id="txtRxPower">- <span class="fs-4 text-muted">dBm</span></h1>
+                            <p class="metric-label mt-2">Rx Power (Sisi Rumah)</p>
+                            <div id="rxStatus" class="badge bg-secondary rounded-pill px-3 py-2">Menunggu Data...</div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Optik Redaman -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-top border-info border-4">
-                        <div class="card-header">Kesehatan Kabel (Redaman Optik)</div>
-                        <div class="card-body text-center d-flex flex-column justify-content-center">
-                            <p class="text-muted mb-1">Optical Power (Rx) di sisi Pelanggan</p>
-                            <h1 class="display-5" id="txtRxPower">- <span class="fs-4 text-muted">dBm</span></h1>
-                            <div id="rxStatus" class="badge bg-secondary rounded-pill px-3 py-2 mt-2 align-self-center">Menghitung...</div>
-                            
-                            <hr class="my-4">
-                            
-                            <p class="text-muted mb-1">Daya Pancar Modem (Tx)</p>
-                            <h4 id="txtTxPower" class="text-muted">N/A</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Remote Control -->
-                <div class="col-lg-4 col-md-12">
-                    <div class="card h-100 border-top border-warning border-4">
-                        <div class="card-header">Tindakan Cepat (Remote Control)</div>
+                    <div class="card border-top border-warning border-4 mt-3">
+                        <div class="card-header">Remote Eksekusi (ZTP)</div>
                         <div class="card-body">
-                            <div class="mb-4">
-                                <label class="form-label text-muted small fw-bold">UBAH NAMA WIFI PELANGGAN</label>
-                                <div class="input-group">
-                                    <input type="text" id="wifiName" class="form-control" value="">
-                                    <button class="btn btn-outline-success" id="btnSaveWifi" onclick="gantiWifi()">Simpan</button>
-                                </div>
-                                <small class="text-muted" style="font-size: 11px;">Via TR-069 SetParameterValues</small>
+                            <label class="metric-label">UBAH NAMA WIFI (SSID 1)</label>
+                            <div class="input-group mb-4 mt-1">
+                                <input type="text" id="wifiName" class="form-control bg-light" value="">
+                                <button class="btn btn-success fw-bold" id="btnSaveWifi" onclick="gantiWifi()">PUSH</button>
                             </div>
                             
-                            <hr>
-                            
-                            <label class="form-label text-muted small fw-bold">KONTROL DAYA PERANGKAT</label>
-                            <button class="btn btn-danger w-100 d-flex justify-content-center align-items-center" id="btnReboot" onclick="rebootModem()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-power me-2" viewBox="0 0 16 16">
-                                  <path d="M7.5 1v7h1V1h-1z"/>
-                                  <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z"/>
-                                </svg>
-                                Paksa Restart Modem (Reboot)
+                            <label class="metric-label">KONTROL DAYA</label>
+                            <button class="btn btn-danger w-100 mt-1 fw-bold" id="btnReboot" onclick="rebootModem()">
+                                ⚡ REBOOT MODEM PELANGGAN
                             </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card h-100 border-top border-primary border-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Monitoring Bandwidth (Real-time Simulation)</span>
+                            <span class="badge bg-primary">Live</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center mb-4">
+                                <div class="col-6 border-end">
+                                    <div class="metric-label">Total Download Hari Ini</div>
+                                    <div class="metric-value text-primary" id="valDown">14.2 GB</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="metric-label">Total Upload Hari Ini</div>
+                                    <div class="metric-value text-info" id="valUp">3.8 GB</div>
+                                </div>
+                            </div>
+                            <div style="height: 300px; width: 100%;">
+                                <canvas id="trafficChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -169,288 +148,212 @@
     </div>
 </div>
 
-<span class="badge bg-secondary px-3 py-2" id="api-badge">Menunggu Koneksi API...</span>
+<span class="badge bg-dark px-3 py-2" id="demo-badge">Menunggu Koneksi Termius (localhost:7557)</span>
 
-<!-- ========================================== -->
-<!-- JAVASCRIPT LOGIC (THE BRAIN)               -->
-<!-- ========================================== -->
 <script>
-    // =========================================================================
-    // KONFIGURASI ENDPOINT LARAVEL (SESUAIKAN DENGAN PORT SERVE BOSKU)
-    // Jika jalannya php artisan serve, biasanya http://localhost:8000
-    // =========================================================================
-    const LARAVEL_API_BASE = "https://pinisibeta.kasau.software/api/acs"; 
-
-    // Variabel global untuk menyimpan data yang ditarik
+    // URL API ACS dari Tunneling Termius Bosku
+    const ACS_URL = "http://localhost:7557"; 
+    
     let cachedDevices = [];
-    let currentActiveDeviceId = null;
+    let currentDeviceId = null;
+    let trafficChartInstance = null;
 
-    // ==========================================
-    // FUNGSI 1: TARIK DATA DARI API LARAVEL
-    // ==========================================
-    async function loadDevicesList() {
+    // 1. FUNGSI TARIK DATA (GET /devices)
+    async function fetchFromACS() {
         const tbody = document.getElementById("deviceTableBody");
-        const badge = document.getElementById("api-badge");
+        const badge = document.getElementById("demo-badge");
         
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5"><div class="spinner-border text-primary mb-3" role="status"></div><br>Mengambil data dari <b>Laravel API Proxy</b>...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5"><div class="spinner-border text-primary"></div><br>Mengetuk pintu localhost:7557 (Termius)...</td></tr>';
         badge.className = "badge bg-warning text-dark px-3 py-2";
-        badge.innerText = "Menghubungkan ke Laravel...";
+        badge.innerText = "Mengambil data via Tunnel...";
 
         try {
-            // MENEMBAK API LARAVEL BOSKU
-            const response = await fetch(`${LARAVEL_API_BASE}/devices`);
+            const response = await fetch(`${ACS_URL}/devices`);
+            if (!response.ok) throw new Error("Gagal mengambil data ACS");
             
-            if (!response.ok) throw new Error("Gagal terhubung ke Laravel");
-            
-            const devices = await response.json();
-            cachedDevices = devices; // Simpan ke cache lokal untuk tab Diagnostik
-            
-            renderTable(devices);
+            cachedDevices = await response.json();
             
             badge.className = "badge bg-success px-3 py-2";
-            badge.innerText = "🟢 LARAVEL API CONNECTED";
-
+            badge.innerText = "🟢 TERHUBUNG KE GENIEACS";
+            
+            renderTable(cachedDevices);
         } catch (error) {
-            console.error("Error API:", error);
-            
-            // =======================================================
-            // FITUR ANTI-MALU (FAIL-SAFE DEMO MODE)
-            // Jika Laravel mati saat presentasi, data ini yang muncul
-            // =======================================================
+            console.error(error);
             badge.className = "badge bg-danger px-3 py-2";
-            badge.innerText = "🔴 DEMO MODE (LARAVEL OFFLINE)";
-            
-            const mockData = [
-                {
-                    _id: "ZTEGC1234567",
-                    _lastInform: new Date().toISOString(),
-                    InternetGatewayDevice: {
-                        DeviceInfo: { Manufacturer: { _value: "ZTE" }, SoftwareVersion: { _value: "V6.0" } },
-                        WANDevice: { 1: { WANConnectionDevice: { 1: { WANPPPConnection: { 1: { ExternalIPAddress: { _value: "172.200.1.18" } } } } } } },
-                        'X_ZTE-COM_OpticalInfo': { RxPower: { _value: "-21.5" } },
-                        LANDevice: { 1: { WLANConfiguration: { 1: { SSID: { _value: "PINISI_Internet" } } } } }
-                    }
-                },
-                {
-                    _id: "HW4455667788",
-                    _lastInform: new Date(Date.now() - 3600000).toISOString(), // 1 jam lalu
-                    InternetGatewayDevice: {
-                        DeviceInfo: { Manufacturer: { _value: "Huawei" } },
-                        WANDevice: { 1: { WANConnectionDevice: { 1: { WANPPPConnection: { 1: { ExternalIPAddress: { _value: "172.200.2.55" } } } } } } },
-                        'X_ZTE-COM_OpticalInfo': { RxPower: { _value: "-27.8" } },
-                        LANDevice: { 1: { WLANConfiguration: { 1: { SSID: { _value: "Keluarga_Cemara" } } } } }
-                    }
-                }
+            badge.innerText = "🔴 GAGAL KONEK LOKALHOST (DEMO MODE)";
+            // Mock Data agar Demo tetap jalan meskipun tunnel putus
+            cachedDevices = [
+                { _id: "ZTEGC-11223344", _lastInform: new Date().toISOString(), InternetGatewayDevice: { DeviceInfo: { Manufacturer: {_value: "ZTE"} }, WANDevice: {1: {WANConnectionDevice: {1: {WANPPPConnection: {1: {ExternalIPAddress: {_value: "172.200.1.18"}}}}}}}, 'X_ZTE-COM_OpticalInfo': {RxPower: {_value: "-19.5"}}, LANDevice: {1: {WLANConfiguration: {1: {SSID: {_value: "PINISI_BOSS"}}}}} } },
+                { _id: "HW-AABBCCDD", _lastInform: new Date(Date.now() - 500000).toISOString(), InternetGatewayDevice: { DeviceInfo: { Manufacturer: {_value: "Huawei"} }, WANDevice: {1: {WANConnectionDevice: {1: {WANPPPConnection: {1: {ExternalIPAddress: {_value: "172.200.2.10"}}}}}}}, 'X_ZTE-COM_OpticalInfo': {RxPower: {_value: "-28.1"}}, LANDevice: {1: {WLANConfiguration: {1: {SSID: {_value: "Warkop_Pinisi"}}}}} } }
             ];
-            cachedDevices = mockData;
-            renderTable(mockData);
+            renderTable(cachedDevices);
         }
     }
 
-    // ==========================================
-    // FUNGSI 2: RENDER TABEL HTML
-    // ==========================================
+    // 2. RENDER TABEL
     function renderTable(devices) {
         const tbody = document.getElementById("deviceTableBody");
         tbody.innerHTML = "";
-
-        if (devices.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Belum ada perangkat yang terdaftar di ACS.</td></tr>';
-            return;
+        
+        if(!devices || devices.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center">Tidak ada perangkat.</td></tr>'; return;
         }
 
         devices.forEach(dev => {
-            // Ekstraksi data secara dinamis
-            const deviceId = dev._id || "Unknown";
+            const sn = dev._id;
             const vendor = dev.InternetGatewayDevice?.DeviceInfo?.Manufacturer?._value || "Unknown";
-            const model = dev.InternetGatewayDevice?.DeviceInfo?.ProductClass?._value || "";
+            const ip = dev.InternetGatewayDevice?.WANDevice?.[1]?.WANConnectionDevice?.[1]?.WANPPPConnection?.[1]?.ExternalIPAddress?._value || "172.200.x.x";
+            const lastInform = new Date(dev._lastInform).toLocaleString('id-ID');
             
-            const ip = dev.InternetGatewayDevice?.WANDevice?.[1]?.WANConnectionDevice?.[1]?.WANPPPConnection?.[1]?.ExternalIPAddress?._value 
-                        || dev.InternetGatewayDevice?.WANDevice?.[1]?.WANConnectionDevice?.[1]?.WANIPConnection?.[1]?.ExternalIPAddress?._value
-                        || "172.200.x.x";
-
-            const lastInformDate = new Date(dev._lastInform).toLocaleString('id-ID');
-            
-            // Hitung status (Jika lapor terakhir < 10 menit = Online)
             const diffMinutes = Math.abs(new Date() - new Date(dev._lastInform)) / (1000 * 60);
-            let statusHtml = `<span class="status-dot bg-online"></span> <span class="text-online">Online</span>`;
-            if (diffMinutes > 10) {
-                statusHtml = `<span class="status-dot bg-offline"></span> <span class="text-danger">Offline</span>`;
-            }
+            let status = `<span class="status-dot bg-online"></span> <span class="text-online">Online</span>`;
+            if (diffMinutes > 15) status = `<span class="status-dot bg-offline"></span> <span class="text-danger">Offline</span>`;
 
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td class="ps-4 fw-bold text-primary">${deviceId}</td>
-                <td>${vendor} <span class="text-muted small">${model}</span></td>
-                <td class="font-monospace">${ip}</td>
-                <td>${lastInformDate}</td>
-                <td>${statusHtml}</td>
-                <td class="text-center">
-                    <button class="btn btn-sm btn-primary" onclick="bukaDiagnostik('${deviceId}')">Diagnostik</button>
-                </td>
+            tbody.innerHTML += `
+                <tr>
+                    <td class="ps-4 fw-bold text-primary">${sn}</td>
+                    <td>${vendor}</td>
+                    <td class="font-monospace text-muted">${ip}</td>
+                    <td class="small">${lastInform}</td>
+                    <td>${status}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-primary fw-bold" onclick="bukaDiagnostik('${sn}')">PILIH</button>
+                    </td>
+                </tr>
             `;
-            tbody.appendChild(tr);
         });
     }
 
-    // ==========================================
-    // FUNGSI 3: NAVIGASI KE TAB DIAGNOSTIK
-    // ==========================================
+    // 3. FUNGSI DIAGNOSTIK
     function bukaDiagnostik(sn) {
-        // Pindah Tab secara programmatis
-        const tabDiagnostik = new bootstrap.Tab(document.querySelector('#pills-diagnostik-tab'));
-        tabDiagnostik.show();
+        new bootstrap.Tab(document.querySelector('#pills-diagnostik-tab')).show();
+        const found = cachedDevices.find(d => d._id === sn);
+        if(!found) return;
+
+        currentDeviceId = found._id;
+        document.getElementById("dashboardArea").style.opacity = "1";
+        document.getElementById("dashboardArea").style.pointerEvents = "auto";
         
-        document.getElementById("searchInput").value = sn;
-        cariModem(sn);
+        // Header Info
+        document.getElementById("diagTitle").innerText = `Device: ${found._id} (${found.InternetGatewayDevice?.DeviceInfo?.Manufacturer?._value || "Unknown"})`;
+        document.getElementById("diagIp").innerText = `Management IP: ${found.InternetGatewayDevice?.WANDevice?.[1]?.WANConnectionDevice?.[1]?.WANPPPConnection?.[1]?.ExternalIPAddress?._value || "N/A"}`;
+        document.getElementById("diagStatus").classList.remove("d-none");
+
+        // Set Redaman ZTE (Sesuaikan path jika diperlukan)
+        const rx = found.InternetGatewayDevice?.['X_ZTE-COM_OpticalInfo']?.RxPower?._value || "-20.0";
+        document.getElementById("txtRxPower").innerHTML = `${rx} <span class="fs-4 text-muted">dBm</span>`;
+        const rxStat = document.getElementById("rxStatus");
+        if(parseFloat(rx) < -25) {
+            rxStat.className = "badge bg-danger rounded-pill px-3 py-2"; rxStat.innerText = "Kritis (Loss Warning)";
+        } else {
+            rxStat.className = "badge bg-success rounded-pill px-3 py-2"; rxStat.innerText = "Sinyal Bagus";
+        }
+
+        // Set WiFi
+        document.getElementById("wifiName").value = found.InternetGatewayDevice?.LANDevice?.[1]?.WLANConfiguration?.[1]?.SSID?._value || "";
+
+        // Inisialisasi Grafik Traffic
+        initTrafficChart();
     }
 
-    function cariModemManual() {
-        const sn = document.getElementById("searchInput").value;
-        if(!sn) { alert("Masukkan Serial Number!"); return; }
-        cariModem(sn);
-    }
-
-    // ==========================================
-    // FUNGSI 4: LOAD DETAIL PERANGKAT 
-    // ==========================================
-    function cariModem(sn) {
-        const btn = document.getElementById("btnSearch");
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mencari...';
-        btn.disabled = true;
-
-        // Kita cari dari cache lokal yang sudah ditarik di Tab 1 agar cepat
-        setTimeout(() => {
-            const found = cachedDevices.find(d => d._id === sn);
-            
-            if(found) {
-                currentActiveDeviceId = found._id;
-                document.getElementById("dashboardArea").style.display = "flex";
-                
-                // Set Info Dasar
-                document.getElementById("txtDeviceId").innerText = found._id;
-                document.getElementById("txtVendor").innerText = found.InternetGatewayDevice?.DeviceInfo?.Manufacturer?._value || "N/A";
-                
-                const ip = found.InternetGatewayDevice?.WANDevice?.[1]?.WANConnectionDevice?.[1]?.WANPPPConnection?.[1]?.ExternalIPAddress?._value || "172.200.x.x";
-                document.getElementById("txtIp").innerText = ip;
-                document.getElementById("txtLastInform").innerText = new Date(found._lastInform).toLocaleString('id-ID');
-                
-                // Set SSID
-                const ssid = found.InternetGatewayDevice?.LANDevice?.[1]?.WLANConfiguration?.[1]?.SSID?._value || "Tidak Terbaca";
-                document.getElementById("wifiName").value = ssid;
-                
-                // Set Redaman Optik (Jika format ZTE)
-                const rxPower = found.InternetGatewayDevice?.['X_ZTE-COM_OpticalInfo']?.RxPower?._value || "-20.1";
-                const rxEl = document.getElementById("txtRxPower");
-                const rxStatus = document.getElementById("rxStatus");
-                
-                rxEl.innerHTML = `${rxPower} <span class="fs-4 text-muted">dBm</span>`;
-                
-                // Logika peringatan loss optik
-                if(parseFloat(rxPower) < -25) {
-                    rxEl.className = "display-5 text-danger fw-bold";
-                    rxStatus.className = "badge bg-danger rounded-pill px-3 py-2 mt-2 align-self-center";
-                    rxStatus.innerText = "Peringatan: Redaman Tinggi (Loss)";
-                } else {
-                    rxEl.className = "display-5 text-success fw-bold";
-                    rxStatus.className = "badge bg-success rounded-pill px-3 py-2 mt-2 align-self-center";
-                    rxStatus.innerText = "Sinyal Optimal";
-                }
-
-            } else {
-                alert(`Serial Number ${sn} tidak ditemukan di jaringan.`);
-                document.getElementById("dashboardArea").style.display = "none";
-            }
-            
-            btn.innerHTML = 'Cari Perangkat';
-            btn.disabled = false;
-        }, 600); // Simulasi delay loading sedikit agar terasa "bekerja"
-    }
-
-    // ==========================================
-    // FUNGSI 5: REMOTE CONTROL (UBAH WIFI & RESTART)
-    // ==========================================
+    // 4. REMOTE TASK: GANTI WIFI (POST /devices/{id}/tasks)
     async function gantiWifi() {
-        if(!currentActiveDeviceId) return;
-        
+        if(!currentDeviceId) return;
+        const newSsid = document.getElementById("wifiName").value;
         const btn = document.getElementById("btnSaveWifi");
-        const newName = document.getElementById("wifiName").value;
-        btn.innerHTML = "Menyimpan...";
-        btn.disabled = true;
+        btn.innerText = "LOADING..."; btn.disabled = true;
 
         try {
-            // Skenario Ideal: Nembak ke Endpoint POST Laravel (Misal: /api/acs/tasks)
-            // Payload menyesuaikan format Laravel Bosku nantinya
-            const response = await fetch(`${LARAVEL_API_BASE}/tasks`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    device_id: currentActiveDeviceId,
-                    task_name: "setParameterValues",
-                    path: "InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.SSID",
-                    value: newName
-                })
+            const payload = {
+                name: "setParameterValues",
+                parameterValues: [
+                    ["InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.SSID", newSsid, "xsd:string"]
+                ]
+            };
+            const response = await fetch(`${ACS_URL}/devices/${currentDeviceId}/tasks`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
             });
-
-            if(!response.ok) throw new Error("Endpoint belum siap");
             
-            alert(`SUKSES: Perintah ganti WiFi menjadi "${newName}" telah diteruskan oleh Laravel ke ACS!`);
-        } catch (error) {
-            // Fail-safe untuk Demo (Jika endpoint POST di Laravel belum Bosku buat)
-            alert(`(SIMULASI DEMO): Sistem berhasil mencatat perintah penggantian nama WiFi menjadi "${newName}". Parameter akan dikirim ke antrean ACS.`);
+            if(!response.ok) throw new Error("Gagal");
+            alert(`MANTAP! Perintah ubah WiFi ke "${newSsid}" telah dikirim ke modem.`);
+        } catch (e) {
+            alert(`[SIMULASI DEMO]: Permintaan ubah WiFi ke "${newSsid}" berhasil antre ke ACS.`);
         }
-
-        btn.innerHTML = "Tersimpan ✔";
-        btn.classList.replace("btn-outline-success", "btn-success");
-        setTimeout(() => {
-            btn.innerHTML = "Simpan";
-            btn.classList.replace("btn-success", "btn-outline-success");
-            btn.disabled = false;
-        }, 3000);
+        btn.innerText = "PUSH"; btn.disabled = false;
     }
 
+    // 5. REMOTE TASK: REBOOT (POST /devices/{id}/tasks)
     async function rebootModem() {
-        if(!currentActiveDeviceId) return;
-        
-        const confirmMsg = confirm("PERINGATAN: Perangkat akan dimatikan (reboot) dan internet pelanggan akan terputus sesaat. Lanjutkan?");
-        if(!confirmMsg) return;
-
+        if(!currentDeviceId || !confirm("Yakin ingin Restart modem ini secara remote?")) return;
         const btn = document.getElementById("btnReboot");
-        btn.innerHTML = "Mengirim Sinyal Restart...";
-        btn.disabled = true;
+        btn.innerText = "MENGIRIM SINYAL..."; btn.disabled = true;
 
         try {
-             const response = await fetch(`${LARAVEL_API_BASE}/tasks`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    device_id: currentActiveDeviceId,
-                    task_name: "reboot"
-                })
+            const response = await fetch(`${ACS_URL}/devices/${currentDeviceId}/tasks`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: "reboot" })
             });
-
-            if(!response.ok) throw new Error("Endpoint belum siap");
-            alert("SUKSES: Sinyal REBOOT berhasil diteruskan oleh Laravel ke modem pelanggan.");
-        } catch(error) {
-            alert("(SIMULASI DEMO): Sinyal REBOOT berhasil disimulasikan. Modem pelanggan akan segera restart.");
+            if(!response.ok) throw new Error("Gagal");
+            alert("SUKSES! Modem sedang melakukan Restart.");
+        } catch(e) {
+            alert("[SIMULASI DEMO]: Sinyal Reboot berhasil dikirim ke perangkat.");
         }
-
-        btn.innerHTML = "Restart Sedang Berjalan...";
-        btn.classList.replace("btn-danger", "btn-secondary");
-        setTimeout(() => {
-            btn.innerHTML = '⚡ Paksa Restart Modem (Reboot)';
-            btn.classList.replace("btn-secondary", "btn-danger");
-            btn.disabled = false;
-        }, 5000);
+        setTimeout(() => { btn.innerText = "⚡ REBOOT MODEM PELANGGAN"; btn.disabled = false; }, 3000);
     }
 
-    // Auto load data pertama kali dibuka
-    window.onload = function() {
-        loadDevicesList();
-    };
-</script>
+    // 6. RENDER GRAFIK CHART.JS (Simulasi Realtime)
+    function initTrafficChart() {
+        const ctx = document.getElementById('trafficChart').getContext('2d');
+        
+        // Hancurkan chart lama jika ada
+        if(trafficChartInstance) trafficChartInstance.destroy();
 
-<!-- Bootstrap Bundle JS -->
+        // Data dummy untuk demo (Seolah-olah ini pergerakan Mbps selama 12 jam terakhir)
+        const labels = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+        const downloadData = [12, 19, 15, 25, 40, 35, 22, 45, 55, 30]; // Mbps
+        const uploadData = [2, 3, 2, 5, 8, 6, 4, 10, 15, 5];
+
+        trafficChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Download (Mbps)',
+                        data: downloadData,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Upload (Mbps)',
+                        data: uploadData,
+                        borderColor: '#0ea5e9',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { borderDash: [2, 2] } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
