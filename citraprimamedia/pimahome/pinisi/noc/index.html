@@ -423,22 +423,65 @@
         }
     }
 
-    // 5. REMOTE TASK: Ubah WiFi SSID
+    // 5. REMOTE TASK: Ubah WiFi SSID (FIXED REAL API CALL)
     async function pushWifi(index) {
         if(!currentDeviceId) return;
         const freq = index === 1 ? "24" : "50";
         const val = document.getElementById(`wifiName${freq}`).value;
         const path = `InternetGatewayDevice.LANDevice.1.WLANConfiguration.${index}.SSID`;
-        alert(`Task: setParameterValues\nPath: ${path}\nValue: ${val}\n\nAntrean dikirim!`);
+        
+        // Ganti teks tombol jadi loading
+        const btn = event.target;
+        const oldText = btn.innerText;
+        btn.innerText = "..."; btn.disabled = true;
+
+        try {
+            const response = await fetch(`${ACS_URL}/devices/${currentDeviceId}/tasks`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: "setParameterValues",
+                    parameterValues: [[path, val, "xsd:string"]]
+                })
+            });
+            if(!response.ok) throw new Error("API Error");
+            
+            alert(`SUKSES! Perintah ganti SSID ke "${val}" sudah masuk antrean GenieACS.\n\nSilakan restart modem atau tunggu siklus lapor agar nama WiFi berubah.`);
+            document.getElementById(`wifiName${freq}`).style.backgroundColor = "#e8f5e9";
+        } catch (e) {
+            alert("Gagal mengirim perintah ke ACS. Pastikan Termius dan API aktif.");
+        }
+        btn.innerText = oldText; btn.disabled = false;
     }
 
-    // 6. REMOTE TASK: Ubah WiFi Password
+    // 6. REMOTE TASK: Ubah WiFi Password (FIXED REAL API CALL)
     async function pushPass(index) {
         if(!currentDeviceId) return;
         const freq = index === 1 ? "24" : "50";
         const val = document.getElementById(`wifiPass${freq}`).value;
         const path = `InternetGatewayDevice.LANDevice.1.WLANConfiguration.${index}.PreSharedKey.1.PreSharedKey`;
-        alert(`Task: setParameterValues\nPath: ${path}\nValue: ${val}\n\nAntrean dikirim!`);
+        
+        const btn = event.target;
+        const oldText = btn.innerText;
+        btn.innerText = "..."; btn.disabled = true;
+
+        try {
+            const response = await fetch(`${ACS_URL}/devices/${currentDeviceId}/tasks`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: "setParameterValues",
+                    parameterValues: [[path, val, "xsd:string"]]
+                })
+            });
+            if(!response.ok) throw new Error("API Error");
+            
+            alert(`SUKSES! Perintah ganti Password sudah masuk antrean GenieACS.`);
+            document.getElementById(`wifiPass${freq}`).style.backgroundColor = "#e8f5e9";
+        } catch (e) {
+            alert("Gagal mengirim perintah ke ACS.");
+        }
+        btn.innerText = oldText; btn.disabled = false;
     }
 
     // 7. REMOTE TASK: System
