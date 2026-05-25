@@ -112,7 +112,7 @@
                 <span class="text-sm font-bold uppercase tracking-wider text-red-600">⚠️ Kondisi Saat Ini</span>
                 <h2 class="text-2xl md:text-3xl font-bold text-zinc-900">Alur Operasional Existing (Sebelum Integrasi API Bank)</h2>
                 <p class="text-sm md:text-base text-zinc-500 max-w-4xl leading-relaxed">
-                    Proses penagihan dan rekonsiliasi keuangan saat ini sangat bergantung pada intervensi manusia (*human intervention*), berpotensi memicu perlambatan (bottleneck) hebat terutama pada awal bulan saat tagihan membeludak.
+                    Proses penagihan dan rekonsiliasi keuangan saat ini sangat bergantung pada intervensi manusia (human intervention), berpotensi memicu perlambatan (bottleneck) hebat terutama pada awal bulan saat tagihan membeludak.
                 </p>
             </div>
 
@@ -133,7 +133,7 @@
                         <span class="text-xs font-bold text-red-500 font-mono tracking-wider block mb-3">FASE 2</span>
                         <h3 class="font-bold text-zinc-800 text-base mb-2">Titik Kritis Bayar</h3>
                         <p class="text-sm text-zinc-500 leading-relaxed font-light">
-                            Pelanggan mentransfer dana, namun wajib mengirimkan bukti transfer ke WA CS. Status pembayaran rentan mengambang (*floating*).
+                            Pelanggan mentransfer dana, namun wajib mengirimkan bukti transfer ke WA CS. Status pembayaran rentan mengambang (floating).
                         </p>
                     </div>
                     <span class="text-xs font-bold text-red-600 mt-6 block uppercase tracking-wider">Risiko Tinggi</span>
@@ -174,7 +174,7 @@
                 <span class="text-sm font-bold uppercase tracking-wider text-emerald-600">⚡ Target Solusi Integrasi</span>
                 <h2 class="text-2xl md:text-3xl font-bold text-zinc-900">Alur Operasional Rencana (Mandiri Host-to-Host)</h2>
                 <p class="text-sm md:text-base text-zinc-500 max-w-4xl leading-relaxed">
-                    Dengan implementasi arsitektur **Mandiri Bill Collection**, intervensi manual dipangkas habis. Core Engine PINISI dan sistem Bank Mandiri akan saling bertukar data secara otomatis dan instan.
+                    Dengan implementasi arsitektur Mandiri Bill Collection, intervensi manual dipangkas habis. Core Engine PINISI dan sistem Bank Mandiri akan saling bertukar data secara otomatis dan instan.
                 </p>
             </div>
 
@@ -182,7 +182,7 @@
                 <div class="bg-white border border-zinc-200 p-5 rounded-2xl shadow-sm">
                     <span class="text-xs font-mono font-bold bg-zinc-100 text-zinc-600 px-2 py-1 rounded block w-max mb-4">1. INVOICING</span>
                     <h3 class="font-bold text-zinc-800 text-sm mb-1.5">Request Nomor VA</h3>
-                    <p class="text-xs text-zinc-500 leading-relaxed font-light">Sistem PINISI mengkalkulasi tagihan, mengirim request nomor VA secara H2H, dan mengunci nilai nominal transaksi melalui mekanis **Close Payment**.</p>
+                    <p class="text-xs text-zinc-500 leading-relaxed font-light">Sistem PINISI mengkalkulasi tagihan, mengirim request nomor VA secara H2H, dan mengunci nilai nominal transaksi melalui mekanis Close Payment.</p>
                 </div>
 
                 <div class="bg-white border border-zinc-200 p-5 rounded-2xl shadow-sm">
@@ -200,19 +200,19 @@
                 <div class="bg-white border border-zinc-200 p-5 rounded-2xl shadow-sm border-t-4 border-t-emerald-500">
                     <span class="text-xs font-mono font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded block w-max mb-4">4. PROVISIONING</span>
                     <h3 class="font-bold text-zinc-800 text-sm mb-1.5">Auto-Aktivasi</h3>
-                    <p class="text-xs text-zinc-500 leading-relaxed font-light">Sistem penagihan memicu perintah terotomatisasi (*API Script trigger*) ke server ACS/jaringan utama untuk membuka isolir koneksi internet pelanggan.</p>
+                    <p class="text-xs text-zinc-500 leading-relaxed font-light">Sistem penagihan memicu perintah terotomatisasi (API Script trigger) ke server ACS/jaringan utama untuk membuka isolir koneksi internet pelanggan.</p>
                 </div>
 
                 <div class="bg-white border border-zinc-200 p-5 rounded-2xl shadow-sm">
                     <span class="text-xs font-mono font-bold bg-zinc-100 text-zinc-600 px-2 py-1 rounded block w-max mb-4">5. SETTLEMENT</span>
                     <h3 class="font-bold text-zinc-800 text-sm mb-1.5">Rekonsiliasi Otomatis</h3>
-                    <p class="text-xs text-zinc-500 leading-relaxed font-light">Bank Mandiri merampungkan sinkronisasi data laporan rekening koran berformat **MT940** harian secara terjadwal langsung via File Transfer/Email.</p>
+                    <p class="text-xs text-zinc-500 leading-relaxed font-light">Bank Mandiri merampungkan sinkronisasi data laporan rekening koran berformat MT940 harian secara terjadwal langsung via File Transfer/Email.</p>
                 </div>
             </div>
 
             <div class="bg-emerald-50 border border-emerald-200/60 rounded-2xl p-5 mt-8 w-full">
                 <p class="text-sm text-emerald-800 leading-relaxed">
-                    <strong>Hasil Akhir:</strong> Seluruh rantai pemrosesan transaksi hingga pembukaan isolir internet selesai dalam waktu **kurang dari 10 detik, berjalan otomatis penuh 24/7**, tanpa membutuhkan intervensi admin finance sama sekali.
+                    <strong>Hasil Akhir:</strong> Seluruh rantai pemrosesan transaksi hingga pembukaan isolir internet selesai dalam waktu kurang dari 10 detik, berjalan otomatis penuh 24/7, tanpa membutuhkan intervensi admin finance sama sekali.
                 </p>
             </div>
         </div>
@@ -241,7 +241,7 @@
                         <tr class="hover:bg-zinc-50/50 transition-colors">
                             <td class="p-5 font-bold text-zinc-900">SLA Kecepatan Konfirmasi</td>
                             <td class="p-5 text-red-600 bg-red-50/10">Berkisar antara beberapa Menit hingga Jam (tergantung antrean pesan masuk dan jam operasional kantor).</td>
-                            <td class="p-5 text-emerald-600 bg-emerald-50/10 font-semibold">Hitungan detik secara langsung (*real-time 24/7 otomatis secara sistemik*).</td>
+                            <td class="p-5 text-emerald-600 bg-emerald-50/10 font-semibold">Hitungan detik secara langsung (real-time 24/7 otomatis secara sistemik).</td>
                         </tr>
                         <tr class="hover:bg-zinc-50/50 transition-colors">
                             <td class="p-5 font-bold text-zinc-900">Eksekusi Isolir Internet</td>
