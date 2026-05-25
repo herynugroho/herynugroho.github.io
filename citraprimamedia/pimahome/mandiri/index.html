@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformasi Billing & Konektivitas: PINISI x Bank Mandiri H2H</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        mandiri: {
+                            blue: '#002d62',
+                            gold: '#fdb813',
+                            light: '#00529b'
+                        },
+                        pinisi: {
+                            orange: '#f05a28',
+                            dark: '#1e1e24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom styling for slides -->
+    <style>
+        .slide {
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .8; transform: scale(1.02); }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 3s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-mandiri-gold selection:text-slate-950">
+
+    <!-- Top Navigation / Brand Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur px-6 py-4 flex justify-between items-center z-10">
+        <div class="flex items-center space-x-3">
+            <div class="h-10 w-10 rounded-lg bg-gradient-to-tr from-pinisi-orange to-mandiri-gold flex items-center justify-center font-bold text-white shadow-lg">
+                P
+            </div>
+            <div>
+                <span class="font-bold text-lg tracking-wider bg-gradient-to-r from-pinisi-orange via-mandiri-gold to-white bg-clip-text text-transparent">PINISI</span>
+                <span class="text-xs text-slate-400 block -mt-1">INTEGRASI BANK MANDIRI H2H</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="text-xs px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-medium">Proposal Sinergi</span>
+            <button onclick="toggleFullscreen()" class="p-2 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors title='Fullscreen'">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Slide Container -->
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8 relative">
+        
+        <!-- SLIDE 1: COVER -->
+        <div id="slide-1" class="slide active w-full max-w-6xl flex-col justify-between min-h-[500px] md:min-h-[550px]">
+            <div class="grid md:grid-cols-12 gap-8 items-center my-auto">
+                <div class="md:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-mandiri-blue to-mandiri-light border border-blue-500/30 px-3 py-1.5 rounded-full text-xs text-blue-300 font-semibold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
+                        <span>Rencana Kolaborasi</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-white">
+                        Otomatisasi Sistem Billing <br>
+                        <span class="bg-gradient-to-r from-mandiri-gold via-yellow-200 to-white bg-clip-text text-transparent">Host-to-Host (H2H)</span>
+                    </h1>
+                    <p class="text-slate-400 text-base md:text-lg max-w-xl leading-relaxed">
+                        Transformasi dari alur manual beresiko tinggi menuju ekosistem pembayaran real-time menggunakan <strong class="text-slate-200">Mandiri Bill Collection</strong> untuk efisiensi operasional mutlak.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <div class="flex items-center space-x-2 text-sm text-slate-300 bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-lg">
+                            <span class="text-pinisi-orange">✓</span> <span>Eliminasi Bottleneck</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-slate-300 bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-lg">
+                            <span class="text-mandiri-gold">✓</span> <span>Aktivasi Instan</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-slate-300 bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-lg">
+                            <span class="text-green-400">✓</span> <span>Nol Rekonsiliasi Manual</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-5 relative flex justify-center">
+                    <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-pinisi-orange to-mandiri-gold opacity-30 blur-2xl"></div>
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-8 w-full max-w-sm relative z-10 flex flex-col justify-between min-h-[320px] shadow-2xl">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Kemitraan Strategis</p>
+                                <h3 class="text-lg font-bold text-white mt-1">PINISI Cloud Platform</h3>
+                            </div>
+                            <span class="text-xs px-2 py-1 rounded bg-slate-800 text-slate-300 font-mono">v2.0-H2H</span>
+                        </div>
+                        
+                        <div class="my-6 py-6 border-y border-slate-800 flex justify-between items-center">
+                            <div class="text-center flex-1 border-r border-slate-800">
+                                <span class="text-2xl font-black text-pinisi-orange">01</span>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Platform ISP</p>
+                            </div>
+                            <div class="text-center flex-1">
+                                <span class="text-2xl font-black text-mandiri-gold">01</span>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Bank Mandiri</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800/80 flex items-center space-x-3">
+                            <div class="p-2 bg-emerald-500/20 rounded text-emerald-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-snug">
+                                Terenkripsi penuh & sesuai dengan standar Open API Bank Mandiri.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: ALUR EXISTING -->
+        <div id="slide-2" class="slide w-full max-w-6xl flex-col justify-between min-h-[500px]">
+            <div class="space-y-2 mb-6">
+                <div class="flex items-center space-x-2 text-rose-500 text-sm font-semibold tracking-wider uppercase">
+                    <span>⚠️ Kondisi Saat Ini</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Alur Operasional Existing (Sebelum Integrasi API Bank)</h2>
+                <p class="text-slate-400 max-w-3xl text-sm md:text-base">
+                    Proses bisnis sangat bergantung pada intervensi manusia (<span class="text-rose-400 font-semibold">human intervention</span>). Menyebabkan perlambatan (bottleneck) hebat terutama pada awal bulan saat tagihan membeludak.
+                </p>
+            </div>
+
+            <!-- Existing Timeline Grid -->
+            <div class="grid md:grid-cols-4 gap-4 my-auto">
+                <!-- Fase 1 -->
+                <div class="bg-slate-900/50 border border-slate-800/80 p-5 rounded-xl flex flex-col justify-between hover:border-rose-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 font-bold">FASE 1</span>
+                            <span class="text-slate-600 group-hover:text-rose-400 transition-colors">✉️</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-base mb-2">Penagihan Manual</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Sistem PINISI membuat invoice, lalu admin mengirimkan pesan tagihan ke pelanggan berisi nominal dan nomor rekening umum perusahaan secara manual lewat WhatsApp.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+                        <span class="text-[10px] text-rose-400 font-semibold uppercase tracking-wider">Langkah Lambat</span>
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span>
+                    </div>
+                </div>
+
+                <!-- Fase 2 -->
+                <div class="bg-slate-900/50 border border-slate-800/80 p-5 rounded-xl flex flex-col justify-between hover:border-rose-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 font-bold">FASE 2</span>
+                            <span class="text-slate-600 group-hover:text-rose-400 transition-colors">💸</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-base mb-2">Titik Kritis Pembayaran</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Pelanggan transfer dana, namun <strong class="text-rose-300">wajib mengirimkan bukti transfer</strong> ke WA Admin/CS. Jika lupa mengirim, status pembayaran mengambang (floating).
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+                        <span class="text-[10px] text-rose-400 font-semibold uppercase tracking-wider">Risiko Tinggi</span>
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span>
+                    </div>
+                </div>
+
+                <!-- Fase 3 -->
+                <div class="bg-slate-900/50 border border-slate-800/80 p-5 rounded-xl flex flex-col justify-between hover:border-rose-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 font-bold">FASE 3</span>
+                            <span class="text-slate-600 group-hover:text-rose-400 transition-colors">🔍</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-base mb-2">Verifikasi Manual</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Tim Finance login portal perbankan, mengecek mutasi satu per satu, mencocokkan nominal dan nama. Sangat rawan human error jika nama rekening pengirim berbeda.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+                        <span class="text-[10px] text-rose-400 font-semibold uppercase tracking-wider">Sangat Rawan Error</span>
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span>
+                    </div>
+                </div>
+
+                <!-- Fase 4 -->
+                <div class="bg-slate-900/50 border border-slate-800/80 p-5 rounded-xl flex flex-col justify-between hover:border-rose-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-400 font-bold">FASE 4</span>
+                            <span class="text-slate-600 group-hover:text-rose-400 transition-colors">⚙️</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-base mb-2">Aktivasi Manual</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Setelah divalidasi, Admin mengubah status di PINISI menjadi "Lunas", lalu secara terpisah memicu perintah pembukaan isolir pelanggan di dashboard ACS/Mikrotik.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
+                        <span class="text-[10px] text-rose-400 font-semibold uppercase tracking-wider">Keterlambatan Layanan</span>
+                        <span class="h-1.5 w-1.5 rounded-full bg-rose-500"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-4 mt-6 flex items-start space-x-3">
+                <span class="text-rose-500 text-xl">💡</span>
+                <p class="text-xs text-rose-300/90 leading-relaxed">
+                    <strong>Kesimpulan Bottleneck:</strong> Hubungan manual dari bank ke internet aktif memerlukan waktu berkisar antara <strong>15 menit hingga beberapa jam</strong>, bergantung penuh pada ketersediaan admin di jam kerja.
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: ALUR RENCANA (H2H) -->
+        <div id="slide-3" class="slide w-full max-w-6xl flex-col justify-between min-h-[500px]">
+            <div class="space-y-2 mb-6">
+                <div class="flex items-center space-x-2 text-emerald-400 text-sm font-semibold tracking-wider uppercase">
+                    <span>⚡ Target Solusi Integrasi</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Alur Operasional Rencana (Mandiri Host-to-Host)</h2>
+                <p class="text-slate-400 max-w-3xl text-sm md:text-base">
+                    Dengan sistem <span class="text-emerald-400 font-semibold">Mandiri Bill Collection</span>, intervensi manusia dipangkas habis. Sistem PINISI dan Bank Mandiri akan "berbicara" satu sama lain secara otomatis.
+                </p>
+            </div>
+
+            <!-- Proposed Grid Timeline -->
+            <div class="grid md:grid-cols-5 gap-3 my-auto">
+                <!-- Step 1 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-400 font-bold">1. TAGIHAN & VA</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-xs md:text-sm mb-1.5">Kalkulasi & Request VA</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Sistem PINISI mengkalkulasi tagihan, mengirim request ke Mandiri secara H2H, dan mengunci nominal dengan mekanisme <strong class="text-emerald-300">Close Payment</strong>. Mandiri merespons dengan nomor unik Virtual Account (VA).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-400 font-bold">2. PEMBAYARAN</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-xs md:text-sm mb-1.5">Multi Channel & Instan</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Pelanggan membayar lewat ATM, mobile banking bank manapun, atau e-wallet dengan nomor VA yang diterima. Pembayaran langsung masuk ke rekening perusahaan.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-400 font-bold">3. CALLBACK REAL-TIME</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-xs md:text-sm mb-1.5">Deteksi Pembayaran</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Begitu transaksi berhasil, Bank Mandiri langsung mengirim notifikasi real-time ke server PINISI. Invoice otomatis terdeteksi <strong class="text-emerald-300">Lunas</strong> tanpa campur tangan admin.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-400 font-bold">4. AUTO-AKTIVASI</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-xs md:text-sm mb-1.5">Penormalan Instan</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Karena invoice lunas otomatis, sistem PINISI langsung memicu script API ke server ACS/jaringan Anda untuk menormalkan kembali koneksi internet pelanggan dalam hitungan detik.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300 group">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-400 font-bold">5. REKONSILIASI</span>
+                        </div>
+                        <h3 class="font-bold text-slate-200 text-xs md:text-sm mb-1.5">Mitigasi Keuangan</h3>
+                        <p class="text-[11px] text-slate-400 leading-relaxed">
+                            Bank Mandiri melakukan rekonsiliasi pada H+1 dengan mengirimkan berkas laporan rekening koran berformat <strong class="text-emerald-300">MT940</strong> harian via File Transfer/email secara terjadwal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Info -->
+            <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-4 mt-6 flex items-start space-x-3">
+                <span class="text-emerald-400 text-xl">✓</span>
+                <p class="text-xs text-emerald-300/90 leading-relaxed">
+                    <strong>Hasil Akhir:</strong> Seluruh proses pembayaran hingga aktivasi internet selesai dalam waktu <strong>kurang dari 10 detik, berjalan otomatis 24/7</strong>, tanpa membutuhkan verifikasi admin sama sekali.
+                </p>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: TABEL EFISIENSI -->
+        <div id="slide-4" class="slide w-full max-w-6xl flex-col justify-between min-h-[500px]">
+            <div class="space-y-2 mb-6">
+                <div class="flex items-center space-x-2 text-mandiri-gold text-sm font-semibold tracking-wider uppercase">
+                    <span>📈 Analisis Komparasi</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Perbandingan Efisiensi Operasional</h2>
+                <p class="text-slate-400 max-w-3xl text-sm md:text-base">
+                    Berikut adalah rekap perbandingan komparatif yang signifikan dari proses manual lama dibandingkan sistem rencana integrasi Mandiri H2H.
+                </p>
+            </div>
+
+            <!-- Responsive Table Container -->
+            <div class="overflow-x-auto bg-slate-900/30 border border-slate-800 rounded-xl my-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900 border-b border-slate-800 text-xs md:text-sm uppercase tracking-wider text-slate-400">
+                            <th class="p-4 font-bold">Aspek Operasional</th>
+                            <th class="p-4 font-bold text-rose-400 bg-rose-950/10">Sistem Existing (Manual)</th>
+                            <th class="p-4 font-bold text-emerald-400 bg-emerald-950/10">Sistem Rencana (Mandiri H2H)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-xs md:text-sm">
+                        <!-- Row 1 -->
+                        <tr class="hover:bg-slate-900/40 transition-colors">
+                            <td class="p-4 font-semibold text-slate-300">Identifikasi Pembayar</td>
+                            <td class="p-4 text-rose-300 bg-rose-950/5">Manual, mencocokkan mutasi rekening dan bukti transfer foto/WA.</td>
+                            <td class="p-4 text-emerald-300 bg-emerald-950/5 font-medium">Otomatis melalui nomor Virtual Account (VA) yang unik & terikat.</td>
+                        </tr>
+                        <!-- Row 2 -->
+                        <tr class="hover:bg-slate-900/40 transition-colors">
+                            <td class="p-4 font-semibold text-slate-300">Kecepatan Konfirmasi</td>
+                            <td class="p-4 text-rose-300 bg-rose-950/5">Menit hingga Jam (tergantung antrean pesan dan jam kerja Admin).</td>
+                            <td class="p-4 text-emerald-300 bg-emerald-950/5 font-medium">Hitungan detik (real-time 24/7 otomatis secara sistemik).</td>
+                        </tr>
+                        <!-- Row 3 -->
+                        <tr class="hover:bg-slate-900/40 transition-colors">
+                            <td class="p-4 font-semibold text-slate-300">Aktivasi Internet</td>
+                            <td class="p-4 text-rose-300 bg-rose-950/5">Harus menunggu Admin mengubah status di sistem jaringan secara berkala.</td>
+                            <td class="p-4 text-emerald-300 bg-emerald-950/5 font-medium">Otomatis dipicu oleh callback keberhasilan bayar dari Bank Mandiri.</td>
+                        </tr>
+                        <!-- Row 4 -->
+                        <tr class="hover:bg-slate-900/40 transition-colors">
+                            <td class="p-4 font-semibold text-slate-300">Risiko Salah Nominal</td>
+                            <td class="p-4 text-rose-300 bg-rose-950/5">Tinggi (pelanggan sering salah ketik nominal/kurang angka unik).</td>
+                            <td class="p-4 text-emerald-300 bg-emerald-950/5 font-medium">Nol (0), menggunakan mekanisme Close Payment (nominal dikunci bank).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Value Prop Banner -->
+            <div class="grid md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
+                    <span class="text-2xl">⚡</span>
+                    <div>
+                        <h4 class="font-bold text-white text-xs">PENGHEMATAN WAKTU</h4>
+                        <p class="text-[10px] text-slate-400">Pekerjaan administrasi berkurang hingga 95%.</p>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
+                    <span class="text-2xl">🎯</span>
+                    <div>
+                        <h4 class="font-bold text-white text-xs">AKURASI DATA 100%</h4>
+                        <p class="text-[10px] text-slate-400">Close payment menjamin nominal masuk selalu pas.</p>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 flex items-center space-x-3">
+                    <span class="text-2xl">❤️</span>
+                    <div>
+                        <h4 class="font-bold text-white text-xs">KEPUASAN PELANGGAN</h4>
+                        <p class="text-[10px] text-slate-400">Bayar langsung aktif instan walau tengah malam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: INTERACTIVE SIMULATOR -->
+        <div id="slide-5" class="slide w-full max-w-6xl flex-col justify-between min-h-[500px]">
+            <div class="space-y-2 mb-4">
+                <div class="flex items-center space-x-2 text-indigo-400 text-sm font-semibold tracking-wider uppercase">
+                    <span>🎮 Simulator Demo Interaktif</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white">Simulasi Aliran Data Mandiri Callback (Real-time)</h2>
+                <p class="text-slate-400 max-w-3xl text-sm md:text-base">
+                    Coba lakukan simulasi pembayaran dengan menekan tombol bayar di bawah untuk menyaksikan alur komunikasi otomatis antara sistem PINISI, Bank Mandiri, dan jaringan mikrotik.
+                </p>
+            </div>
+
+            <!-- Simulator Box -->
+            <div class="grid md:grid-cols-12 gap-6 bg-slate-900/40 border border-slate-800 p-6 rounded-2xl my-auto">
+                
+                <!-- Left Control Panel -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="bg-slate-950/90 border border-slate-800 p-4 rounded-xl">
+                        <h3 class="font-bold text-white text-sm mb-3 flex items-center justify-between">
+                            <span>Informasi Tagihan</span>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded uppercase font-mono">Invoice</span>
+                        </h3>
+                        <div class="space-y-2 text-xs text-slate-300">
+                            <div class="flex justify-between border-b border-slate-900 pb-1.5">
+                                <span class="text-slate-500">Nama Pelanggan:</span>
+                                <span class="font-semibold text-slate-100">Hery Susanto</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-900 pb-1.5">
+                                <span class="text-slate-500">Paket Internet:</span>
+                                <span class="font-semibold text-slate-100">PKG-20M (20 Mbps)</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-900 pb-1.5">
+                                <span class="text-slate-500">No. Mandiri VA:</span>
+                                <span class="font-semibold text-slate-100 font-mono">89508 1234 5678</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Nominal Tagihan:</span>
+                                <span class="font-bold text-mandiri-gold">Rp 275.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button onclick="runSimulation()" id="btn-simulate" class="w-full bg-gradient-to-r from-mandiri-blue to-mandiri-light hover:from-mandiri-light hover:to-blue-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center space-x-2 border border-blue-400/20 active:translate-y-0">
+                            <span class="text-lg">💰</span>
+                            <span>Simulasikan Pembayaran VA</span>
+                        </button>
+                        <button onclick="resetSimulation()" class="w-full bg-slate-800/50 hover:bg-slate-800 text-slate-300 font-medium py-2 px-4 rounded-lg text-xs transition-colors border border-slate-700/50">
+                            Reset Simulasi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Visual Pipeline -->
+                <div class="md:col-span-7 space-y-3 flex flex-col justify-between">
+                    <!-- Status Header -->
+                    <div class="flex justify-between items-center bg-slate-950 p-3 rounded-xl border border-slate-800">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Status Internet:</span>
+                            <span id="internet-badge" class="px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/30">Terisolir (Mati)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Billing:</span>
+                            <span id="billing-badge" class="px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-slate-800 text-slate-400">Belum Bayar</span>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline Steps -->
+                    <div class="space-y-2 relative">
+                        <!-- Step A -->
+                        <div id="sim-step-1" class="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 flex items-center justify-between text-xs transition-all duration-300 text-slate-500">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-400">1</span>
+                                <span>Pelanggan membayar via Virtual Account Mandiri</span>
+                            </div>
+                            <span id="icon-step-1" class="font-bold text-sm">◽</span>
+                        </div>
+                        <!-- Step B -->
+                        <div id="sim-step-2" class="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 flex items-center justify-between text-xs transition-all duration-300 text-slate-500">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-400">2</span>
+                                <span>API Bank Mandiri menembakkan Callback / Webhook</span>
+                            </div>
+                            <span id="icon-step-2" class="font-bold text-sm">◽</span>
+                        </div>
+                        <!-- Step C -->
+                        <div id="sim-step-3" class="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 flex items-center justify-between text-xs transition-all duration-300 text-slate-500">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-400">3</span>
+                                <span>PINISI mendeteksi pelunasan & merubah status invoice</span>
+                            </div>
+                            <span id="icon-step-3" class="font-bold text-sm">◽</span>
+                        </div>
+                        <!-- Step D -->
+                        <div id="sim-step-4" class="bg-slate-950/60 p-3 rounded-lg border border-slate-800/80 flex items-center justify-between text-xs transition-all duration-300 text-slate-500">
+                            <div class="flex items-center space-x-2.5">
+                                <span class="w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px] font-bold text-slate-400">4</span>
+                                <span>PINISI memicu API untuk buka isolir Mikrotik</span>
+                            </div>
+                            <span id="icon-step-4" class="font-bold text-sm">◽</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Custom Notification Modal Inside Container -->
+            <div id="custom-alert" class="hidden bg-emerald-900/95 border border-emerald-500/50 p-4 rounded-xl text-xs md:text-sm text-emerald-100 flex items-center justify-between shadow-2xl transition-all mt-4">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">🎉</span>
+                    <span><strong>Simulasi Sukses!</strong> Proses selesai tanpa campur tangan admin. Internet pelanggan langsung aktif.</span>
+                </div>
+                <button onclick="closeCustomAlert()" class="text-emerald-400 hover:text-white font-bold px-2 py-1">OK</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Controls & Slide Navigation -->
+    <footer class="border-t border-slate-800 bg-slate-950 px-6 py-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 z-10">
+        <!-- Slide Progress Indicators -->
+        <div class="flex items-center space-x-2">
+            <button onclick="goToSlide(1)" id="dot-1" class="h-2.5 w-8 rounded-full bg-mandiri-gold transition-all duration-300" title="Slide 1"></button>
+            <button onclick="goToSlide(2)" id="dot-2" class="h-2.5 w-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-all duration-300" title="Slide 2"></button>
+            <button onclick="goToSlide(3)" id="dot-3" class="h-2.5 w-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-all duration-300" title="Slide 3"></button>
+            <button onclick="goToSlide(4)" id="dot-4" class="h-2.5 w-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-all duration-300" title="Slide 4"></button>
+            <button onclick="goToSlide(5)" id="dot-5" class="h-2.5 w-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-all duration-300" title="Slide 5"></button>
+        </div>
+
+        <!-- Help Instructions -->
+        <div class="hidden lg:flex items-center space-x-3 text-xs text-slate-500">
+            <span>Gunakan tombol</span>
+            <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-400">←</span>
+            <span>dan</span>
+            <span class="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-slate-400">→</span>
+            <span>di keyboard untuk navigasi</span>
+        </div>
+
+        <!-- Prev/Next Controls -->
+        <div class="flex items-center space-x-3">
+            <button onclick="prevSlide()" class="px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-all duration-200 flex items-center space-x-1.5 disabled:opacity-30 disabled:pointer-events-none" id="btn-prev" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                <span>Sebelumnya</span>
+            </button>
+            
+            <span class="text-xs text-slate-400 font-mono" id="slide-num">1 / 5</span>
+
+            <button onclick="nextSlide()" class="px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-all duration-200 flex items-center space-x-1.5 disabled:opacity-30 disabled:pointer-events-none" id="btn-next">
+                <span>Berikutnya</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 5;
+
+        // Navigation Functions
+        function updateSlideUI() {
+            // Hide all slides
+            for(let i = 1; i <= totalSlides; i++) {
+                const s = document.getElementById(`slide-${i}`);
+                if (s) s.classList.remove('active');
+                
+                // Update dots
+                const dot = document.getElementById(`dot-${i}`);
+                if (dot) {
+                    if (i === currentSlide) {
+                        dot.className = "h-2.5 w-8 rounded-full bg-mandiri-gold transition-all duration-300";
+                    } else {
+                        dot.className = "h-2.5 w-3 rounded-full bg-slate-800 hover:bg-slate-700 transition-all duration-300";
+                    }
+                }
+            }
+
+            // Show active slide
+            const active = document.getElementById(`slide-${currentSlide}`);
+            if (active) active.classList.add('active');
+
+            // Update slide counter text
+            document.getElementById('slide-num').innerText = `${currentSlide} / ${totalSlides}`;
+
+            // Control button states
+            document.getElementById('btn-prev').disabled = (currentSlide === 1);
+            document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlideUI();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlideUI();
+            }
+        }
+
+        function goToSlide(num) {
+            if (num >= 1 && num <= totalSlides) {
+                currentSlide = num;
+                updateSlideUI();
+            }
+        }
+
+        // Fullscreen Toggle (Standard implementation)
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Keyboard Navigation Listener
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Touch Swipe Navigation for Mobile Devices
+        let touchstartX = 0;
+        let touchendX = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            if (touchendX < touchstartX - 50) {
+                nextSlide();
+            }
+            if (touchendX > touchstartX + 50) {
+                prevSlide();
+            }
+        }
+
+        // --- SIMULATOR CONTROLS (SLIDE 5) ---
+        let simInterval = null;
+        function runSimulation() {
+            const btn = document.getElementById('btn-simulate');
+            btn.disabled = true;
+            btn.innerHTML = `<span>⏳</span> <span>Memproses Transaksi...</span>`;
+            
+            // Reset state
+            resetSimulationState();
+
+            // Sequence timeline
+            setTimeout(() => {
+                // Step 1 Complete
+                setStepActive(1, '✓', 'text-emerald-400 border-emerald-500/30 bg-slate-900', 'bg-emerald-500 text-slate-950');
+            }, 800);
+
+            setTimeout(() => {
+                // Step 2 Complete
+                setStepActive(2, '✓', 'text-emerald-400 border-emerald-500/30 bg-slate-900', 'bg-emerald-500 text-slate-950');
+                document.getElementById('billing-badge').className = "px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400 border border-amber-500/30";
+                document.getElementById('billing-badge').innerText = "Memproses VA";
+            }, 1800);
+
+            setTimeout(() => {
+                // Step 3 Complete
+                setStepActive(3, '✓', 'text-emerald-400 border-emerald-500/30 bg-slate-900', 'bg-emerald-500 text-slate-950');
+                document.getElementById('billing-badge').className = "px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+                document.getElementById('billing-badge').innerText = "Lunas (Auto)";
+            }, 2800);
+
+            setTimeout(() => {
+                // Step 4 Complete
+                setStepActive(4, '✓', 'text-emerald-400 border-emerald-500/30 bg-slate-900', 'bg-emerald-500 text-slate-950');
+                
+                // Internet is activated!
+                document.getElementById('internet-badge').className = "px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+                document.getElementById('internet-badge').innerText = "Aktif (Normal)";
+                
+                // Trigger customized toast alert
+                document.getElementById('custom-alert').classList.remove('hidden');
+                
+                btn.disabled = false;
+                btn.innerHTML = `<span class="text-lg">💰</span> <span>Simulasikan Lagi</span>`;
+            }, 3800);
+        }
+
+        function setStepActive(stepNum, icon, parentClass, badgeClass) {
+            const el = document.getElementById(`sim-step-${stepNum}`);
+            const iconEl = document.getElementById(`icon-step-${stepNum}`);
+            const numBadge = el.querySelector('span');
+            
+            el.className = `p-3 rounded-lg border flex items-center justify-between text-xs transition-all duration-300 ${parentClass}`;
+            iconEl.innerText = icon;
+            numBadge.className = `w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${badgeClass}`;
+        }
+
+        function resetSimulationState() {
+            // Hide custom alert
+            document.getElementById('custom-alert').classList.add('hidden');
+            
+            // Steps 1 to 4 reset to inactive
+            for (let i = 1; i <= 4; i++) {
+                setStepActive(i, '◽', 'bg-slate-950/60 border-slate-800/80 text-slate-500', 'bg-slate-800 text-slate-400');
+            }
+        }
+
+        function resetSimulation() {
+            resetSimulationState();
+            
+            // Badges reset
+            document.getElementById('internet-badge').className = "px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/30";
+            document.getElementById('internet-badge').innerText = "Terisolir (Mati)";
+            
+            document.getElementById('billing-badge').className = "px-2.5 py-1 rounded text-xs font-bold uppercase tracking-wider bg-slate-800 text-slate-400";
+            document.getElementById('billing-badge').innerText = "Belum Bayar";
+            
+            const btn = document.getElementById('btn-simulate');
+            btn.disabled = false;
+            btn.innerHTML = `<span class="text-lg">💰</span> <span>Simulasikan Pembayaran VA</span>`;
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('custom-alert').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
