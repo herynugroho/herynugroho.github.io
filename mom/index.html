@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoM Master & Action Items Tracker</title>
+    <!-- Vue 3 & Tailwind CSS CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <div id="app" class="flex h-screen overflow-hidden" v-cloak>
+        
+        <!-- SIDEBAR -->
+        <div class="w-64 bg-slate-900 text-white flex flex-col justify-between shadow-xl">
+            <div class="p-5">
+                <div class="flex items-center space-x-3 mb-8">
+                    <i class="fa-solid :class fa-clipboard-list text-2xl text-emerald-400"></i>
+                    <span class="text-xl font-bold tracking-wider">MoM Hub</span>
+                </div>
+                <nav class="space-y-2">
+                    <button @click="currentTab = 'dashboard'" :class="['w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition', currentTab === 'dashboard' ? 'bg-emerald-600 text-white font-semibold' : 'text-slate-400 hover:bg-slate-800 hover:text-white']">
+                        <i class="fa-solid fa-chart-line w-5"></i> <span>Dashboard Evaluasi</span>
+                    </button>
+                    <button @click="currentTab = 'new-meeting'" :class="['w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition', currentTab === 'new-meeting' ? 'bg-emerald-600 text-white font-semibold' : 'text-slate-400 hover:bg-slate-800 hover:text-white']">
+                        <i class="fa-solid fa-plus w-5"></i> <span>Catat Rapat Baru</span>
+                    </button>
+                    <button @click="currentTab = 'history'" :class="['w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition', currentTab === 'history' ? 'bg-emerald-600 text-white font-semibold' : 'text-slate-400 hover:bg-slate-800 hover:text-white']">
+                        <i class="fa-solid fa-folder-open w-5"></i> <span>Riwayat Rapat</span>
+                    </button>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-slate-800 text-xs text-slate-500 text-center">
+                MoM App v1.0 &middot; Offline Storage
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="flex-1 flex flex-col overflow-y-auto bg-gray-50">
+            
+            <!-- HEADER -->
+            <header class="bg-white border-b border-gray-200 px-8 py-4 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+                <h1 class="text-2xl font-bold text-gray-800 capitalize">{{ currentTab.replace('-', ' ') }}</h1>
+                <div class="text-sm text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full font-medium">
+                    <i class="fa-regular fa-calendar-days mr-2"></i> {{ todayDate }}
+                </div>
+            </header>
+
+            <main class="p-8 max-w-7xl w-full mx-auto">
+                
+                <!-- TAB 1: DASHBOARD EVALUASI (TRACKING UTAMA) -->
+                <div v-if="currentTab === 'dashboard'" class="space-y-6">
+                    <!-- Ringkasan Metrik -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Tugas Berjalan</p>
+                                <h3 class="text-3xl font-bold text-amber-500 mt-1">{{ countStatus('⏳ In Progress') }}</h3>
+                            </div>
+                            <div class="p-4 bg-amber-50 rounded-lg text-amber-500"><i class="fa-solid fa-spinner text-xl"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Tugas Terhambat (Stuck)</p>
+                                <h3 class="text-3xl font-bold text-rose-500 mt-1">{{ countStatus('❌ Stuck') }}</h3>
+                            </div>
+                            <div class="p-4 bg-rose-50 rounded-lg text-rose-500"><i class="fa-solid fa-triangle-exclamation text-xl"></i></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-500 font-medium">Selesai Minggu Ini</p>
+                                <h3 class="text-3xl font-bold text-emerald-500 mt-1">{{ countStatus('✅ Done') }}</h3>
+                            </div>
+                            <div class="p-4 bg-emerald-50 rounded-lg text-emerald-500"><i class="fa-solid fa-circle-check text-xl"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Filter & Tabel Pelacakan -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
+                            <div>
+                                <h2 class="text-lg font-bold text-gray-800">Pelacakan Tugas Lintas Rapat</h2>
+                                <p class="text-sm text-gray-500">Gunakan filter untuk mengevaluasi progres kerja tim dengan cepat.</p>
+                            </div>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <select v-model="filterStatus" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                    <option value="All">Semua Status</option>
+                                    <option value="⏳ In Progress">⏳ In Progress</option>
+                                    <option value="❌ Stuck">❌ Stuck</option>
+                                    <option value="✅ Done">✅ Done</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-gray-50 text-xs font-semibold text-gray-500 uppercase border-b border-gray-200">
+                                    <tr>
+                                        <th class="px-6 py-3">Tugas / Action Item</th>
+                                        <th class="px-6 py-3">PIC</th>
+                                        <th class="px-6 py-3">Deadline</th>
+                                        <th class="px-6 py-3">Prioritas</th>
+                                        <th class="px-6 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100 text-sm">
+                                    <tr v-for="item in filteredActionItems" :key="item.id" class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4 font-medium text-gray-900">
+                                            {{ item.task }}
+                                            <div class="text-xs text-gray-400 mt-0.5 font-normal">Dari Rapat: {{ item.meetingTitle }} ({{ item.meetingDate }})</div>
+                                        </td>
+                                        <td class="px-6 py-4 text-gray-600">{{ item.owner }}</td>
+                                        <td class="px-6 py-4 text-gray-600 font-mono">{{ item.deadline }}</td>
+                                        <td class="px-6 py-4">
+                                            <span :class="['px-2.5 py-1 rounded-full text-xs font-semibold', item.priority === 'P1 - Tinggi' ? 'bg-red-50 text-red-600' : item.priority === 'P2 - Sedang' ? 'bg-amber-50 text-amber-600' : 'bg-blue-50 text-blue-600']">
+                                                {{ item.priority }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <select v-model="item.status" @change="saveToLocalStorage" :class="['border-0 rounded-lg px-2 py-1 text-xs font-bold focus:ring-2 focus:ring-offset-1', item.status === '✅ Done' ? 'bg-emerald-100 text-emerald-800' : item.status === '❌ Stuck' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800']">
+                                                <option value="⏳ In Progress">⏳ In Progress</option>
+                                                <option value="❌ Stuck">❌ Stuck</option>
+                                                <option value="✅ Done">✅ Done</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="filteredActionItems.length === 0">
+                                        <td colspan="5" class="px-6 py-10 text-center text-gray-400 bg-gray-50/20">Tidak ada tugas yang sesuai filter.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: CATAT RAPAT BARU -->
+                <div v-if="currentTab === 'new-meeting'" class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Nama / Topik Rapat</label>
+                            <input v-model="form.title" type="text" placeholder="Contoh: Koordinasi Mingguan Proyek PINISI" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tanggal Rapat</label>
+                            <input v-model="form.date" type="date" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Agenda Pembahasan</label>
+                            <textarea v-model="form.agenda" rows="3" placeholder="Tulis poin agenda (pisahkan dengan baris baru)..." class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Keputusan Utama (Key Decisions)</label>
+                            <textarea v-model="form.decisions" rows="3" placeholder="Tulis keputusan penting hasil rapat..." class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Bagian Action Items Dinamis -->
+                    <div class="border-t border-gray-200 pt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-md font-bold text-gray-800"><i class="fa-solid fa-list-check text-emerald-500 mr-2"></i>Tindak Lanjut & Delegasi Tugas</h3>
+                            <button @click="addActionItemRow" type="button" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center space-x-2">
+                                <i class="fa-solid fa-plus"></i> <span>Tambah Baris Tugas</span>
+                            </button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div v-for="(item, index) in form.actionItems" :key="index" class="grid grid-cols-1 lg:grid-cols-12 gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200 items-end relative group">
+                                <div class="lg:col-span-5">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Deskripsi Tugas</label>
+                                    <input v-model="item.task" type="text" placeholder="Detail pekerjaan..." class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                </div>
+                                <div class="lg:col-span-2">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Penanggung Jawab</label>
+                                    <input v-model="item.owner" type="text" placeholder="Nama PIC" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                </div>
+                                <div class="lg:col-span-2">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Deadline</label>
+                                    <input v-model="item.deadline" type="date" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                </div>
+                                <div class="lg:col-span-2">
+                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Prioritas</label>
+                                    <select v-model="item.priority" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                        <option value="P1 - Tinggi">P1 - Tinggi</option>
+                                        <option value="P2 - Sedang">P2 - Sedang</option>
+                                        <option value="P3 - Rendah">P3 - Rendah</option>
+                                    </select>
+                                </div>
+                                <div class="lg:col-span-1 text-center">
+                                    <button @click="removeActionItemRow(index)" type="button" class="text-rose-500 hover:text-rose-700 p-2 rounded-lg hover:bg-rose-50 transition" title="Hapus Tugas">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-6 flex justify-end">
+                        <button @click="saveMeeting" type="button" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-xl shadow-md transition flex items-center space-x-2">
+                            <i class="fa-solid fa-floppy-disk"></i> <span>Simpan Catatan Rapat</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 3: RIWAYAT RAPAT -->
+                <div v-if="currentTab === 'history'" class="space-y-6">
+                    <div v-for="meeting in meetings" :key="meeting.id" class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="p-6 bg-slate-50 border-b border-gray-100 flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">{{ meeting.title }}</h3>
+                                <p class="text-sm text-gray-500 font-medium mt-1"><i class="fa-regular fa-calendar mr-1.5"></i> {{ meeting.date }}</p>
+                            </div>
+                            <button @click="deleteMeeting(meeting.id)" class="text-gray-400 hover:text-rose-600 transition p-2"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Agenda Pembahasan</h4>
+                                <p class="text-gray-700 bg-gray-50 p-3 rounded-lg text-sm whitespace-pre-line">{{ meeting.agenda || '-' }}</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Keputusan Utama</h4>
+                                <p class="text-gray-700 bg-emerald-50/50 p-3 rounded-lg text-sm whitespace-pre-line border border-emerald-100/50 font-medium text-emerald-900">{{ meeting.decisions || '-' }}</p>
+                            </div>
+                        </div>
+                        <!-- Daftar Tugas per Rapat -->
+                        <div class="px-6 pb-6" v-if="meeting.actionItems && meeting.actionItems.length > 0">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Tindak Lanjut Tugas</h4>
+                            <div class="border border-gray-100 rounded-lg overflow-hidden">
+                                <table class="w-full text-left text-sm">
+                                    <thead class="bg-gray-50 text-xs font-bold text-gray-500 border-b border-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2">Tugas</th>
+                                            <th class="px-4 py-2">PIC</th>
+                                            <th class="px-4 py-2">Target</th>
+                                            <th class="px-4 py-2">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        <tr v-for="item in meeting.actionItems" class="hover:bg-gray-50/50">
+                                            <td class="px-4 py-2.5 text-gray-800 font-medium">{{ item.task }}</td>
+                                            <td class="px-4 py-2.5 text-gray-600">{{ item.owner }}</td>
+                                            <td class="px-4 py-2.5 text-gray-500 font-mono text-xs">{{ item.deadline }}</td>
+                                            <td class="px-4 py-2.5">
+                                                <span :class="['px-2 py-0.5 rounded text-xs font-bold', item.status === '✅ Done' ? 'bg-emerald-100 text-emerald-800' : item.status === '❌ Stuck' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800']">
+                                                    {{ item.status }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="meetings.length === 0" class="text-center py-16 bg-white rounded-xl border border-gray-200 text-gray-400">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3 block"></i> Belum ada riwayat rapat tersimpan.
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Logic Script Application -->
+    <script>
+        const { createApp, ref, computed, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                const currentTab = ref('dashboard');
+                const filterStatus = ref('All');
+                const meetings = ref([]);
+                
+                const todayDate = new Date().toLocaleDateString('id-ID', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                // Template Inisialisasi Form Baru
+                const getCleanForm = () => ({
+                    title: '',
+                    date: new Date().toISOString().split('T')[0],
+                    agenda: '',
+                    decisions: '',
+                    actionItems: [
+                        { task: '', owner: '', deadline: new Date().toISOString().split('T')[0], priority: 'P1 - Tinggi', status: '⏳ In Progress' }
+                    ]
+                });
+
+                const form = ref(getCleanForm());
+
+                // Memuat data dari localstorage saat aplikasi dijalankan
+                onMounted(() => {
+                    const savedMeetings = localStorage.getItem('mom_app_meetings');
+                    if (savedMeetings) {
+                        meetings.value = JSON.parse(savedMeetings);
+                    }
+                });
+
+                const saveToLocalStorage = () => {
+                    localStorage.setItem('mom_app_meetings', JSON.stringify(meetings.value));
+                };
+
+                // Manipulasi Form Tugas Dinamis
+                const addActionItemRow = () => {
+                    form.value.actionItems.push({
+                        task: '', owner: '', deadline: new Date().toISOString().split('T')[0], priority: 'P2 - Sedang', status: '⏳ In Progress'
+                    });
+                };
+
+                const removeActionItemRow = (index) => {
+                    form.value.actionItems.splice(index, 1);
+                };
+
+                // Menyimpan Rapat Baru ke dalam Array & Sync Storage
+                const saveMeeting = () => {
+                    if (!form.value.title.trim()) {
+                        alert('Mohon isi Judul/Topik Rapat terlebih dahulu.');
+                        return;
+                    }
+
+                    const newMeeting = {
+                        id: Date.now(),
+                        title: form.value.title,
+                        date: form.value.date,
+                        agenda: form.value.agenda,
+                        decisions: form.value.decisions,
+                        // Hanya masukkan tugas yang memiliki deskripsi pekerjaan
+                        actionItems: form.value.actionItems.filter(item => item.task.trim() !== '')
+                    };
+
+                    meetings.value.unshift(newMeeting); // Masukkan di urutan paling atas
+                    saveToLocalStorage();
+                    
+                    // Reset Form dan kembali ke Dashboard
+                    form.value = getCleanForm();
+                    currentTab.value = 'dashboard';
+                };
+
+                const deleteMeeting = (id) => {
+                    if (confirm('Apakah Anda yakin ingin menghapus arsip rapat ini? Semua data tugas terkait juga akan hilang.')) {
+                        meetings.value = meetings.value.filter(m => m.id !== id);
+                        saveToLocalStorage();
+                    }
+                };
+
+                // Meratakan (Flatten) data semua tugas dari semua rapat untuk keperluan Tracking Dashboard
+                const allActionItems = computed(() => {
+                    let items = [];
+                    meetings.value.forEach(meeting => {
+                        if (meeting.actionItems) {
+                            meeting.actionItems.forEach(item => {
+                                items.push({
+                                    ...item,
+                                    meetingTitle: meeting.title,
+                                    meetingDate: meeting.date
+                                });
+                            });
+                        }
+                    });
+                    return items;
+                });
+
+                // Saring tugas berdasarkan pilihan dropdown filter
+                const filteredActionItems = computed(() => {
+                    if (filterStatus.value === 'All') {
+                        return allActionItems.value;
+                    }
+                    return allActionItems.value.filter(item => item.status === filterStatus.value);
+                });
+
+                // Menghitung jumlah status tugas tertentu untuk indikator atas
+                const countStatus = (statusText) => {
+                    return allActionItems.value.filter(item => item.status === statusText).length;
+                };
+
+                return {
+                    currentTab,
+                    filterStatus,
+                    meetings,
+                    form,
+                    todayDate,
+                    addActionItemRow,
+                    removeActionItemRow,
+                    saveMeeting,
+                    deleteMeeting,
+                    filteredActionItems,
+                    countStatus,
+                    saveToLocalStorage
+                };
+            }
+        }).mount('#app');
+    </script>
+
+    <style>
+        [v-cloak] { display: none !important; }
+    </style>
+</body>
+</html>

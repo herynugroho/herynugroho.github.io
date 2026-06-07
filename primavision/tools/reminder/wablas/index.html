@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Primahome WA Reminder</title>
-    <!-- Link CSS Statis Tailwind -->
+    <title>Primahome WA Reminder - Ultimate Compliance v3</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
@@ -13,7 +12,6 @@
     <div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 class="text-2xl font-bold mb-4 text-blue-600">Primahome WhatsApp Reminder</h1>
         
-        <!-- Pengaturan API & Proxy -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 bg-blue-50 p-4 rounded border border-blue-200">
             <div>
                 <label class="block text-sm font-medium mb-1">Domain API Wablas</label>
@@ -25,23 +23,25 @@
             </div>
             <div>
                 <label class="block text-sm font-medium mb-1">URL Proxy PHP</label>
-                <!-- Sesuaikan dengan URL Endpoint Laravel Anda -->
                 <input type="text" id="proxyUrl" placeholder="https://primagps.kasau.software/api/proxy-wa" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
             </div>
         </div>
 
-        <!-- Upload File Excel -->
         <div class="mb-6">
             <label class="block text-sm font-medium mb-2">Upload File Excel (.xlsx / .xls)</label>
             <input type="file" id="excelFile" accept=".xlsx, .xls" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
         </div>
 
-        <!-- Status Jeda (Cooldown) -->
+        <div class="mb-6">
+            <button id="btnKirimSemua" onclick="prosesKirimSemua()" class="hidden w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow transition-all duration-200">
+                🚀 Kirim Semua (Auto-Loop)
+            </button>
+        </div>
+
         <div id="cooldownAlert" class="hidden mb-4 p-4 bg-yellow-100 text-yellow-800 rounded-lg font-bold text-center border border-yellow-300">
             Jeda pengiriman aktif. Menunggu: <span id="timerText">05:00</span>
         </div>
 
-        <!-- Tabel Data -->
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse" style="min-width: 600px;">
                 <thead>
@@ -61,50 +61,52 @@
     </div>
 
     <script>
+        // 25 Template Orisinal Bebas Sensor Pembuka & Finansial Meta
         const messageTemplates = [
-            "Halo {nama}, semoga harinya menyenangkan! Kami dari tim Primahome bermaksud memberikan pengingat bersahabat terkait layanan Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Hai {nama}, perkenalkan kami tim dari Primahome. Pesan ini sekadar pengingat berkala untuk layanan aktif Anda dengan No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Selamat beraktivitas {nama}! Kami dari Primahome ingin memastikan layanan Anda (No. Pelanggan: {nopel}) tetap berjalan lancar melalui pengingat ramah ini.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Yth. {nama}, semoga Anda dalam keadaan sehat. Kami tim Primahome ingin membagikan pengingat rutin untuk layanan Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Salam hangat {nama}! Tim Primahome di sini sekadar menyapa dan mengingatkan perihal layanan Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Halo {nama}, semoga rutinitasnya berjalan lancar ya. Ini adalah pengingat bersahabat dari Primahome untuk layanan Anda dengan No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Hai {nama}, kami dari Primahome ingin mengucapkan terima kasih telah menggunakan layanan kami, sekaligus memberikan pengingat berkala (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Selamat pagi/siang/sore {nama}, tim Primahome hadir untuk memberikan pengingat layanan secara otomatis untuk No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Yth. {nama}, pesan dari Primahome ini merupakan pengingat ramah untuk kelancaran layanan Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Halo {nama}! Kami selalu berkomitmen memberikan kenyamanan terbaik di Primahome, karenanya kami mengirimkan pengingat ini untuk layanan dengan No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Hai {nama}, sekadar pengingat bersahabat dari tim Primahome agar layanan Anda (No. Pelanggan: {nopel}) tetap dapat dinikmati tanpa kendala.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Salam sejahtera {nama}, kami dari Primahome bermaksud menginformasikan pengingat layanan Anda (No. Pelanggan: {nopel}) bulan ini.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Halo {nama}, perkenalkan kami tim pengingat dari Primahome. Kami ingin memastikan layanan Anda (No. Pelanggan: {nopel}) tetap aktif dengan pesan ini.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Hai {nama}, ini sapaan hangat dari Primahome sekaligus pengingat ringan mengenai layanan Anda dengan No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Selamat beraktivitas {nama}, semoga selalu dilancarkan urusannya. Kami mengirimkan pesan ini sebagai pengingat layanan Primahome Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Yth. {nama}, terima kasih atas kepercayaan Anda pada Primahome. Ini adalah pesan otomatis pengingat layanan Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Halo {nama}! Pengingat ini dari Primahome hadir agar Anda selalu bisa berselancar dan menggunakan layanan kami dengan nyaman (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Salam {nama}, tim Primahome ingin memastikan kelancaran layanan Anda (No. Pelanggan: {nopel}) melalui pengingat berkala ini.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Hai {nama}, semoga Anda dalam kondisi prima. Kami dari Primahome sekadar mengingatkan terkait layanan aktif Anda dengan No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Halo {nama}, pesan ini adalah bentuk perhatian tim Primahome agar kenyamanan layanan Anda (No. Pelanggan: {nopel}) tetap terjaga.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Yth. {nama}, semoga harinya berkah selalu. Kami dari Primahome membagikan pengingat layanan (No. Pelanggan: {nopel}) yang dikirim secara otomatis.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Hai {nama}, terima kasih telah menjadi bagian dari keluarga Primahome. Pengingat ini dikirimkan untuk kelancaran layanan Anda (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Selamat pagi/siang/sore {nama}! Kami dari tim Primahome hanya ingin memberikan notifikasi ringan perihal layanan Anda dengan No. Pelanggan: {nopel}.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Halo {nama}, semoga aktivitas hari ini berkesan. Primahome menyapa Anda sekadar memberikan pesan pengingat layanan (No. Pelanggan: {nopel}).\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS",
-            "Salam hangat {nama}, kami dari Primahome memberikan pengingat layanan Anda (No. Pelanggan: {nopel}) dengan penuh keramahtamahan.\n\nJika sudah melakukan pembayaran bisa diabaikan. Jika butuh info:\nKetik 1 untuk nomer rekening pembayaran\nKetik 2 untuk nomer telp CS"
+            "Menghubungi {nama} dari layanan administrasi Primahome guna menyampaikan pembaruan berkala ID Pelanggan Anda: {nopel}.\n\nApabila proses berkala telah tuntas diselesaikan, pesan otomatis ini dapat diabaikan. Panduan operasional:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Pemberitahuan rutin sistem Primahome ditujukan kepada {nama} terkait status data operasional aktif Anda dengan ID Akun: {nopel}.\n\nJika administrasi berkala sudah tersinkronisasi oleh tim, silakan abaikan notifikasi ini. Informasi pelengkap:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Tim administrasi internal Primahome menyampaikan pembaharuan informasi penting mengenai kelancaran data pelanggan atas nama {nama} (ID: {nopel}).\n\nJika segala urusan berkala telah selesai diproses, silakan abaikan laporan otomatis ini. Panduan:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Informasi data berkala dari server Primahome diterbitkan khusus untuk pemeliharaan status layanan aktif milik {nama} (No. Pelanggan: {nopel}).\n\nApabila proses verifikasi administrasi telah tuntas, pemberitahuan ini bisa diabaikan. Hubungi kami:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Konfirmasi data sistem dari manajemen Primahome dikirimkan demi kenyamanan penuh kelangsungan akun operasional milik {nama} (ID: {nopel}).\n\nJika pembaruan administrasi bulanan sudah dijalankan, mohon abaikan pesan otomatis ini. Bantuan cepat:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Apresiasi kami atas kerja sama {nama} bersama Primahome. Pengiriman pesan sistem ini murni untuk peninjauan rutin kelancaran data pelanggan Anda ({nopel}).\n\nApabila administrasi bulanan sudah diperbarui, silakan abaikan pemberitahuan ini. Akses menu:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Kepada yang bersangkutan, {nama}, sistem informasi Primahome mencatat agenda verifikasi berkala untuk ID Pelanggan Anda: {nopel}.\n\nJika pembaharuan administrasi bulanan telah diselesaikan, mohon abaikan notifikasi otomatis ini. Respon cepat:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Notifikasi pemeliharaan berkala dari sistem server Primahome terbit guna mendukung kelangsungan status akun data pelanggan {nama} (ID: {nopel}).\n\nJika sudah diperbarui oleh tim kami, mohon abaikan pesan berkala ini. Petunjuk akses:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Penyampaian konfirmasi sistem berkala dari tim Primahome dilakukan bertujuan memelihara kestabilan data layanan pelanggan atas nama {nama}: {nopel}.\n\nJika administrasi bulanan telah tuntas, pesan otomatis ini dapat diabaikan. Panduan operasional:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Pemberitahuan otomatis dari pusat data Primahome dialokasikan khusus untuk program peninjauan berkala ID Pelanggan {nama}: {nopel}.\n\nApabila proses administrasi bulanan telah beres, silakan diabaikan saja. Navigasi bantuan:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Layanan sistem otomatis administrasi Primahome membawakan pembaharuan data berkala untuk kelancaran akun milik {nama} dengan ID: {nopel}.\n\nJika administrasi data sudah diselesaikan, pesan dari sistem ini bisa diabaikan. Kelanjutan info:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Penerbitan konfirmasi otomatis ini ditujukan guna memelihara kelancaran operasional akun ID Pelanggan atas nama {nama}: {nopel} di Primahome.\n\nJika seluruh administrasi berkala sudah dikonfirmasi, silakan abaikan notifikasi ini. Layanan info:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Sistem otomatis internal Primahome mengirimkan pembaruan status kelancaran operasional berkala untuk data pelanggan {nama} ({nopel}).\n\nApabila administrasi bulanan sudah selesai dikonfirmasi, mohon abaikan pemberitahuan otomatis ini. Respon instan:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Dokumen notifikasi ini diterbitkan oleh bagian sistem administrasi Primahome untuk memelihara validitas berkala ID Pelanggan {nama}: {nopel}.\n\nJika proses administrasi bulanan telah diselesaikan, mohon pesan otomatis ini diabaikan. Kontak bantuan:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Penyampaian laporan berkala dari sistem otomatis Primahome dikirim guna memastikan data operasional akun pelanggan {nama} ({nopel}) berjalan optimal.\n\nJika konfirmasi administrasi telah selesai diproses oleh tim, silakan abaikan pesan ini. Bantuan operasional:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Pembaharuan data bulanan secara berkala dari server Primahome dialokasikan untuk memelihara akun ID pelanggan atas nama {nama}: {nopel}.\n\nJika urusan administrasi berkala sudah selesai dikonfirmasi, mohon abaikan notifikasi otomatis ini. Menu cepat:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Bagian otomatis server Primahome mengonfirmasi status pembaharuan data berkala pelanggan {nama} guna menjaga kenyamanan layanan akun ID: {nopel}.\n\nJika data administrasi telah disinkronkan ke sistem, mohon pesan ini diabaikan. Navigasi cepat:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Pemberitahuan validasi berkala dari sistem otomatis peninjauan data Primahome ditujukan untuk nomor pelanggan {nama}: {nopel}.\n\nJika administrasi bulanan Anda sudah berjalan lancar, silakan diabaikan saja pesan rutin ini. Menu informasi:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Pesan konfirmasi data otomatis dari bagian administrasi Primahome dikirim bertujuan memelihara kelangsungan akun ID Pelanggan {nama}: {nopel}.\n\nApabila proses administrasi berkala telah tuntas dikerjakan, mohon abaikan pemberitahuan ini. Petunjuk singkat:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Bagian pengelolaan data sistem Primahome mengonfirmasi status peninjauan berkala untuk kenyamanan ID Pelanggan {nama}: {nopel}.\n\nJika administrasi data bulanan telah diselesaikan dengan baik, mohon abaikan notification ini. Informasi kelanjutan:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Informasi peninjauan otomatis Primahome dijalankan bertujuan untuk memastikan kenyamanan kelanjutan data operasional akun pelanggan {nama} (ID: {nopel}).\n\nJika administrasi berkala sudah terselesaikan sepenuhnya, mohon abaikan laporan sistem ini. Bantuan:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Pemberitahuan berkala sistem otomatis Primahome dijalankan demi pemeliharaan dan validasi rutin akun aktif ID pelanggan {nama}: {nopel}.\n\nJika proses konfirmasi administrasi bulanan sudah tuntas, abaikan saja notifikasi berkala ini. Akses menu:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Laporan berkala otomatis dari sistem manajemen Primahome diterbitkan untuk pembaharuan kenyamanan akun data pelanggan {nama} (ID: {nopel}).\n\nApabila administrasi bulanan telah selesai diperbarui, pesan otomatis ini bisa diabaikan. Hubungi operasional:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS",
+            "Informasi berkala otomatis dari server pusat Primahome dikirimkan demi kestabilan data akun aktif milik pelanggan {nama}: {nopel}.\n\nJika konfirmasi administrasi berkala telah selesai diproses oleh kasir, mohon abaikan pemberitahuan ini. Pilihan respon:\nKetik 1 untuk info nomor rekening\nKetik 2 untuk nomor telp CS",
+            "Pembaruan berkala otomatis dari sistem administrasi Primahome dikirimkan khusus untuk kenyamanan kelangsungan data ID Pelanggan {nama}: {nopel}.\n\nJika seluruh administrasi bulanan sudah selesai dikonfirmasi, mohon abaikan notifikasi dari sistem ini. Menu cepat:\nKetik 1 untuk nomor rekening resmi\nKetik 2 untuk nomor telp CS"
         ];
 
-        let sendCounter = 0;
-        let isCooldown = false;
+        let isAutoSending = false; 
+        const MAX_DAILY_LIMIT = 250; // UPDATE: Diturunkan ke 250 demi keamanan fase pemulihan akun
+        const ADMIN_PHONE = "6282336056768";
+        
+        // KONFIGURASI JAM OPERASIONAL PATUH ATURAN META
+        const START_HOUR = 8;  
+        const END_HOUR = 20;   
+
+        const copyIcon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>`;
 
         function copyText(text, btnElement) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalHTML = btnElement.innerHTML;
                 btnElement.innerHTML = `<span class="text-xs font-bold text-green-600">Copied!</span>`;
-                setTimeout(() => {
-                    btnElement.innerHTML = originalHTML;
-                }, 1500);
-            }).catch(err => {
-                console.error('Gagal meng-copy: ', err);
-            });
+                setTimeout(() => { btnElement.innerHTML = originalHTML; }, 1500);
+            }).catch(err => { console.error('Gagal meng-copy: ', err); });
         }
-
-        const copyIcon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>`;
 
         document.getElementById('excelFile').addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -126,30 +128,24 @@
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
 
+            if(data.length > 0) {
+                document.getElementById('btnKirimSemua').classList.remove('hidden');
+            }
+
             data.forEach((row, index) => {
                 const jt = row['jt'] || '';
                 const nopel = row['nopel'] || '';
                 const nama = row['nama'] || '';
                 
-                // Simpan nama dasar (base name) sebelum ditambahkan angka
                 const namaKontakBase = `${jt}_${nopel}_${nama}`;
-                
-                // Ambil string nomor WA secara utuh
                 const rawNoWa = row['no_wa'] ? row['no_wa'].toString() : '';
-                
-                // Pecah string berdasarkan koma menjadi array. 
-                // Jika tidak ada koma, array akan berisi 1 item.
                 const waArray = rawNoWa.includes(',') ? rawNoWa.split(',') : [rawNoWa];
 
-                // Looping untuk setiap nomor WA yang ditemukan di baris yang sama
-                // Tambahkan parameter waIndex untuk mengetahui urutan nomor
                 waArray.forEach((waNumber, waIndex) => {
                     const noWa = waNumber.trim();
-                    if (!noWa) return; // Lewati jika kosong
+                    if (!noWa) return;
 
-                    // Jika nomor lebih dari 1, tambahkan " - 1", " - 2" dst di belakang nama kontak
                     const namaKontak = waArray.length > 1 ? `${namaKontakBase} - ${waIndex + 1}` : namaKontakBase;
-
                     const randomTemplate = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
                     let pesan = randomTemplate.replace('{nama}', nama).replace('{nopel}', nopel);
                     const safePesan = encodeURIComponent(pesan);
@@ -174,7 +170,13 @@
                             </div>
                         </td>
                         <td class="p-3 border-b text-center">
-                            <button onclick="kirimPesan(this, '${noWa}', '${safePesan}', '${namaKontak}')" class="kirim-btn bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded text-sm transition">
+                            <button 
+                                data-phone="${noWa}" 
+                                data-message="${safePesan}" 
+                                data-nama="${namaKontak}" 
+                                onclick="jalankanKirimSingle(this)" 
+                                class="kirim-btn bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-4 rounded text-sm transition"
+                            >
                                 Kirim
                             </button>
                         </td>
@@ -184,106 +186,282 @@
             });
         }
 
-        async function kirimPesan(btn, phone, safeMessage, namaKontak) {
-            if (isCooldown) {
-                alert("Sedang dalam masa jeda 5 menit. Harap tunggu.");
-                return;
+        function jalankanKirimSingle(btn) {
+            const phone = btn.getAttribute('data-phone');
+            const safeMessage = btn.getAttribute('data-message');
+            const namaKontak = btn.getAttribute('data-nama');
+            executeFaseGandaManual(btn, phone, safeMessage, namaKontak);
+        }
+
+        // Fungsi manual khusus jika tombol klik satu-satu di tabel ditekan
+        async function executeFaseGandaManual(btn, phone, safeMessage, namaKontak) {
+            const aktif = await cekNomorValidasi(btn, phone);
+            if(aktif) {
+                await kirimPesanEksekusi(btn, phone, safeMessage, namaKontak);
+            }
+        }
+
+        function dapatkanStatusHarian() {
+            let waktuMulai = localStorage.getItem('wa_reminder_start_time');
+            let jumlahTerkirim = parseInt(localStorage.getItem('wa_reminder_sent_count') || '0');
+            const sekarang = new Date().getTime();
+
+            if (!waktuMulai) {
+                waktuMulai = sekarang;
+                localStorage.setItem('wa_reminder_start_time', sekarang);
+                localStorage.setItem('wa_reminder_sent_count', '0');
+                jumlahTerkirim = 0;
             }
 
+            if (sekarang - parseInt(waktuMulai) >= 24 * 60 * 60 * 1000) {
+                waktuMulai = sekarang;
+                jumlahTerkirim = 0;
+                localStorage.setItem('wa_reminder_start_time', waktuMulai);
+                localStorage.setItem('wa_reminder_sent_count', '0');
+            }
+
+            return { waktuMulai: parseInt(waktuMulai), jumlahTerkirim: jumlahTerkirim };
+        }
+
+        async function kendaliJamOperasional(alertBox) {
+            while (isAutoSending) {
+                const sekarang = new Date();
+                const jamSekarang = Clinical = sekarang.getHours();
+
+                if (jamSekarang >= START_HOUR && jamSekarang < END_HOUR) {
+                    break; 
+                }
+
+                alertBox.innerHTML = `🌙 <strong>Sistem Jeda Malam Otomatis Aktif (${START_HOUR}:00 - ${END_HOUR}:00).</strong><br>Pengiriman ditahan demi mematuhi aturan jam operasional Meta.<br>Sistem otomatis berlanjut esok pagi pukul 08:00 WIB.`;
+                await new Promise(resolve => setTimeout(resolve, 60000)); 
+            }
+        }
+
+        // BARU: FASE 1 - Cek status validasi nomor via Proxy
+        async function cekNomorValidasi(btn, phone) {
             const domain = document.getElementById('wablasDomain').value.trim();
             const token = document.getElementById('wablasToken').value.trim();
             const proxyUrl = document.getElementById('proxyUrl').value.trim();
-            
-            const message = decodeURIComponent(safeMessage);
 
             if (!domain || !token || !proxyUrl) {
                 alert("Mohon isi Domain Wablas, API Token, dan URL Proxy terlebih dahulu!");
-                return;
+                isAutoSending = false;
+                resetTombolUtama();
+                return false;
             }
 
-            btn.disabled = true;
-            btn.innerText = "Mengirim...";
-            btn.classList.replace('bg-green-500', 'bg-gray-400');
-            btn.classList.replace('hover:bg-green-600', 'hover:bg-gray-500');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = "Validasi...";
+                btn.className = "kirim-btn bg-yellow-500 text-white font-bold py-1 px-4 rounded text-sm";
+            }
 
             try {
                 const response = await fetch(proxyUrl, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        domain: domain,
-                        token: token,
-                        phone: phone,
-                        message: message,
-                        nama: namaKontak
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'check', domain, token, phone })
+                });
+                const result = await response.json();
+                
+                if (response.ok && result.status) {
+                    return true;
+                } else {
+                    if (btn) {
+                        btn.innerText = "Nomor Mati";
+                        btn.className = "kirim-btn bg-red-700 text-white font-bold py-1 px-4 rounded text-sm";
+                    }
+                    return false;
+                }
+            } catch (e) {
+                console.error("Gagal Validasi:", e);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = "Kirim";
+                    btn.className = "kirim-btn bg-green-500 text-white font-bold py-1 px-4 rounded text-sm";
+                }
+                return false;
+            }
+        }
+
+        // FASE 2 - Eksekusi pelepasan pesan asli via Proxy
+        async function kirimPesanEksekusi(btn, phone, safeMessage, namaKontak) {
+            const domain = document.getElementById('wablasDomain').value.trim();
+            const token = document.getElementById('wablasToken').value.trim();
+            const proxyUrl = document.getElementById('proxyUrl').value.trim();
+            const message = decodeURIComponent(safeMessage);
+
+            if (btn) {
+                btn.innerText = "Mengirim...";
+                btn.className = "kirim-btn bg-gray-400 text-white font-bold py-1 px-4 rounded text-sm";
+            }
+
+            try {
+                const response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'send', domain, token, phone, message, nama: namaKontak })
                 });
 
                 const result = await response.json();
 
                 if (response.ok && result.status) {
-                    btn.innerText = "Terkirim";
-                    btn.classList.replace('bg-gray-400', 'bg-blue-500');
-                    btn.classList.replace('hover:bg-gray-500', 'hover:bg-blue-600');
-                    
-                    sendCounter++;
-                    checkCooldown();
+                    if(btn) {
+                        btn.innerText = "Terkirim";
+                        btn.className = "kirim-btn bg-blue-500 text-white font-bold py-1 px-4 rounded text-sm";
+                    }
+                    return true;
                 } else {
-                    throw new Error(result.message || "Gagal mengirim pesan");
+                    throw new Error(result.message || "Gagal kirim");
                 }
-
             } catch (error) {
                 console.error("Error API:", error);
-                alert("Gagal mengirim: " + error.message);
-                btn.disabled = false;
-                btn.innerText = "Kirim Ulang";
-                btn.classList.replace('bg-gray-400', 'bg-red-500');
-                btn.classList.replace('hover:bg-gray-500', 'hover:bg-red-600');
+                if(btn) {
+                    btn.disabled = false;
+                    btn.innerText = "Kirim Ulang";
+                    btn.className = "kirim-btn bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-4 rounded text-sm transition";
+                }
+                return false;
             }
         }
 
-        function checkCooldown() {
-            if (sendCounter > 0 && sendCounter % 5 === 0) {
-                mulaiCooldown();
-            }
-        }
-
-        function mulaiCooldown() {
-            isCooldown = true;
-            const alertBox = document.getElementById('cooldownAlert');
-            const timerText = document.getElementById('timerText');
-            const allBtns = document.querySelectorAll('.kirim-btn:not(:disabled)');
+        async function kirimNotifikasiAdmin(totalTerkirim) {
+            const notifMessage = encodeURIComponent(`📢 *NOTIFIKASI PROGRES PRIMAHOME*\n\nSistem mengonfirmasi bahwa batasan batch *100 pesan harian* baru saja sukses diselesaikan.\n\nTotal laporan terkirim hari ini: *${totalTerkirim} / ${MAX_DAILY_LIMIT} pesan*.\nSistem otomatis melanjutkan sisa antrean...`);
             
-            allBtns.forEach(btn => btn.disabled = true);
+            const domain = document.getElementById('wablasDomain').value.trim();
+            const token = document.getElementById('wablasToken').value.trim();
+            const proxyUrl = document.getElementById('proxyUrl').value.trim();
+            
+            try {
+                await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'send', domain, token, phone: ADMIN_PHONE, message: decodeURIComponent(notifMessage), nama: "NOTIF_ADMIN" })
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        async function prosesKirimSemua() {
+            if (isAutoSending) {
+                isAutoSending = false;
+                resetTombolUtama();
+                return;
+            }
+
+            const buttons = Array.from(document.querySelectorAll('.kirim-btn')).filter(btn => btn.innerText === "Kirim" || btn.innerText === "Kirim Ulang");
+
+            if (buttons.length === 0) {
+                alert("Semua pesan dalam tabel sudah sukses terkirim!");
+                return;
+            }
+
+            isAutoSending = true;
+            const mainBtn = document.getElementById('btnKirimSemua');
+            mainBtn.innerText = "🛑 Stop Pengiriman";
+            mainBtn.classList.replace('bg-blue-600', 'bg-red-600');
+            mainBtn.classList.replace('hover:bg-blue-700', 'hover:bg-red-700');
+
+            const alertBox = document.getElementById('cooldownAlert');
+            alertBox.classList.replace('bg-yellow-100', 'bg-blue-100');
+            alertBox.classList.replace('text-yellow-800', 'text-blue-800');
             alertBox.classList.remove('hidden');
 
-            let timeLeft = 300; // 5 menit
+            for (let i = 0; i < buttons.length; i++) {
+                if (!isAutoSending) break;
 
-            const timerInterval = setInterval(() => {
-                let minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-                
-                minutes = minutes < 10 ? '0' + minutes : minutes;
-                seconds = seconds < 10 ? '0' + seconds : seconds;
-                
-                timerText.innerText = `${minutes}:${seconds}`;
+                // A. VALIDASI PROTEKSI JAM OPERASIONAL 
+                await kendaliJamOperasional(alertBox);
+                if (!isAutoSending) break;
 
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    isCooldown = false;
-                    alertBox.classList.add('hidden');
-                    
-                    const resetBtns = document.querySelectorAll('.kirim-btn');
-                    resetBtns.forEach(btn => {
-                        if (btn.innerText === "Kirim" || btn.innerText === "Kirim Ulang") {
-                            btn.disabled = false;
-                        }
-                    });
+                let status = dapatkanStatusHarian();
+                const milidetik24Jam = 24 * 60 * 60 * 1000;
+                let waktuSekarang = new Date().getTime();
+
+                // B. VALIDASI PROTEKSI BATAS HARIAN 250 DATA
+                if (status.jumlahTerkirim >= MAX_DAILY_LIMIT) {
+                    let sisaWaktuTunggu = (status.waktuMulai + milidetik24Jam) - waktuSekarang;
+
+                    while (sisaWaktuTunggu > 0 && isAutoSending) {
+                        let jam = Math.floor(sisaWaktuTunggu / (1000 * 60 * 60));
+                        let menit = Math.floor((sisaWaktuTunggu % (1000 * 60 * 60)) / (1000 * 60));
+                        let detik = Math.floor((sisaWaktuTunggu % (1000 * 60)) / 1000);
+
+                        alertBox.innerHTML = `⚠️ <strong>Kuota Keamanan Tercapai (${MAX_DAILY_LIMIT} Pesan).</strong><br>Menahan pengiriman demi perlindungan nomor.<br>Siklus baru otomatis berlanjut dalam: <strong>${jam} jam ${menit} menit ${detik} detik</strong>`;
+                        
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        sisaWaktuTunggu -= 1000;
+                    }
+
+                    if (isAutoSending) {
+                        localStorage.setItem('wa_reminder_start_time', new Date().getTime());
+                        localStorage.setItem('wa_reminder_sent_count', '0');
+                        status = dapatkanStatusHarian();
+                    } else {
+                        break;
+                    }
                 }
-                timeLeft--;
-            }, 1000);
+
+                const btn = buttons[i];
+                btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                const phone = btn.getAttribute('data-phone');
+                const safeMessage = btn.getAttribute('data-message');
+                const namaKontak = btn.getAttribute('data-nama');
+
+                // C. EKSEKUSI FASE GANDA: 1. CEK NOMOR AKTIF
+                alertBox.innerHTML = `🔍 Memvalidasi status aktif server WhatsApp: <strong>${phone}</strong>...`;
+                const isAktif = await cekNomorValidasi(btn, phone);
+                
+                if(!isAktif) {
+                    // Jika nomor tidak valid, langsung skip ke kontak selanjutnya tanpa delay panjang
+                    continue; 
+                }
+
+                // D. EKSEKUSI FASE GANDA: 2. KIRIM PESAN (Jika terbukti aktif)
+                alertBox.innerHTML = `🚀 [Kuota Hari Ini: ${status.jumlahTerkirim + 1}/${MAX_DAILY_LIMIT}] Mengirim ke: <strong>${namaKontak}</strong>`;
+                const sukses = await kirimPesanEksekusi(btn, phone, safeMessage, namaKontak);
+
+                if (sukses) {
+                    let totalUpdate = parseInt(localStorage.getItem('wa_reminder_sent_count') || '0') + 1;
+                    localStorage.setItem('wa_reminder_sent_count', totalUpdate);
+
+                    if (totalUpdate > 0 && totalUpdate % 100 === 0) {
+                        alertBox.innerHTML = `📢 <strong>Batch kelipatan 100 tercapai. Mengirim konfirmasi progres ke Admin...</strong>`;
+                        await kirimNotifikasiAdmin(totalUpdate);
+                    }
+                }
+
+                // E. UPDATE JEDA: Range diperlebar menjadi random 2 s.d 7 menit (120 - 420 detik) sesuai instruksi Anda
+                if (i < buttons.length - 1 && isAutoSending) {
+                    const detikJeda = Math.floor(Math.random() * (420 - 120 + 1)) + 120;
+
+                    for (let j = detikJeda; j > 0; j--) {
+                        if (!isAutoSending) break;
+                        
+                        let m = Math.floor(j / 60);
+                        let s = j % 60;
+                        alertBox.innerHTML = `⏳ Jeda ekstra aman anti-banned aktif (Kuota Harian: ${localStorage.getItem('wa_reminder_sent_count')}/${MAX_DAILY_LIMIT}).<br>Pesan berikutnya dilepas dalam: <strong>${m} menit ${s} detik</strong>...`;
+                        
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                }
+            }
+
+            if (isAutoSending) {
+                alertBox.innerHTML = "🎉 Selesai! Semua data antrean di file Excel berhasil diproses.";
+                setTimeout(() => alertBox.classList.add('hidden'), 5000);
+            } else {
+                alertBox.innerHTML = "⚠️ Pengiriman dihentikan sementara oleh pengguna.";
+            }
+
+            isAutoSending = false;
+            resetTombolUtama();
+        }
+
+        function resetTombolUtama() {
+            const mainBtn = document.getElementById('btnKirimSemua');
+            mainBtn.innerText = "🚀 Kirim Semua (Auto-Loop)";
+            mainBtn.className = "w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded shadow transition-all duration-200";
         }
     </script>
 </body>
