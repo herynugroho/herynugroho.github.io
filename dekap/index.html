@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEKAP: Smart Baby Massage - DDST</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Hide scrollbar for clean app look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .screen, .ddst-step {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .screen.active, .ddst-step.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-item.active {
+            color: #0d9488; /* Teal-600 */
+        }
+        .massage-card {
+            transition: transform 0.2s;
+        }
+        .massage-card:active {
+            transform: scale(0.95);
+        }
+        /* Custom Checkbox Design */
+        .custom-checkbox input:checked + div {
+            background-color: #0d9488;
+            border-color: #0d9488;
+        }
+        .custom-checkbox input:checked + div svg {
+            display: block;
+        }
+        /* Chat Bubble Animation */
+        .chat-bubble {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen">
+
+    <!-- Mobile Frame Container -->
+    <div class="w-full max-w-md bg-white h-screen shadow-2xl relative overflow-hidden flex flex-col">
+
+        <!-- SCREEN: LOGIN / ONBOARDING (Overlay) -->
+        <div id="screen-login" class="absolute inset-0 z-50 bg-teal-600 flex flex-col justify-center items-center p-8 text-center active">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 shadow-xl animate-bounce">
+                <i class="fas fa-baby text-5xl text-teal-600"></i>
+            </div>
+            <h1 class="text-4xl font-bold text-white mb-1 tracking-wider">DEKAP</h1>
+            <h2 class="text-lg font-semibold text-teal-50 mb-2">Smart Baby Massage - DDST</h2>
+            <p class="text-teal-100 mb-8 text-xs font-medium">Deteksi Kembang Anak & Pijat<br><span class="font-light">Berbasis Asuhan Kebidanan</span></p>
+            
+            <form onsubmit="handleLogin(event)" class="w-full space-y-4">
+                <input type="text" placeholder="Nama Ibu" class="w-full p-4 rounded-xl bg-white/20 text-white placeholder-teal-200 border border-teal-400 focus:outline-none focus:bg-white/30 backdrop-blur-sm" required>
+                <input type="password" placeholder="PIN / Password" class="w-full p-4 rounded-xl bg-white/20 text-white placeholder-teal-200 border border-teal-400 focus:outline-none focus:bg-white/30 backdrop-blur-sm" value="1234">
+                <button type="submit" class="w-full bg-white text-teal-700 font-bold p-4 rounded-xl shadow-lg active:scale-95 transition">
+                    Masuk Aplikasi
+                </button>
+            </form>
+            <p class="mt-6 text-teal-200 text-xs">Belum punya akun? <span class="font-bold text-white underline">Daftar disini</span></p>
+        </div>
+
+        <!-- HEADER (Shared across authorized screens) -->
+        <header id="main-header" class="bg-teal-600 text-white p-6 rounded-b-3xl shadow-lg z-10 relative hidden">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <p class="text-teal-100 text-[10px] uppercase tracking-wider font-semibold">Smart Baby Massage - DDST</p>
+                    <h1 class="text-2xl font-bold tracking-wide">DEKAP</h1>
+                </div>
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm relative cursor-pointer" onclick="alert('Tidak ada notifikasi baru')">
+                    <i class="fas fa-bell text-white"></i>
+                    <div class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-teal-600"></div>
+                </div>
+            </div>
+            
+            <!-- Baby Profile Summary -->
+            <div id="header-profile" class="bg-white/10 backdrop-blur-md p-3 rounded-xl flex items-center gap-3 border border-white/20 transition-all duration-300">
+                <div class="w-10 h-10 bg-yellow-200 rounded-full flex items-center justify-center text-yellow-700 font-bold border-2 border-white overflow-hidden">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aruna" alt="Baby" class="w-full h-full">
+                </div>
+                <div>
+                    <p id="profile-name-text" class="font-semibold text-sm">Aruna S. (8 Bulan)</p>
+                    <p id="profile-stats-text" class="text-xs text-teal-100">BB: 8.5kg | TB: 70cm</p>
+                </div>
+                <div class="ml-auto">
+                    <button class="text-xs bg-white/20 px-2 py-1 rounded text-white"><i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA (Scrollable) -->
+        <main id="main-content" class="flex-1 overflow-y-auto no-scrollbar pb-24 relative bg-slate-50 hidden">
+            
+            <!-- SCREEN: ADD CHILD (Onboarding Step 2) -->
+            <div id="screen-add-child" class="screen p-5 h-full bg-white flex flex-col justify-center">
+                <div class="text-center mb-8 mt-10">
+                    <div class="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-600 shadow-inner">
+                        <i class="fas fa-child text-4xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Data Si Kecil</h2>
+                    <p class="text-xs text-gray-500 mt-2">Lengkapi profil untuk penyesuaian instrumen DDST berdasarkan usia anak.</p>
+                </div>
+                <form onsubmit="handleSaveChild(event)" class="space-y-4">
+                    <div>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Nama Panggilan Anak</label>
+                        <input type="text" id="input-child-name" placeholder="Misal: Aruna" class="w-full border border-gray-200 rounded-xl p-3 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 bg-gray-50" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Tanggal Lahir</label>
+                            <!-- Default value set to 8 months ago for demo purpose -->
+                            <input type="date" id="input-child-dob" class="w-full border border-gray-200 rounded-xl p-3 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 bg-gray-50 text-sm text-gray-700" required>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Jenis Kelamin</label>
+                            <select class="w-full border border-gray-200 rounded-xl p-3 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 bg-gray-50 text-sm text-gray-700" required>
+                                <option value="">Pilih...</option>
+                                <option value="L">Laki-laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Berat (kg)</label>
+                            <input type="number" step="0.1" id="input-child-weight" placeholder="Misal: 8.5" class="w-full border border-gray-200 rounded-xl p-3 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 bg-gray-50 text-sm text-gray-700" required>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1 block">Panjang (cm)</label>
+                            <input type="number" step="0.1" id="input-child-height" placeholder="Misal: 70" class="w-full border border-gray-200 rounded-xl p-3 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 bg-gray-50 text-sm text-gray-700" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-teal-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-teal-200 active:scale-95 transition mt-6">
+                        Simpan & Masuk Aplikasi
+                    </button>
+                </form>
+            </div>
+
+            <!-- SCREEN 1: HOME DASHBOARD -->
+            <div id="screen-home" class="screen p-5">
+                <!-- Status Card -->
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-5 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-24 h-24 bg-green-50 rounded-full -mr-10 -mt-10 z-0"></div>
+                    <div class="relative z-10">
+                        <h3 class="text-gray-500 text-xs font-semibold mb-2">STATUS PERKEMBANGAN TERAKHIR</h3>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 shadow-sm">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Sesuai Tahapan</p>
+                                <p class="text-xs text-gray-400">Pemeriksaan: 12 Des 2024</p>
+                            </div>
+                            <button onclick="navTo('history')" class="ml-auto text-xs text-teal-600 font-medium bg-teal-50 px-3 py-1 rounded-full">Detail</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-bold text-gray-800 mb-3 text-lg">Menu Utama</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Menu DDST -->
+                    <button onclick="startDDST()" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-3 hover:bg-teal-50 transition group">
+                        <div class="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-1 group-hover:scale-110 transition">
+                            <i class="fas fa-clipboard-list text-2xl"></i>
+                        </div>
+                        <div class="text-center">
+                            <span class="block font-bold text-gray-700">Screening DDST</span>
+                            <span class="text-[10px] text-gray-400">Deteksi Dini</span>
+                        </div>
+                    </button>
+
+                    <!-- Menu Massage -->
+                    <button onclick="navTo('massage')" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-3 hover:bg-teal-50 transition group">
+                        <div class="w-14 h-14 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 mb-1 group-hover:scale-110 transition">
+                            <i class="fas fa-hands-holding-child text-2xl"></i>
+                        </div>
+                        <div class="text-center">
+                            <span class="block font-bold text-gray-700">Baby Massage</span>
+                            <span class="text-[10px] text-gray-400">Panduan Pijat</span>
+                        </div>
+                    </button>
+                    
+                    <!-- Menu Riwayat -->
+                    <button onclick="navTo('history')" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-3 hover:bg-teal-50 transition group">
+                        <div class="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mb-1 group-hover:scale-110 transition">
+                            <i class="fas fa-history text-2xl"></i>
+                        </div>
+                        <div class="text-center">
+                            <span class="block font-bold text-gray-700">Riwayat</span>
+                            <span class="text-[10px] text-gray-400">Log Kesehatan</span>
+                        </div>
+                    </button>
+
+                    <!-- Menu Konsultasi -->
+                    <button onclick="navTo('chat')" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center gap-3 hover:bg-teal-50 transition group">
+                        <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mb-1 group-hover:scale-110 transition">
+                            <i class="fas fa-user-nurse text-2xl"></i>
+                        </div>
+                        <div class="text-center">
+                            <span class="block font-bold text-gray-700">Konsultasi</span>
+                            <span class="text-[10px] text-gray-400">Chat Bidan</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Articles Section -->
+                <h3 class="font-bold text-gray-800 mt-6 mb-3 text-lg">Artikel Terbaru</h3>
+                <div class="space-y-3">
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex gap-3">
+                        <div class="w-20 h-20 bg-gray-200 rounded-lg bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1519689680058-324335c77eba?w=150');"></div>
+                        <div class="flex-1">
+                            <span class="text-[10px] bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full">Nutrisi</span>
+                            <h4 class="font-bold text-sm text-gray-700 mt-1">MPASI Tepat untuk Bayi 8 Bulan</h4>
+                            <p class="text-[10px] text-gray-400 mt-1">5 menit baca</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 2: DDST FORM (MULTI-STEP WIZARD) -->
+            <div id="screen-ddst" class="screen p-5 hidden">
+                <div class="flex items-center gap-3 mb-4">
+                    <button onclick="navTo('home')" class="text-gray-400 hover:text-gray-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"><i class="fas fa-arrow-left"></i></button>
+                    <h2 class="font-bold text-xl text-gray-800">Formulir DDST II</h2>
+                </div>
+
+                <!-- Progress Indicators -->
+                <div class="flex justify-between items-center mb-2 px-2">
+                    <span id="step-text" class="text-xs font-bold text-teal-600">Langkah 1 dari 4</span>
+                    <span id="sector-text" class="text-xs text-gray-500">Personal Sosial</span>
+                </div>
+                <div class="w-full bg-gray-200 h-2 rounded-full mb-6 flex overflow-hidden">
+                    <div id="progress-bar" class="bg-teal-500 h-2 transition-all duration-300 w-1/4"></div>
+                </div>
+
+                <form id="ddstForm" onsubmit="processDDST(event)">
+                    
+                    <!-- STEP 1: Personal Sosial -->
+                    <div id="step-1" class="ddst-step active bg-white rounded-2xl shadow-sm border border-slate-100 p-5 mb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center">
+                                <i class="fas fa-users text-sm"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-700">Personal Sosial (8 Bln)</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 pb-3 border-b">Tandai jika bayi sudah mampu melakukan:</p>
+                        <div class="space-y-3">
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Berusaha mencapai mainan</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Makan sendiri (biskuit)</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Tepuk tangan (Cilukba)</span>
+                            </label>
+                        </div>
+                        <button type="button" onclick="goToStep(2)" class="w-full bg-teal-50 text-teal-700 py-3 rounded-xl font-bold mt-6 hover:bg-teal-100 transition">
+                            Selanjutnya <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+
+                    <!-- STEP 2: Motorik Halus -->
+                    <div id="step-2" class="ddst-step bg-white rounded-2xl shadow-sm border border-slate-100 p-5 mb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
+                                <i class="fas fa-cube text-sm"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-700">Motorik Halus (8 Bln)</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 pb-3 border-b">Tandai jika bayi sudah mampu melakukan:</p>
+                        <div class="space-y-3">
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Memegang 2 kubus</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Memindahkan kubus dari tangan ke tangan</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Mengambil sebesar kismis (menjepit)</span>
+                            </label>
+                        </div>
+                        <div class="flex gap-2 mt-6">
+                            <button type="button" onclick="goToStep(1)" class="w-1/3 bg-gray-100 text-gray-600 py-3 rounded-xl font-bold hover:bg-gray-200 transition">Kembali</button>
+                            <button type="button" onclick="goToStep(3)" class="w-2/3 bg-teal-50 text-teal-700 py-3 rounded-xl font-bold hover:bg-teal-100 transition">Selanjutnya <i class="fas fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Bahasa -->
+                    <div id="step-3" class="ddst-step bg-white rounded-2xl shadow-sm border border-slate-100 p-5 mb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
+                                <i class="fas fa-comment-dots text-sm"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-700">Bahasa (8 Bln)</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 pb-3 border-b">Tandai jika bayi sudah mampu melakukan:</p>
+                        <div class="space-y-3">
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Meniru bunyi kata-kata</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Kombinasi silaba (ba-ba, ma-ma)</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Papa/mama (tidak spesifik)</span>
+                            </label>
+                        </div>
+                        <div class="flex gap-2 mt-6">
+                            <button type="button" onclick="goToStep(2)" class="w-1/3 bg-gray-100 text-gray-600 py-3 rounded-xl font-bold hover:bg-gray-200 transition">Kembali</button>
+                            <button type="button" onclick="goToStep(4)" class="w-2/3 bg-teal-50 text-teal-700 py-3 rounded-xl font-bold hover:bg-teal-100 transition">Selanjutnya <i class="fas fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Motorik Kasar -->
+                    <div id="step-4" class="ddst-step bg-white rounded-2xl shadow-sm border border-slate-100 p-5 mb-4">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                                <i class="fas fa-running text-sm"></i>
+                            </div>
+                            <h3 class="font-bold text-gray-700">Motorik Kasar (8 Bln)</h3>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-4 pb-3 border-b">Tandai jika bayi sudah mampu melakukan:</p>
+                        <div class="space-y-3">
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Duduk tanpa pegangan</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" checked>
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Bangkit kepala tegak</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" id="check-standing" class="hidden">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Berdiri dengan pegangan</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" id="check-pull" class="hidden">
+                                <div class="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center text-white bg-white transition-colors"><i class="fas fa-check text-xs hidden"></i></div>
+                                <span class="text-sm text-gray-600">Bangkit untuk berdiri</span>
+                            </label>
+                        </div>
+                        <div class="flex gap-2 mt-6">
+                            <button type="button" onclick="goToStep(3)" class="w-1/3 bg-gray-100 text-gray-600 py-3 rounded-xl font-bold hover:bg-gray-200 transition">Kembali</button>
+                            <button type="submit" id="submit-btn" class="w-2/3 bg-teal-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-teal-200 active:scale-95 transition">
+                                Analisa Hasil
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- SCREEN 3: RESULT -->
+            <div id="screen-result" class="screen p-5 hidden">
+                <div class="flex items-center gap-3 mb-6">
+                    <button onclick="navTo('home')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-arrow-left"></i></button>
+                    <h2 class="font-bold text-xl text-gray-800">Hasil Pemeriksaan</h2>
+                </div>
+                <div class="bg-orange-50 border border-orange-100 p-6 rounded-2xl text-center mb-6 animate-pulse-once">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 mx-auto mb-3 text-2xl">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">Suspect (Meragukan)</h3>
+                    <p class="text-sm text-gray-600 mt-2">Ditemukan keterlambatan pada sektor <span class="font-bold text-orange-600">Motorik Kasar</span>.</p>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-3">Rekomendasi Tindakan</h3>
+                <div class="bg-white p-5 rounded-2xl shadow-md border-l-4 border-teal-500 mb-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-bold text-teal-700">Terapi Pijat Tuina</h4>
+                            <p class="text-xs text-gray-500 mt-1 mb-3 w-4/5">Teknik pijat untuk menstimulasi otot kaki dan punggung agar bayi lebih kuat berdiri.</p>
+                        </div>
+                        <button onclick="openMassageDetail()" class="bg-teal-100 text-teal-700 w-8 h-8 rounded-full flex items-center justify-center">
+                            <i class="fas fa-play text-xs"></i>
+                        </button>
+                    </div>
+                    <button onclick="openMassageDetail()" class="w-full bg-teal-600 text-white py-2 rounded-lg text-sm font-medium">
+                        Mulai Panduan Pijat
+                    </button>
+                </div>
+                <button onclick="navTo('chat')" class="w-full bg-white border border-teal-600 text-teal-600 py-3 rounded-xl font-medium mb-4">
+                    <i class="fas fa-comment-medical mr-2"></i> Konsultasi Bidan
+                </button>
+            </div>
+
+            <!-- ... (Screens History, Chat, Massage categories remain exactly the same as previous) ... -->
+             <!-- SCREEN: HISTORY -->
+            <div id="screen-history" class="screen p-5 hidden">
+                <div class="flex items-center gap-3 mb-6">
+                    <button onclick="navTo('home')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-arrow-left"></i></button>
+                    <h2 class="font-bold text-xl text-gray-800">Riwayat Screening</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
+                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center font-bold text-lg">12</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-gray-800">Normal (Sesuai)</h4>
+                            <p class="text-xs text-gray-400">Desember 2024 • 8 Bulan</p>
+                        </div>
+                        <span class="text-xs bg-green-50 text-green-600 px-2 py-1 rounded">Ok</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex gap-4 items-center">
+                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center font-bold text-lg">10</div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-gray-800">Normal (Sesuai)</h4>
+                            <p class="text-xs text-gray-400">November 2024 • 7 Bulan</p>
+                        </div>
+                        <span class="text-xs bg-green-50 text-green-600 px-2 py-1 rounded">Ok</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN: CHAT -->
+            <div id="screen-chat" class="screen hidden h-full flex flex-col">
+                <div class="p-4 bg-white border-b border-gray-100 flex items-center gap-3 sticky top-0 z-10">
+                    <button onclick="navTo('home')" class="text-gray-400"><i class="fas fa-arrow-left"></i></button>
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 border border-teal-200">
+                        <i class="fas fa-user-nurse"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-sm">Bidan Ani, S.Tr.Keb</h3>
+                        <p class="text-xs text-green-500 flex items-center gap-1"><span class="w-2 h-2 bg-green-500 rounded-full"></span> Online</p>
+                    </div>
+                </div>
+                <div id="chat-container" class="flex-1 p-4 space-y-4 overflow-y-auto bg-slate-50">
+                    <div class="flex gap-2 justify-start chat-bubble">
+                        <div class="w-8 h-8 rounded-full bg-teal-100 flex-shrink-0 flex items-center justify-center text-xs text-teal-600 font-bold">B</div>
+                        <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[80%]">
+                            Halo Bunda Aruna, ada yang bisa saya bantu terkait tumbuh kembang si kecil?
+                            <span class="block text-[10px] text-gray-400 mt-1 text-right">09:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-white border-t border-gray-100 flex items-center gap-2">
+                    <input type="text" id="chat-input" placeholder="Tulis pesan..." class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-teal-500">
+                    <button onclick="sendMessage()" class="bg-teal-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-teal-700 transition">
+                        <i class="fas fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SCREEN: MASSAGE MENU (Categories) -->
+             <div id="screen-massage" class="screen p-5 hidden">
+                <div class="flex items-center gap-3 mb-6">
+                    <button onclick="navTo('home')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-arrow-left"></i></button>
+                    <h2 class="font-bold text-xl text-gray-800">Pilih Area Pijat</h2>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div onclick="openMassageCategory('Kaki')" class="massage-card bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100 cursor-pointer hover:border-teal-400">
+                        <img src="https://img.icons8.com/color/96/baby-feet.png" class="w-16 mx-auto mb-2" alt="Kaki"><h3 class="font-bold text-gray-700">Kaki</h3><p class="text-[10px] text-gray-400 mt-1">Menguatkan otot berdiri</p>
+                    </div>
+                    <div onclick="openMassageCategory('Perut')" class="massage-card bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100 cursor-pointer hover:border-teal-400">
+                        <img src="https://img.icons8.com/color/96/torso.png" class="w-16 mx-auto mb-2" alt="Perut"><h3 class="font-bold text-gray-700">Perut (Kolik)</h3><p class="text-[10px] text-gray-400 mt-1">Pencernaan & Kembung</p>
+                    </div>
+                    <div onclick="openMassageCategory('Dada')" class="massage-card bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100 cursor-pointer hover:border-teal-400">
+                        <img src="https://img.icons8.com/color/96/chest.png" class="w-16 mx-auto mb-2" alt="Dada"><h3 class="font-bold text-gray-700">Dada</h3><p class="text-[10px] text-gray-400 mt-1">Pernapasan & Paru</p>
+                    </div>
+                    <div onclick="openMassageCategory('Punggung')" class="massage-card bg-white p-4 rounded-xl shadow-sm text-center border border-slate-100 cursor-pointer hover:border-teal-400">
+                        <img src="https://img.icons8.com/color/96/back.png" class="w-16 mx-auto mb-2" alt="Punggung"><h3 class="font-bold text-gray-700">Punggung</h3><p class="text-[10px] text-gray-400 mt-1">Tulang belakang</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN: MASSAGE SUB-CATEGORY LIST -->
+            <div id="screen-massage-list" class="screen p-5 hidden">
+                 <div class="flex items-center gap-3 mb-6">
+                    <button onclick="navTo('massage')" class="text-gray-400 hover:text-gray-600"><i class="fas fa-arrow-left"></i></button>
+                    <h2 id="category-title" class="font-bold text-xl text-gray-800">Teknik Kaki</h2>
+                </div>
+                <div class="space-y-3">
+                    <div onclick="openMassageDetail()" class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer active:bg-gray-50">
+                        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600"><i class="fas fa-play text-xs"></i></div>
+                        <div><h4 class="font-bold text-gray-700 text-sm">Perahan India</h4><p class="text-[10px] text-gray-400">Relaksasi otot dasar</p></div></div><i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                    </div>
+                    <div onclick="openMassageDetail()" class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between cursor-pointer active:bg-gray-50">
+                        <div class="flex items-center gap-3"><div class="w-10 h-10 bg-teal-50 rounded-lg flex items-center justify-center text-teal-600"><i class="fas fa-play text-xs"></i></div>
+                        <div><h4 class="font-bold text-gray-700 text-sm">Perahan Swedia</h4><p class="text-[10px] text-gray-400">Melancarkan peredaran darah</p></div></div><i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 4: MASSAGE PLAYER -->
+            <div id="screen-massage-detail" class="screen hidden bg-white min-h-full pb-20">
+                <div class="relative w-full h-64 bg-gray-900 flex items-center justify-center">
+                    <img src="/api/placeholder/400/320" alt="Video Placeholder" class="absolute inset-0 w-full h-full object-cover opacity-50">
+                    <div class="z-10 text-center text-white p-5">
+                        <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center mx-auto mb-3 cursor-pointer hover:bg-white/30 transition"><i class="fas fa-play text-2xl ml-1"></i></div>
+                        <p class="font-medium text-sm">Teknik: Rolling Back & Leg</p>
+                    </div>
+                    <button onclick="navTo('massage-list')" class="absolute top-4 left-4 z-20 w-10 h-10 bg-black/40 text-white rounded-full flex items-center justify-center"><i class="fas fa-chevron-down"></i></button>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div><h2 class="text-xl font-bold text-gray-800">Stimulasi Motorik</h2><p class="text-sm text-gray-500">Durasi: 5 Menit</p></div>
+                        <div class="text-center"><div id="timer" class="text-2xl font-mono font-bold text-teal-600">05:00</div><button onclick="toggleTimer()" class="text-xs text-teal-600 underline">Mulai Timer</button></div>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-700 mb-3 uppercase tracking-wide">Langkah-langkah</h3>
+                    <div class="space-y-6 relative border-l-2 border-gray-200 ml-3 pl-8">
+                        <div class="relative"><span class="absolute -left-[39px] top-0 w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center text-white text-xs font-bold">1</span><h4 class="font-bold text-gray-800">Persiapan (Effleurage)</h4><p class="text-sm text-gray-600 mt-1 leading-relaxed">Usap lembut area dari pangkal hingga ujung menggunakan minyak pijat hangat.</p></div>
+                        <div class="relative"><span class="absolute -left-[39px] top-0 w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-white text-xs font-bold">2</span><h4 class="font-bold text-gray-800">Gerakan Inti</h4><p class="text-sm text-gray-600 mt-1 leading-relaxed">Lakukan gerakan memutar atau menekan lembut (kneading) sesuai video.</p></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav id="bottom-nav" class="bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center z-20 absolute bottom-0 w-full hidden">
+            <button onclick="navTo('home')" class="nav-item active flex flex-col items-center gap-1 text-gray-400 transition" id="nav-home">
+                <i class="fas fa-home text-xl"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </button>
+            <button onclick="navTo('ddst')" class="nav-item flex flex-col items-center gap-1 text-gray-400 transition" id="nav-ddst">
+                <i class="fas fa-clipboard-list text-xl"></i>
+                <span class="text-[10px] font-medium">Screening</span>
+            </button>
+            <div class="relative -top-6">
+                <button onclick="navTo('massage')" class="w-14 h-14 bg-teal-600 rounded-full shadow-lg shadow-teal-200 flex items-center justify-center text-white transform hover:scale-110 transition border-4 border-white">
+                    <i class="fas fa-hands text-xl"></i>
+                </button>
+            </div>
+            <button onclick="navTo('history')" class="nav-item flex flex-col items-center gap-1 text-gray-400 transition" id="nav-history">
+                <i class="fas fa-history text-xl"></i>
+                <span class="text-[10px] font-medium">Riwayat</span>
+            </button>
+            <button onclick="navTo('chat')" class="nav-item flex flex-col items-center gap-1 text-gray-400 transition" id="nav-chat">
+                <i class="fas fa-comment-dots text-xl"></i>
+                <span class="text-[10px] font-medium">Chat</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. LOGIN & ONBOARDING LOGIC ---
+        function handleLogin(e) {
+            e.preventDefault();
+            const loginScreen = document.getElementById('screen-login');
+            const mainContent = document.getElementById('main-content');
+
+            loginScreen.style.opacity = '0';
+            setTimeout(() => {
+                loginScreen.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                
+                // Masuk ke form profil anak dulu, navigasi dan header utama disembunyikan
+                navTo('add-child');
+            }, 300);
+        }
+
+        function handleSaveChild(e) {
+            e.preventDefault();
+            
+            // Ambil data yang diisi untuk memberikan efek dinamis di dashboard
+            const childName = document.getElementById('input-child-name').value;
+            const childWeight = document.getElementById('input-child-weight').value;
+            const childHeight = document.getElementById('input-child-height').value;
+
+            if(childName) {
+                document.getElementById('profile-name-text').innerText = childName + " (8 Bulan)";
+                document.getElementById('profile-stats-text').innerText = `BB: ${childWeight}kg | TB: ${childHeight}cm`;
+            }
+
+            // Memunculkan Header Profil dan Bottom Navigation Utama
+            const mainHeader = document.getElementById('main-header');
+            const bottomNav = document.getElementById('bottom-nav');
+            
+            mainHeader.classList.remove('hidden');
+            bottomNav.classList.remove('hidden');
+            bottomNav.classList.add('flex');
+            
+            // Masuk ke Home Utama
+            navTo('home');
+        }
+
+        // --- 2. NAVIGATION SYSTEM ---
+        function navTo(screenId) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active', 'hidden'));
+            document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
+            
+            const target = document.getElementById('screen-' + screenId);
+            if(target) {
+                target.classList.remove('hidden');
+                target.classList.add('active');
+            }
+
+            document.getElementById('main-content').scrollTop = 0;
+
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'text-teal-600'));
+            const activeNav = document.getElementById('nav-' + screenId);
+            if(activeNav) {
+                activeNav.classList.add('active', 'text-teal-600');
+                activeNav.classList.remove('text-gray-400');
+            }
+        }
+
+        // --- 3. DDST MULTI-STEP WIZARD LOGIC ---
+        function startDDST() {
+            // Reset to step 1 when opening DDST
+            goToStep(1);
+            navTo('ddst');
+        }
+
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.ddst-step').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Show target step
+            document.getElementById('step-' + step).classList.add('active');
+
+            // Update Progress Bar & Text
+            const progressBar = document.getElementById('progress-bar');
+            const stepText = document.getElementById('step-text');
+            const sectorText = document.getElementById('sector-text');
+            
+            progressBar.className = `bg-teal-500 h-2 transition-all duration-300 w-${step}/4`;
+            stepText.innerText = `Langkah ${step} dari 4`;
+
+            const sectors = ["Personal Sosial", "Motorik Halus", "Bahasa", "Motorik Kasar"];
+            sectorText.innerText = sectors[step - 1];
+
+            document.getElementById('main-content').scrollTop = 0;
+        }
+
+        function processDDST(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "Menganalisa Data...";
+            btn.disabled = true;
+            btn.classList.add('bg-gray-400');
+
+            setTimeout(() => {
+                navTo('result');
+                btn.innerText = originalText;
+                btn.disabled = false;
+                btn.classList.remove('bg-gray-400');
+            }, 1500);
+        }
+
+        // --- 4. MASSAGE NAVIGATION ---
+        function openMassageCategory(category) {
+            document.getElementById('category-title').innerText = "Teknik Pijat " + category;
+            navTo('massage-list');
+        }
+        function openMassageDetail() {
+            navTo('massage-detail');
+        }
+
+        // --- 5. TIMER & CHAT (Simplified) ---
+        let timerInterval; let isTimerRunning = false;
+        function toggleTimer() {
+            const display = document.getElementById('timer');
+            const btn = event.target;
+            if (!isTimerRunning) {
+                isTimerRunning = true; btn.innerText = "Pause";
+                let time = 300; 
+                timerInterval = setInterval(() => {
+                    time--; display.innerText = `${Math.floor(time/60).toString().padStart(2,'0')}:${(time%60).toString().padStart(2,'0')}`;
+                    if(time<=0){ clearInterval(timerInterval); isTimerRunning=false; btn.innerText="Selesai"; }
+                }, 1000);
+            } else { clearInterval(timerInterval); isTimerRunning = false; btn.innerText = "Lanjut"; }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            const container = document.getElementById('chat-container');
+            if(text) {
+                container.insertAdjacentHTML('beforeend', `<div class="flex gap-2 justify-end chat-bubble"><div class="bg-teal-600 p-3 rounded-2xl rounded-tr-none shadow-sm text-sm text-white max-w-[80%]">${text}</div></div>`);
+                input.value = ''; container.scrollTop = container.scrollHeight;
+                setTimeout(() => {
+                    container.insertAdjacentHTML('beforeend', `<div class="flex gap-2 justify-start chat-bubble"><div class="w-8 h-8 rounded-full bg-teal-100 flex-shrink-0 flex items-center justify-center text-xs text-teal-600 font-bold">B</div><div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 max-w-[80%]">Baik Bunda.</div></div>`);
+                    container.scrollTop = container.scrollHeight;
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
