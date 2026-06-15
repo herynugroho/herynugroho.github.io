@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype Web Toko HP Lokal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        apple: {
+                            gray: '#f5f5f7',
+                            dark: '#1d1d1f',
+                            blue: '#0066cc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom Scrollbar for Admin */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-apple-gray text-apple-dark">
+
+    <!-- Navbar Storefront -->
+    <nav id="store-nav" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-8">
+                    <a href="#" onclick="navigate('home')" class="text-xl font-bold tracking-tight">MKS<span class="text-apple-blue">Gadget</span></a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="#" onclick="navigate('home')" class="text-sm font-medium hover:text-apple-blue transition-colors">Beranda</a>
+                        <a href="#" onclick="navigate('catalog')" class="text-sm font-medium hover:text-apple-blue transition-colors">Semua Produk</a>
+                        <a href="#" class="text-sm font-medium hover:text-apple-blue transition-colors text-gray-400">Trade-In</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button class="text-gray-600 hover:text-black"><i class="ph ph-magnifying-glass text-xl"></i></button>
+                    <button onclick="navigate('checkout')" class="text-gray-600 hover:text-black relative">
+                        <i class="ph ph-shopping-bag text-xl"></i>
+                        <span class="absolute -top-1 -right-2 bg-apple-blue text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">1</span>
+                    </button>
+                    <div class="w-px h-6 bg-gray-300"></div>
+                    <button onclick="navigate('admin')" class="text-sm font-medium text-gray-500 hover:text-black flex items-center gap-1">
+                        <i class="ph ph-shield-check"></i> Login Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main id="app-container" class="min-h-screen">
+        
+        <!-- VIEW: HOME -->
+        <section id="view-home" class="fade-in pb-20">
+            <!-- Hero -->
+            <div class="bg-black text-white py-24 text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight">iPhone 15 Pro</h1>
+                <p class="text-xl md:text-2xl font-light text-gray-300 mb-8">Titanium. Sangat Kuat. Sangat Ringan.</p>
+                <div class="flex justify-center gap-4">
+                    <button onclick="navigate('detail')" class="bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-gray-200 transition">Beli Sekarang</button>
+                    <button onclick="navigate('catalog')" class="border border-white/30 px-6 py-2 rounded-full font-medium hover:bg-white/10 transition">Lihat Harga</button>
+                </div>
+                <div class="mt-12 max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-2xl">
+                    <img src="https://placehold.co/1200x600/1d1d1f/ffffff?text=Product+Showcase+Image" alt="Hero Image" class="w-full h-auto">
+                </div>
+            </div>
+
+            <!-- Featured Products -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+                <h2 class="text-2xl font-bold mb-8 text-center">Produk Terlaris Minggu Ini</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Product Card -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="navigate('detail')">
+                        <img src="https://placehold.co/400x400/f5f5f7/1d1d1f?text=iPhone+15" alt="Product" class="w-full object-contain mb-6 rounded-lg">
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold">iPhone 15</h3>
+                            <p class="text-sm text-gray-500 mb-4">Mulai dari Rp 16.499.000</p>
+                            <button class="bg-black text-white w-full py-2 rounded-full text-sm font-medium">Lihat Detail</button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="navigate('detail')">
+                        <img src="https://placehold.co/400x400/f5f5f7/1d1d1f?text=Samsung+S24" alt="Product" class="w-full object-contain mb-6 rounded-lg">
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold">Samsung Galaxy S24 Ultra</h3>
+                            <p class="text-sm text-gray-500 mb-4">Mulai dari Rp 21.999.000</p>
+                            <button class="bg-black text-white w-full py-2 rounded-full text-sm font-medium">Lihat Detail</button>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onclick="navigate('detail')">
+                        <img src="https://placehold.co/400x400/f5f5f7/1d1d1f?text=AirPods+Pro" alt="Product" class="w-full object-contain mb-6 rounded-lg">
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold">AirPods Pro (Gen 2)</h3>
+                            <p class="text-sm text-gray-500 mb-4">Rp 3.999.000</p>
+                            <button class="bg-black text-white w-full py-2 rounded-full text-sm font-medium">Lihat Detail</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: CATALOG -->
+        <section id="view-catalog" class="hidden fade-in py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold mb-8">Semua Smartphone</h1>
+            
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Sidebar Filter -->
+                <aside class="w-full md:w-64 flex-shrink-0">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <h3 class="font-semibold mb-4 border-b pb-2">Filter Kategori</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-2 text-sm"><input type="checkbox" checked class="rounded text-black focus:ring-black"> Apple iPhone</label>
+                            <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="rounded text-black focus:ring-black"> Samsung Galaxy</label>
+                            <label class="flex items-center gap-2 text-sm"><input type="checkbox" class="rounded text-black focus:ring-black"> Aksesoris</label>
+                        </div>
+
+                        <h3 class="font-semibold mb-4 mt-8 border-b pb-2">Rentang Harga</h3>
+                        <input type="range" class="w-full accent-black">
+                        <div class="flex justify-between text-xs text-gray-500 mt-2">
+                            <span>Rp 1jt</span>
+                            <span>Rp 30jt+</span>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Grid Catalog -->
+                <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                    <!-- Duplicate mock products for catalog -->
+                    <div class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center" onclick="navigate('detail')">
+                        <img src="https://placehold.co/300x300/f5f5f7/1d1d1f?text=iPhone+15+Pro" class="w-full object-contain mb-4 rounded-lg">
+                        <h3 class="font-semibold text-sm md:text-base">iPhone 15 Pro</h3>
+                        <p class="text-xs md:text-sm text-gray-500">Mulai Rp 18.999.000</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center" onclick="navigate('detail')">
+                        <img src="https://placehold.co/300x300/f5f5f7/1d1d1f?text=iPhone+14" class="w-full object-contain mb-4 rounded-lg">
+                        <h3 class="font-semibold text-sm md:text-base">iPhone 14</h3>
+                        <p class="text-xs md:text-sm text-gray-500">Mulai Rp 12.499.000</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer text-center" onclick="navigate('detail')">
+                        <img src="https://placehold.co/300x300/f5f5f7/1d1d1f?text=iPad+Air" class="w-full object-contain mb-4 rounded-lg">
+                        <h3 class="font-semibold text-sm md:text-base">iPad Air 5</h3>
+                        <p class="text-xs md:text-sm text-gray-500">Mulai Rp 10.999.000</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: PRODUCT DETAIL -->
+        <section id="view-detail" class="hidden fade-in py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl p-6 md:p-12 shadow-sm flex flex-col md:flex-row gap-12">
+                
+                <!-- Image Gallery -->
+                <div class="w-full md:w-1/2">
+                    <img src="https://placehold.co/600x600/f5f5f7/1d1d1f?text=iPhone+15+Pro+Natural+Titanium" class="w-full rounded-2xl mb-4">
+                    <div class="flex gap-4">
+                        <img src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=Front" class="w-20 h-20 rounded-lg cursor-pointer border-2 border-black">
+                        <img src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=Back" class="w-20 h-20 rounded-lg cursor-pointer border border-gray-200">
+                    </div>
+                </div>
+
+                <!-- Product Info & Action -->
+                <div class="w-full md:w-1/2 flex flex-col justify-center">
+                    <div class="text-sm text-apple-blue font-semibold mb-2">Garansi Resmi Apple Indonesia (IBOX)</div>
+                    <h1 class="text-3xl md:text-4xl font-bold mb-2">iPhone 15 Pro</h1>
+                    <p class="text-2xl font-medium mb-6">Rp 18.999.000</p>
+                    
+                    <div class="border-t border-b border-gray-100 py-6 mb-6">
+                        <!-- Variant: Color -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold mb-3">Warna: <span class="text-gray-500 font-normal">Natural Titanium</span></h3>
+                            <div class="flex gap-3">
+                                <button class="w-10 h-10 rounded-full bg-[#8c8d88] border-2 border-black ring-2 ring-white"></button>
+                                <button class="w-10 h-10 rounded-full bg-[#3c3c3d] border border-gray-300 hover:border-gray-500"></button>
+                                <button class="w-10 h-10 rounded-full bg-[#f2f1eb] border border-gray-300 hover:border-gray-500"></button>
+                            </div>
+                        </div>
+
+                        <!-- Variant: Storage -->
+                        <div>
+                            <h3 class="text-sm font-semibold mb-3">Penyimpanan:</h3>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button class="py-3 border-2 border-black rounded-xl font-medium text-sm">256 GB</button>
+                                <button class="py-3 border border-gray-300 rounded-xl font-medium text-sm hover:border-gray-500 text-gray-500">512 GB</button>
+                                <button class="py-3 border border-gray-300 rounded-xl font-medium text-sm hover:border-gray-500 text-gray-500">1 TB</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlight: Feature for Local Market -->
+                    <div class="bg-gray-50 rounded-xl p-4 mb-6 text-sm flex gap-3 items-start">
+                        <i class="ph ph-map-pin text-xl text-green-600 mt-0.5"></i>
+                        <div>
+                            <p class="font-semibold">Tersedia di Toko (Makassar)</p>
+                            <p class="text-gray-500">Bisa dikirim via GoSend hari ini atau Ambil di Toko.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <button onclick="navigate('checkout')" class="w-full bg-black text-white py-4 rounded-xl font-semibold text-lg hover:bg-gray-800 transition">Tambahkan ke Keranjang</button>
+                        
+                        <!-- The WhatsApp Highlight Feature -->
+                        <button class="w-full bg-green-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-green-600 transition flex justify-center items-center gap-2" onclick="alert('Ini akan membuka aplikasi WhatsApp pembeli dengan teks otomatis: \n\nHalo Admin MKSGadget, saya mau beli iPhone 15 Pro 256GB Natural Titanium (Rp 18.999.000). Apakah stoknya ready untuk dikirim hari ini?')">
+                            <i class="ph ph-whatsapp-logo text-2xl"></i> Beli Langsung via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: CHECKOUT -->
+        <section id="view-checkout" class="hidden fade-in py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-2xl font-bold mb-8">Checkout Pesanan</h1>
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Left: Forms -->
+                <div class="w-full lg:w-2/3 space-y-6">
+                    
+                    <!-- Alamat -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <h2 class="text-lg font-semibold mb-4 border-b pb-2">Informasi Pengiriman</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" placeholder="Nama Lengkap" class="col-span-2 border border-gray-300 rounded-lg p-3 w-full text-sm">
+                            <input type="text" placeholder="No. WhatsApp" class="col-span-2 border border-gray-300 rounded-lg p-3 w-full text-sm">
+                            <select class="col-span-1 border border-gray-300 rounded-lg p-3 w-full text-sm bg-white">
+                                <option>Sulawesi Selatan</option>
+                            </select>
+                            <select class="col-span-1 border border-gray-300 rounded-lg p-3 w-full text-sm bg-white">
+                                <option>Kota Makassar</option>
+                            </select>
+                            <textarea placeholder="Alamat Lengkap (Jl, No Rumah, RT/RW)" class="col-span-2 border border-gray-300 rounded-lg p-3 w-full text-sm h-24"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Metode Pengiriman -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <h2 class="text-lg font-semibold mb-4 border-b pb-2">Metode Pengiriman</h2>
+                        <div class="space-y-3">
+                            <label class="flex items-center justify-between p-4 border border-blue-500 bg-blue-50 rounded-xl cursor-pointer">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="shipping" checked class="text-blue-600 focus:ring-blue-500 w-5 h-5">
+                                    <div>
+                                        <div class="font-semibold text-sm">Kurir Instan (GoSend/Grab)</div>
+                                        <div class="text-xs text-gray-500">Estimasi tiba hari ini (1-2 Jam)</div>
+                                    </div>
+                                </div>
+                                <div class="font-semibold text-sm">Rp 35.000</div>
+                            </label>
+                            <label class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:border-gray-300">
+                                <div class="flex items-center gap-3">
+                                    <input type="radio" name="shipping" class="text-blue-600 focus:ring-blue-500 w-5 h-5">
+                                    <div>
+                                        <div class="font-semibold text-sm">Ambil di Toko (Click & Collect)</div>
+                                        <div class="text-xs text-gray-500">Ambil di MKSGadget Panakkukang</div>
+                                    </div>
+                                </div>
+                                <div class="font-semibold text-sm text-green-600">Gratis</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Metode Pembayaran -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <h2 class="text-lg font-semibold mb-4 border-b pb-2">Metode Pembayaran (Terintegrasi Otomatis)</h2>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="border-2 border-black rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 transition">
+                                <i class="ph ph-qr-code text-3xl"></i>
+                                <span class="text-sm font-semibold">QRIS</span>
+                            </button>
+                            <button class="border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:border-gray-400 transition">
+                                <i class="ph ph-bank text-3xl"></i>
+                                <span class="text-sm font-medium">Virtual Account</span>
+                            </button>
+                            <button class="col-span-2 border border-gray-200 rounded-xl p-3 flex justify-center items-center gap-2 hover:border-gray-400 transition">
+                                <i class="ph ph-money text-xl"></i>
+                                <span class="text-sm font-medium">Bayar di Tempat (COD) khusus Makassar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Summary -->
+                <div class="w-full lg:w-1/3">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm sticky top-24">
+                        <h2 class="text-lg font-semibold mb-4 border-b pb-2">Ringkasan Belanja</h2>
+                        
+                        <div class="flex gap-4 mb-6">
+                            <img src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=iPhone" class="w-16 h-16 rounded-lg">
+                            <div>
+                                <div class="font-semibold text-sm">iPhone 15 Pro (256GB)</div>
+                                <div class="text-xs text-gray-500">Natural Titanium</div>
+                                <div class="text-sm font-medium mt-1">Rp 18.999.000</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 text-sm mb-4 border-b pb-4">
+                            <div class="flex justify-between text-gray-600">
+                                <span>Subtotal</span>
+                                <span>Rp 18.999.000</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>Ongkos Kirim (Instan)</span>
+                                <span>Rp 35.000</span>
+                            </div>
+                            <div class="flex justify-between text-green-600">
+                                <span>Diskon</span>
+                                <span>- Rp 0</span>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between font-bold text-lg mb-6">
+                            <span>Total</span>
+                            <span>Rp 19.034.000</span>
+                        </div>
+
+                        <button onclick="navigate('success')" class="w-full bg-apple-blue text-white py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">Bayar Sekarang</button>
+                        <p class="text-[10px] text-gray-400 text-center mt-3 flex items-center justify-center gap-1">
+                            <i class="ph ph-lock-key"></i> Pembayaran dienkripsi dan aman (Payment Gateway)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: SUCCESS -->
+        <section id="view-success" class="hidden fade-in py-24 text-center px-4">
+            <div class="max-w-md mx-auto bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="ph ph-check-circle text-5xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold mb-2">Order Berhasil!</h1>
+                <p class="text-gray-500 text-sm mb-6">Terima kasih. Pesanan Anda #INV-20260615 sedang diproses. Tanda terima telah dikirimkan ke WhatsApp Anda.</p>
+                <div class="bg-gray-50 p-4 rounded-xl text-left mb-8">
+                    <div class="text-xs text-gray-500">Status Pembayaran:</div>
+                    <div class="font-semibold text-green-600 mb-2">LUNAS (QRIS)</div>
+                    <div class="text-xs text-gray-500">Status Pengiriman:</div>
+                    <div class="font-semibold">Menunggu Driver GoSend</div>
+                </div>
+                <button onclick="navigate('home')" class="w-full border border-gray-300 py-3 rounded-xl font-medium hover:bg-gray-50 transition mb-3">Kembali ke Beranda</button>
+                <button onclick="navigate('admin')" class="w-full text-sm text-apple-blue font-medium hover:underline">Lihat view di Dashboard Admin</button>
+            </div>
+        </section>
+
+        <!-- VIEW: ADMIN DASHBOARD (Highlighting the Filament PHP Vibe) -->
+        <section id="view-admin" class="hidden fade-in relative bg-gray-100 min-h-screen">
+            <!-- Overlay to hide store navbar in Admin view -->
+            <div class="absolute inset-0 bg-gray-100 z-40 top-[-64px]">
+                
+                <div class="flex h-[100vh]">
+                    <!-- Admin Sidebar -->
+                    <aside class="w-64 bg-gray-900 text-gray-300 flex flex-col transition-all duration-300 shadow-xl">
+                        <div class="h-16 flex items-center px-6 border-b border-gray-800">
+                            <span class="text-white font-bold text-lg">MKSGadget Panel</span>
+                        </div>
+                        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 bg-apple-blue/10 text-white rounded-lg">
+                                <i class="ph ph-squares-four text-xl"></i> Dashboard
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
+                                <i class="ph ph-shopping-cart text-xl"></i> Pesanan <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">3 Baru</span>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
+                                <i class="ph ph-package text-xl"></i> Manajemen Produk
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
+                                <i class="ph ph-users text-xl"></i> Pelanggan
+                            </a>
+                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white mt-8">
+                                <i class="ph ph-gear text-xl"></i> Pengaturan
+                            </a>
+                        </nav>
+                        <div class="p-4 border-t border-gray-800">
+                            <button onclick="navigate('home')" class="w-full flex items-center justify-center gap-2 px-3 py-2 bg-gray-800 hover:bg-gray-700 text-sm rounded-lg transition">
+                                <i class="ph ph-sign-out"></i> Keluar ke Web Depan
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- Admin Main Content -->
+                    <div class="flex-1 flex flex-col overflow-hidden">
+                        <!-- Admin Header -->
+                        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
+                            <h2 class="text-xl font-semibold text-gray-800">Tinjauan Bisnis</h2>
+                            <div class="flex items-center gap-4">
+                                <div class="w-8 h-8 rounded-full bg-apple-blue text-white flex items-center justify-center font-bold text-sm">A</div>
+                                <span class="text-sm font-medium">Admin Toko</span>
+                            </div>
+                        </header>
+
+                        <!-- Admin Body -->
+                        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-8">
+                            
+                            <!-- Notice Banner -->
+                            <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-xl p-4 mb-8 flex gap-3 text-sm">
+                                <i class="ph ph-info text-xl mt-0.5"></i>
+                                <div>
+                                    <strong class="block mb-1">Developer Note untuk Pemilik Toko:</strong>
+                                    Dashboard panel ini dibuat menggunakan sistem backend custom (Filament/Laravel). Di sini kamu mengontrol semua isi toko: tambah HP, ubah harga, pantau pembayaran masuk otomatis, tanpa pusing urus kodingan. <b>Inilah inti dari biaya development yang kamu bayarkan.</b>
+                                </div>
+                            </div>
+
+                            <!-- Stat Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                                    <div class="text-sm text-gray-500 mb-2">Penjualan Hari Ini</div>
+                                    <div class="text-2xl font-bold text-gray-800">Rp 45.500.000</div>
+                                    <div class="text-xs text-green-500 mt-2 flex items-center gap-1"><i class="ph ph-trend-up"></i> +12% dari kemarin</div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                                    <div class="text-sm text-gray-500 mb-2">Pesanan Baru</div>
+                                    <div class="text-2xl font-bold text-gray-800">5</div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                                    <div class="text-sm text-gray-500 mb-2">Perlu Dikirim (GoSend)</div>
+                                    <div class="text-2xl font-bold text-orange-500">2</div>
+                                </div>
+                                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                                    <div class="text-sm text-gray-500 mb-2">Stok Menipis</div>
+                                    <div class="text-2xl font-bold text-red-500">8 Item</div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Orders Table -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                                    <h3 class="font-semibold text-gray-800">Pesanan Masuk Terbaru (Real-time)</h3>
+                                    <button class="text-sm text-apple-blue font-medium">Lihat Semua</button>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-sm">
+                                        <thead class="bg-gray-50 text-gray-500 border-b border-gray-200">
+                                            <tr>
+                                                <th class="px-6 py-3 font-medium">ID Order</th>
+                                                <th class="px-6 py-3 font-medium">Pelanggan</th>
+                                                <th class="px-6 py-3 font-medium">Produk</th>
+                                                <th class="px-6 py-3 font-medium">Total</th>
+                                                <th class="px-6 py-3 font-medium">Status Pembayaran</th>
+                                                <th class="px-6 py-3 font-medium">Pengiriman</th>
+                                                <th class="px-6 py-3 font-medium">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-100">
+                                            <!-- The order simulated from checkout -->
+                                            <tr class="hover:bg-gray-50 transition bg-green-50/30">
+                                                <td class="px-6 py-4 font-medium text-apple-blue">#INV-20260615</td>
+                                                <td class="px-6 py-4">
+                                                    <div>Andi Budi</div>
+                                                    <div class="text-xs text-gray-500">0812-xxxx-xxxx</div>
+                                                </td>
+                                                <td class="px-6 py-4 text-gray-600">1x iPhone 15 Pro 256GB...</td>
+                                                <td class="px-6 py-4 font-medium">Rp 19.034.000</td>
+                                                <td class="px-6 py-4">
+                                                    <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-md text-[11px] font-bold border border-green-200">LUNAS (QRIS)</span>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <span class="bg-orange-100 text-orange-700 px-2.5 py-1 rounded-md text-[11px] font-bold border border-orange-200">Request GoSend</span>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <button class="bg-white border border-gray-300 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-50 shadow-sm">Proses Order</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-6 py-4 font-medium text-apple-blue">#INV-20260614</td>
+                                                <td class="px-6 py-4">
+                                                    <div>Siti Aisyah</div>
+                                                    <div class="text-xs text-gray-500">0852-xxxx-xxxx</div>
+                                                </td>
+                                                <td class="px-6 py-4 text-gray-600">1x AirPods Pro (Gen 2)</td>
+                                                <td class="px-6 py-4 font-medium">Rp 3.999.000</td>
+                                                <td class="px-6 py-4">
+                                                    <span class="bg-yellow-100 text-yellow-700 px-2.5 py-1 rounded-md text-[11px] font-bold border border-yellow-200">PENDING (VA BCA)</span>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <span class="bg-gray-100 text-gray-700 px-2.5 py-1 rounded-md text-[11px] font-bold border border-gray-200">Ambil di Toko</span>
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    <button class="bg-white border border-gray-300 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-50 shadow-sm" disabled>Tunggu Bayar</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </main>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Hidden on Admin View via JS) -->
+    <footer id="store-footer" class="bg-white border-t border-gray-200 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12 text-sm">
+                <div>
+                    <h4 class="font-bold mb-4 text-black">MKSGadget</h4>
+                    <p class="text-gray-500">Toko gadget premium dan terpercaya di Makassar. Bergaransi resmi.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-black">Layanan Pelanggan</h4>
+                    <ul class="space-y-2 text-gray-500">
+                        <li><a href="#" class="hover:text-black">Cara Pembelian</a></li>
+                        <li><a href="#" class="hover:text-black">Pengiriman & COD</a></li>
+                        <li><a href="#" class="hover:text-black">Garansi & Retur</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-black">Kontak Kami</h4>
+                    <ul class="space-y-2 text-gray-500">
+                        <li>WhatsApp: 0811-xxxx-xxxx</li>
+                        <li>Alamat: Jl. Boulevard Panakkukang, Makassar</li>
+                        <li>Buka: 10:00 - 22:00 WITA</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4 text-black">Pembayaran Aman</h4>
+                    <div class="flex gap-2">
+                        <div class="w-10 h-6 bg-gray-200 rounded text-[8px] flex justify-center items-center font-bold">QRIS</div>
+                        <div class="w-10 h-6 bg-gray-200 rounded text-[8px] flex justify-center items-center font-bold text-blue-800">BCA</div>
+                        <div class="w-10 h-6 bg-gray-200 rounded text-[8px] flex justify-center items-center font-bold text-orange-600">BNI</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-xs text-gray-400 border-t border-gray-100 pt-8">
+                &copy; 2026 MKSGadget. All rights reserved. <br>
+                Built securely using Laravel Framework.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Javascript Application Logic for Mockup -->
+    <script>
+        // Simple state management to handle page views
+        const views = ['home', 'catalog', 'detail', 'checkout', 'success', 'admin'];
+        const storeNav = document.getElementById('store-nav');
+        const storeFooter = document.getElementById('store-footer');
+
+        function navigate(targetView) {
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Hide all views
+            views.forEach(view => {
+                const el = document.getElementById(`view-${view}`);
+                if(el) {
+                    el.classList.add('hidden');
+                    el.classList.remove('fade-in');
+                }
+            });
+
+            // Show target view
+            const targetEl = document.getElementById(`view-${targetView}`);
+            if(targetEl) {
+                targetEl.classList.remove('hidden');
+                // trigger reflow for animation
+                void targetEl.offsetWidth; 
+                targetEl.classList.add('fade-in');
+            }
+
+            // UI adjustments based on context
+            if (targetView === 'admin') {
+                // Hide storefront navbar and footer in admin dashboard
+                storeNav.style.display = 'none';
+                storeFooter.style.display = 'none';
+                document.body.classList.remove('bg-apple-gray');
+                document.body.classList.add('bg-gray-100');
+            } else {
+                // Show storefront UI
+                storeNav.style.display = 'block';
+                storeFooter.style.display = 'block';
+                document.body.classList.add('bg-apple-gray');
+                document.body.classList.remove('bg-gray-100');
+            }
+        }
+
+        // Initialize default view
+        // navigate('home');
+    </script>
+</body>
+</html>
