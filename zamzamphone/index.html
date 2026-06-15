@@ -17,10 +17,10 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
+                        brand: '#db2777', // Pink Tua untuk Zam Zam Phone
                         apple: {
                             gray: '#f5f5f7',
-                            dark: '#1d1d1f',
-                            blue: '#0066cc'
+                            dark: '#1d1d1f'
                         }
                     }
                 }
@@ -48,18 +48,18 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-8">
-                    <a href="#" onclick="navigate('home')" class="text-xl font-bold tracking-tight">MKS<span class="text-apple-blue">Gadget</span></a>
+                    <a href="#" onclick="navigate('home')" class="text-xl font-bold tracking-tight">Zam Zam <span class="text-brand">Phone</span></a>
                     <div class="hidden md:flex space-x-6">
-                        <a href="#" onclick="navigate('home')" class="text-sm font-medium hover:text-apple-blue transition-colors">Beranda</a>
-                        <a href="#" onclick="navigate('catalog')" class="text-sm font-medium hover:text-apple-blue transition-colors">Semua Produk</a>
-                        <a href="#" class="text-sm font-medium hover:text-apple-blue transition-colors text-gray-400">Trade-In</a>
+                        <a href="#" onclick="navigate('home')" class="text-sm font-medium hover:text-brand transition-colors">Beranda</a>
+                        <a href="#" onclick="navigate('catalog')" class="text-sm font-medium hover:text-brand transition-colors">Semua Produk</a>
+                        <a href="#" class="text-sm font-medium hover:text-brand transition-colors text-gray-400">Trade-In</a>
                     </div>
                 </div>
                 <div class="flex items-center space-x-6">
                     <button class="text-gray-600 hover:text-black"><i class="ph ph-magnifying-glass text-xl"></i></button>
                     <button onclick="navigate('checkout')" class="text-gray-600 hover:text-black relative">
                         <i class="ph ph-shopping-bag text-xl"></i>
-                        <span class="absolute -top-1 -right-2 bg-apple-blue text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">1</span>
+                        <span class="absolute -top-1 -right-2 bg-brand text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">1</span>
                     </button>
                     <div class="w-px h-6 bg-gray-300"></div>
                     <button onclick="navigate('admin')" class="text-sm font-medium text-gray-500 hover:text-black flex items-center gap-1">
@@ -182,7 +182,7 @@
 
                 <!-- Product Info & Action -->
                 <div class="w-full md:w-1/2 flex flex-col justify-center">
-                    <div class="text-sm text-apple-blue font-semibold mb-2">Garansi Resmi Apple Indonesia (IBOX)</div>
+                    <div class="text-sm text-brand font-semibold mb-2">Garansi Resmi Apple Indonesia (IBOX)</div>
                     <h1 class="text-3xl md:text-4xl font-bold mb-2">iPhone 15 Pro</h1>
                     <p class="text-2xl font-medium mb-6">Rp 18.999.000</p>
                     
@@ -213,7 +213,7 @@
                         <i class="ph ph-map-pin text-xl text-green-600 mt-0.5"></i>
                         <div>
                             <p class="font-semibold">Tersedia di Toko (Makassar)</p>
-                            <p class="text-gray-500">Bisa dikirim via GoSend hari ini atau Ambil di Toko.</p>
+                            <p class="text-gray-500">Bisa dikirim via GoSend hari ini atau Ambil di Toko Zam Zam Phone.</p>
                         </div>
                     </div>
 
@@ -221,7 +221,7 @@
                         <button onclick="navigate('checkout')" class="w-full bg-black text-white py-4 rounded-xl font-semibold text-lg hover:bg-gray-800 transition">Tambahkan ke Keranjang</button>
                         
                         <!-- The WhatsApp Highlight Feature -->
-                        <button class="w-full bg-green-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-green-600 transition flex justify-center items-center gap-2" onclick="alert('Ini akan membuka aplikasi WhatsApp pembeli dengan teks otomatis: \n\nHalo Admin MKSGadget, saya mau beli iPhone 15 Pro 256GB Natural Titanium (Rp 18.999.000). Apakah stoknya ready untuk dikirim hari ini?')">
+                        <button class="w-full bg-green-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-green-600 transition flex justify-center items-center gap-2" onclick="alert('Ini akan membuka aplikasi WhatsApp pembeli dengan teks otomatis: \n\nHalo Admin Zam Zam Phone, saya mau beli iPhone 15 Pro 256GB Natural Titanium (Rp 18.999.000). Apakah stoknya ready untuk dikirim hari ini?')">
                             <i class="ph ph-whatsapp-logo text-2xl"></i> Beli Langsung via WhatsApp
                         </button>
                     </div>
@@ -272,7 +272,7 @@
                                     <input type="radio" name="shipping" class="text-blue-600 focus:ring-blue-500 w-5 h-5">
                                     <div>
                                         <div class="font-semibold text-sm">Ambil di Toko (Click & Collect)</div>
-                                        <div class="text-xs text-gray-500">Ambil di MKSGadget Panakkukang</div>
+                                        <div class="text-xs text-gray-500">Ambil di Toko Zam Zam Phone</div>
                                     </div>
                                 </div>
                                 <div class="font-semibold text-sm text-green-600">Gratis</div>
@@ -284,17 +284,21 @@
                     <div class="bg-white p-6 rounded-2xl shadow-sm">
                         <h2 class="text-lg font-semibold mb-4 border-b pb-2">Metode Pembayaran (Terintegrasi Otomatis)</h2>
                         <div class="grid grid-cols-2 gap-3">
-                            <button class="border-2 border-black rounded-xl p-3 flex flex-col items-center gap-2 hover:bg-gray-50 transition">
-                                <i class="ph ph-qr-code text-3xl"></i>
-                                <span class="text-sm font-semibold">QRIS</span>
+                            <button class="border-2 border-brand rounded-xl p-3 flex flex-col items-center gap-2 bg-pink-50 transition">
+                                <i class="ph ph-qr-code text-3xl text-brand"></i>
+                                <span class="text-sm font-semibold text-brand">QRIS</span>
                             </button>
-                            <button class="border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:border-gray-400 transition">
+                            <button class="border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:border-brand hover:text-brand transition">
+                                <i class="ph ph-credit-card text-3xl"></i>
+                                <span class="text-sm font-medium">Kartu Kredit</span>
+                            </button>
+                            <button class="border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:border-brand hover:text-brand transition">
                                 <i class="ph ph-bank text-3xl"></i>
                                 <span class="text-sm font-medium">Virtual Account</span>
                             </button>
-                            <button class="col-span-2 border border-gray-200 rounded-xl p-3 flex justify-center items-center gap-2 hover:border-gray-400 transition">
-                                <i class="ph ph-money text-xl"></i>
-                                <span class="text-sm font-medium">Bayar di Tempat (COD) khusus Makassar</span>
+                            <button class="border border-gray-200 rounded-xl p-3 flex flex-col items-center gap-2 hover:border-brand hover:text-brand transition">
+                                <i class="ph ph-money text-3xl"></i>
+                                <span class="text-sm font-medium">Bayar di Tempat</span>
                             </button>
                         </div>
                     </div>
@@ -334,7 +338,7 @@
                             <span>Rp 19.034.000</span>
                         </div>
 
-                        <button onclick="navigate('success')" class="w-full bg-apple-blue text-white py-3.5 rounded-xl font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">Bayar Sekarang</button>
+                        <button onclick="navigate('success')" class="w-full bg-brand text-white py-3.5 rounded-xl font-semibold hover:bg-pink-700 transition shadow-lg shadow-pink-500/30">Bayar Sekarang</button>
                         <p class="text-[10px] text-gray-400 text-center mt-3 flex items-center justify-center gap-1">
                             <i class="ph ph-lock-key"></i> Pembayaran dienkripsi dan aman (Payment Gateway)
                         </p>
@@ -358,7 +362,7 @@
                     <div class="font-semibold">Menunggu Driver GoSend</div>
                 </div>
                 <button onclick="navigate('home')" class="w-full border border-gray-300 py-3 rounded-xl font-medium hover:bg-gray-50 transition mb-3">Kembali ke Beranda</button>
-                <button onclick="navigate('admin')" class="w-full text-sm text-apple-blue font-medium hover:underline">Lihat view di Dashboard Admin</button>
+                <button onclick="navigate('admin')" class="w-full text-sm text-brand font-medium hover:underline">Lihat view di Dashboard Admin</button>
             </div>
         </section>
 
@@ -371,16 +375,16 @@
                     <!-- Admin Sidebar -->
                     <aside class="w-64 bg-gray-900 text-gray-300 flex flex-col transition-all duration-300 shadow-xl">
                         <div class="h-16 flex items-center px-6 border-b border-gray-800">
-                            <span class="text-white font-bold text-lg">MKSGadget Panel</span>
+                            <span class="text-white font-bold text-lg">Zam Zam Phone Panel</span>
                         </div>
                         <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 bg-apple-blue/10 text-white rounded-lg">
+                            <a href="#" onclick="switchAdminTab('dashboard')" id="tab-dashboard" class="flex items-center gap-3 px-3 py-2.5 bg-brand/10 text-brand rounded-lg font-medium">
                                 <i class="ph ph-squares-four text-xl"></i> Dashboard
                             </a>
                             <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
-                                <i class="ph ph-shopping-cart text-xl"></i> Pesanan <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">3 Baru</span>
+                                <i class="ph ph-shopping-cart text-xl"></i> Pesanan <span class="ml-auto bg-brand text-white text-[10px] px-2 py-0.5 rounded-full">3 Baru</span>
                             </a>
-                            <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
+                            <a href="#" onclick="switchAdminTab('products')" id="tab-products" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
                                 <i class="ph ph-package text-xl"></i> Manajemen Produk
                             </a>
                             <a href="#" class="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-800 rounded-lg transition text-gray-400 hover:text-white">
@@ -401,9 +405,9 @@
                     <div class="flex-1 flex flex-col overflow-hidden">
                         <!-- Admin Header -->
                         <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
-                            <h2 class="text-xl font-semibold text-gray-800">Tinjauan Bisnis</h2>
+                            <h2 class="text-xl font-semibold text-gray-800" id="admin-page-title">Tinjauan Bisnis</h2>
                             <div class="flex items-center gap-4">
-                                <div class="w-8 h-8 rounded-full bg-apple-blue text-white flex items-center justify-center font-bold text-sm">A</div>
+                                <div class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center font-bold text-sm">A</div>
                                 <span class="text-sm font-medium">Admin Toko</span>
                             </div>
                         </header>
@@ -411,19 +415,19 @@
                         <!-- Admin Body -->
                         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-8">
                             
-                            <!-- Notice Banner -->
-                            <div class="bg-blue-50 border border-blue-200 text-blue-800 rounded-xl p-4 mb-8 flex gap-3 text-sm">
-                                <i class="ph ph-info text-xl mt-0.5"></i>
-                                <div>
-                                    <strong class="block mb-1">Developer Note untuk Pemilik Toko:</strong>
-                                    Dashboard panel ini dibuat menggunakan sistem backend custom (Filament/Laravel). Di sini kamu mengontrol semua isi toko: tambah HP, ubah harga, pantau pembayaran masuk otomatis, tanpa pusing urus kodingan. <b>Inilah inti dari biaya development yang kamu bayarkan.</b>
+                            <!-- ADMIN TAB: DASHBOARD -->
+                            <div id="admin-dashboard-content" class="fade-in">
+                                <!-- Notice Banner -->
+                                <div class="bg-pink-50 border border-pink-200 text-pink-800 rounded-xl p-4 mb-8 flex gap-3 text-sm">
+                                    <i class="ph ph-info text-xl mt-0.5"></i>
+                                    <div>
+                                        <strong class="block mb-1">Developer Note untuk Pemilik Toko:</strong>
+                                        Dashboard panel ini dibuat menggunakan sistem backend custom (Filament/Laravel). Di sini kamu mengontrol semua isi toko: tambah HP, ubah harga, pantau pembayaran masuk otomatis, tanpa pusing urus kodingan.
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Stat Cards -->
-                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                                    <div class="text-sm text-gray-500 mb-2">Penjualan Hari Ini</div>
+                                <!-- Stat Cards -->
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                                     <div class="text-2xl font-bold text-gray-800">Rp 45.500.000</div>
                                     <div class="text-xs text-green-500 mt-2 flex items-center gap-1"><i class="ph ph-trend-up"></i> +12% dari kemarin</div>
                                 </div>
@@ -463,7 +467,7 @@
                                         <tbody class="divide-y divide-gray-100">
                                             <!-- The order simulated from checkout -->
                                             <tr class="hover:bg-gray-50 transition bg-green-50/30">
-                                                <td class="px-6 py-4 font-medium text-apple-blue">#INV-20260615</td>
+                                                <td class="px-6 py-4 font-medium text-brand">#INV-20260615</td>
                                                 <td class="px-6 py-4">
                                                     <div>Andi Budi</div>
                                                     <div class="text-xs text-gray-500">0812-xxxx-xxxx</div>
@@ -481,7 +485,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="px-6 py-4 font-medium text-apple-blue">#INV-20260614</td>
+                                                <td class="px-6 py-4 font-medium text-brand">#INV-20260614</td>
                                                 <td class="px-6 py-4">
                                                     <div>Siti Aisyah</div>
                                                     <div class="text-xs text-gray-500">0852-xxxx-xxxx</div>
@@ -503,6 +507,117 @@
                                 </div>
                             </div>
 
+                            <!-- -->
+                            <!-- ADMIN TAB: PRODUCTS (NEW) -->
+                            <div id="admin-products-content" class="hidden fade-in">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="font-bold text-gray-800 text-lg">Katalog Handphone</h3>
+                                    <button class="bg-brand text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-pink-700 flex items-center gap-2 shadow-md transition">
+                                        <i class="ph ph-plus-circle text-lg"></i> Tambah Produk
+                                    </button>
+                                </div>
+
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                                    <div class="p-4 border-b border-gray-100 flex gap-4 bg-gray-50">
+                                        <div class="relative flex-1">
+                                            <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-gray-400"></i>
+                                            <input type="text" placeholder="Cari nama handphone..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand">
+                                        </div>
+                                        <select class="border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white focus:outline-none focus:border-brand">
+                                            <option>Semua Merek</option>
+                                            <option>Apple</option>
+                                            <option>Samsung</option>
+                                        </select>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left text-sm">
+                                            <thead class="bg-white text-gray-500 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-6 py-3 font-medium">Gambar</th>
+                                                    <th class="px-6 py-3 font-medium">Nama Produk</th>
+                                                    <th class="px-6 py-3 font-medium">Kategori</th>
+                                                    <th class="px-6 py-3 font-medium">Harga Dasar</th>
+                                                    <th class="px-6 py-3 font-medium">Total Stok</th>
+                                                    <th class="px-6 py-3 font-medium text-right">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-100">
+                                                <tr class="hover:bg-gray-50 transition">
+                                                    <td class="px-6 py-4">
+                                                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center p-1 border border-gray-200">
+                                                            <img src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=iPhone" alt="iPhone 15 Pro" class="w-full h-full object-contain">
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        <div class="font-bold text-gray-800">iPhone 15 Pro</div>
+                                                        <div class="text-xs text-gray-500 mt-1">3 Varian Memori, 4 Warna</div>
+                                                    </td>
+                                                    <td class="px-6 py-4"><span class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-md text-[11px] font-medium border border-gray-200">Apple</span></td>
+                                                    <td class="px-6 py-4 font-medium text-gray-800">Rp 18.999.000</td>
+                                                    <td class="px-6 py-4">
+                                                        <span class="text-green-600 font-bold bg-green-50 px-2 py-1 rounded">24 Unit</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right space-x-2">
+                                                        <button class="text-gray-400 hover:text-brand transition"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                                        <button class="text-gray-400 hover:text-red-500 transition"><i class="ph ph-trash text-lg"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover:bg-gray-50 transition">
+                                                    <td class="px-6 py-4">
+                                                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center p-1 border border-gray-200">
+                                                            <img src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=S24" alt="Samsung S24" class="w-full h-full object-contain">
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        <div class="font-bold text-gray-800">Samsung Galaxy S24 Ultra</div>
+                                                        <div class="text-xs text-gray-500 mt-1">2 Varian Memori, 3 Warna</div>
+                                                    </td>
+                                                    <td class="px-6 py-4"><span class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-md text-[11px] font-medium border border-gray-200">Samsung</span></td>
+                                                    <td class="px-6 py-4 font-medium text-gray-800">Rp 21.999.000</td>
+                                                    <td class="px-6 py-4">
+                                                        <span class="text-green-600 font-bold bg-green-50 px-2 py-1 rounded">15 Unit</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right space-x-2">
+                                                        <button class="text-gray-400 hover:text-brand transition"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                                        <button class="text-gray-400 hover:text-red-500 transition"><i class="ph ph-trash text-lg"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="hover:bg-gray-50 transition">
+                                                    <td class="px-6 py-4">
+                                                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center p-1 border border-gray-200">
+                                                            <img src="https://placehold.co/100x100/f5f5f7/1d1d1f?text=AirPods" alt="AirPods" class="w-full h-full object-contain">
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-6 py-4">
+                                                        <div class="font-bold text-gray-800">AirPods Pro (Gen 2)</div>
+                                                        <div class="text-xs text-gray-500 mt-1">1 Varian</div>
+                                                    </td>
+                                                    <td class="px-6 py-4"><span class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-md text-[11px] font-medium border border-gray-200">Aksesoris</span></td>
+                                                    <td class="px-6 py-4 font-medium text-gray-800">Rp 3.999.000</td>
+                                                    <td class="px-6 py-4">
+                                                        <span class="text-red-500 font-bold bg-red-50 px-2 py-1 rounded">2 Unit</span>
+                                                        <span class="text-[10px] text-red-500 block">Stok Menipis!</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 text-right space-x-2">
+                                                        <button class="text-gray-400 hover:text-brand transition"><i class="ph ph-pencil-simple text-lg"></i></button>
+                                                        <button class="text-gray-400 hover:text-red-500 transition"><i class="ph ph-trash text-lg"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="p-4 border-t border-gray-100 flex justify-between items-center text-sm text-gray-500 bg-gray-50">
+                                        <span>Menampilkan 1-3 dari 45 Produk</span>
+                                        <div class="flex gap-1">
+                                            <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-200 bg-white" disabled>&laquo;</button>
+                                            <button class="px-3 py-1 border border-brand bg-brand text-white rounded">1</button>
+                                            <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-200 bg-white">2</button>
+                                            <button class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-200 bg-white">&raquo;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </main>
                     </div>
                 </div>
@@ -517,7 +632,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12 text-sm">
                 <div>
-                    <h4 class="font-bold mb-4 text-black">MKSGadget</h4>
+                    <h4 class="font-bold mb-4 text-black">Zam Zam Phone</h4>
                     <p class="text-gray-500">Toko gadget premium dan terpercaya di Makassar. Bergaransi resmi.</p>
                 </div>
                 <div>
@@ -546,7 +661,7 @@
                 </div>
             </div>
             <div class="text-center text-xs text-gray-400 border-t border-gray-100 pt-8">
-                &copy; 2026 MKSGadget. All rights reserved. <br>
+                &copy; 2026 Zam Zam Phone. All rights reserved. <br>
                 Built securely using Laravel Framework.
             </div>
         </div>
@@ -588,12 +703,47 @@
                 storeFooter.style.display = 'none';
                 document.body.classList.remove('bg-apple-gray');
                 document.body.classList.add('bg-gray-100');
+                // Default to dashboard tab when entering admin
+                switchAdminTab('dashboard');
             } else {
                 // Show storefront UI
                 storeNav.style.display = 'block';
                 storeFooter.style.display = 'block';
                 document.body.classList.add('bg-apple-gray');
                 document.body.classList.remove('bg-gray-100');
+            }
+        }
+
+        // Tab Switching Logic for Admin
+        function switchAdminTab(tabName) {
+            const dashboardContent = document.getElementById('admin-dashboard-content');
+            const productsContent = document.getElementById('admin-products-content');
+            const tabDashboard = document.getElementById('tab-dashboard');
+            const tabProducts = document.getElementById('tab-products');
+            const pageTitle = document.getElementById('admin-page-title');
+
+            if (tabName === 'dashboard') {
+                dashboardContent.classList.remove('hidden');
+                productsContent.classList.add('hidden');
+                
+                tabDashboard.classList.add('bg-brand/10', 'text-brand', 'font-medium');
+                tabDashboard.classList.remove('text-gray-400');
+                
+                tabProducts.classList.remove('bg-brand/10', 'text-brand', 'font-medium');
+                tabProducts.classList.add('text-gray-400');
+                
+                pageTitle.innerText = "Tinjauan Bisnis";
+            } else if (tabName === 'products') {
+                dashboardContent.classList.add('hidden');
+                productsContent.classList.remove('hidden');
+                
+                tabProducts.classList.add('bg-brand/10', 'text-brand', 'font-medium');
+                tabProducts.classList.remove('text-gray-400');
+                
+                tabDashboard.classList.remove('bg-brand/10', 'text-brand', 'font-medium');
+                tabDashboard.classList.add('text-gray-400');
+                
+                pageTitle.innerText = "Manajemen Produk";
             }
         }
 
